@@ -8,9 +8,10 @@ namespace eCinema.Repository.RepositoriesInterfaces
 {
     public interface IBaseRepository<TEntity, in TPrimaryKey> where TEntity : class
     {
-        void Add(TEntity entity);
+        Task AddAsync(TEntity entity);
         void Update(TEntity entity);
         void Delete(TEntity entity);
         Task<TEntity?> GetByIdAsync(TPrimaryKey id);
+        Task DeleteByIdAsync(TPrimaryKey id);
     }
 }

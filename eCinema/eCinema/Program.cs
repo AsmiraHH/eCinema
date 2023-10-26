@@ -1,6 +1,7 @@
 using eCinema.Repository;
 using eCinema.Repository.Repositories;
 using eCinema.Repository.RepositoriesInterfaces;
+using eCinema.Service;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("connectionString")));
 builder.Services.ConfigureRepositories();
+builder.Services.ConfigureValidators();
+builder.Services.ConfigureServices();
 
 var app = builder.Build();
 

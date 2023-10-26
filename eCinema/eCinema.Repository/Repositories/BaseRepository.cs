@@ -17,22 +17,24 @@ namespace eCinema.Repository.Repositories
             db = _db;
             dbSet = _db.Set<TEntity>();
         }
-        public void Add(TEntity entity)
+        public virtual async Task AddAsync(TEntity entity)
         {
-            dbSet.Add(entity);
-            db.SaveChanges();
+            await dbSet.AddAsync(entity);
+        }
+        public void Update(TEntity entity)
+        {
+            dbSet.Update(entity);
         }
 
         public void Delete(TEntity entity)
         {
             dbSet.Remove(entity);
-            db.SaveChanges();
         }
-
-        public void Update(TEntity entity)
+        public virtual async Task DeleteByIdAsync(TPrimaryKey id)
         {
-            dbSet.Update(entity);
-            db.SaveChanges();
+            var entity = await dbSet.FindAsync(id);
+            if (entity != null)
+                dbSet.Remove(entity);
         }
         public virtual async Task<TEntity?> GetByIdAsync(TPrimaryKey id)
         {
