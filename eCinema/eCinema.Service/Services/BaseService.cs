@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using eCinema.Repository.RepositoriesInterfaces;
 using eCinema.Repository.UnitOfWork;
+using eCinema.Core.Helpers;
 using eCinema.Service.ServiceInterfaces;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace eCinema.Service.Services
@@ -39,6 +41,8 @@ namespace eCinema.Service.Services
         }
         public virtual async Task<TDTO> AddAsync(TUpsertDTO dto)
         {
+            await ValidateAsync(dto);
+
             var entity = Mapper.Map<TEntity>(dto);
             await CurrentRepository.AddAsync(entity);
             await UnitOfWork.SaveChangesAsync();
@@ -47,6 +51,8 @@ namespace eCinema.Service.Services
 
         public virtual async Task<TDTO> UpdateAsync(TUpsertDTO dto)
         {
+            await ValidateAsync(dto);
+
             var entity = Mapper.Map<TEntity>(dto);
             CurrentRepository.Update(entity);
             await UnitOfWork.SaveChangesAsync();
@@ -65,5 +71,14 @@ namespace eCinema.Service.Services
             await CurrentRepository.DeleteByIdAsync(id);
             await UnitOfWork.SaveChangesAsync();
         }
+        protected async Task ValidateAsync(TUpsertDTO dto)
+        {
+            var validationResult = await Validator.ValidateAsync(dto);
+            if (validationResult.IsValid == false)
+            {
+                throw new Core.Exceptions.ValidationException(Mapper.Map<List<ValidationError>>(validationResult.Errors));
+            }
+        }
+
     }
 }

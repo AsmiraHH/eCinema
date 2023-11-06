@@ -1,5 +1,6 @@
 ﻿using eCinema.Repository.Repositories;
 using eCinema.Repository.RepositoriesInterfaces;
+using eCinema.Repository.UnitOfWork;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,8 @@ namespace eCinema.Repository
             services.AddScoped<ISeatRepository, SeatRepository>();
             services.AddScoped<IShowRepository, ShowRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
         }
     }
 }

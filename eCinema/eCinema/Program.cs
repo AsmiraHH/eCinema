@@ -2,20 +2,24 @@ using eCinema.Repository;
 using eCinema.Repository.Repositories;
 using eCinema.Repository.RepositoriesInterfaces;
 using eCinema.Service;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using eCinema.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("connectionString")));
-builder.Services.ConfigureRepositories();
+builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.ConfigureValidators();
 builder.Services.ConfigureServices();
+builder.Services.ConfigureRepositories();
+builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("connectionString")));
+builder.Services.AddControllers();
+builder.Services.AddSwaggerGen();
+builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 

@@ -1,10 +1,4 @@
-﻿using eCinema.Repository.Repositories;
-using eCinema.Repository.RepositoriesInterfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using eCinema.Repository.RepositoriesInterfaces;
 
 namespace eCinema.Repository.UnitOfWork
 {
@@ -29,7 +23,7 @@ namespace eCinema.Repository.UnitOfWork
         public readonly IUserRepository UserRepository;
 
         public UnitOfWork(
-        DatabaseContext db,
+            DatabaseContext db,
             IActorRepository actorRepository,
             ICinemaRepository cinemaRepository,
             ICityRepository cityRepository,
