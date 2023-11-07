@@ -1,12 +1,6 @@
 ﻿using AutoMapper;
 using eCinema.Core.DTOs;
 using eCinema.Core.Entities;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace eCinema.Core
 {
@@ -14,52 +8,52 @@ namespace eCinema.Core
     {
         public MappingProfile()
         {
-            CreateMap<ActorDTO, Actor>();
+            CreateMap<ActorDTO, Actor>().ReverseMap();
             CreateMap<ActorUpsertDTO, Actor>();
 
-            CreateMap<CinemaDTO, Cinema>();
+            CreateMap<CinemaDTO, Cinema>().ReverseMap();
             CreateMap<CinemaUpsertDTO, Cinema>();
 
-            CreateMap<CityDTO, City>();
+            CreateMap<CityDTO, City>().ReverseMap();
             CreateMap<CityUpsertDTO, City>();
 
-            CreateMap<CountryDTO, Country>();
+            CreateMap<CountryDTO, Country>().ReverseMap();
             CreateMap<CountryUpsertDTO, Country>();
 
-            CreateMap<EmployeeDTO, Employee>();
+            CreateMap<EmployeeDTO, Employee>().ReverseMap(); 
             CreateMap<EmployeeDTO, Employee>();
 
-            CreateMap<GenreDTO, Genre>();
+            CreateMap<GenreDTO, Genre>().ReverseMap();
             CreateMap<GenreUpsertDTO, Genre>();
 
-            CreateMap<HallDTO, Hall>();
+            CreateMap<HallDTO, Hall>().ReverseMap();
             CreateMap<HallDTO, Hall>();
 
-            CreateMap<LanguageDTO, Language>();
+            CreateMap<LanguageDTO, Language>().ReverseMap();
             CreateMap<LanguageUpsertDTO, Language>();
 
-            CreateMap<MovieDTO, Movie>();
+            CreateMap<MovieDTO, Movie>().ReverseMap();
             CreateMap<MovieUpsertDTO, Movie>();
 
-            CreateMap<MovieActorDTO, MovieActor>();
+            CreateMap<MovieActorDTO, MovieActor>().ReverseMap();
             CreateMap<MovieActorUpsertDTO, MovieActorDTO>();
 
-            CreateMap<MovieGenreDTO, MovieGenre>();
+            CreateMap<MovieGenreDTO, MovieGenre>().ReverseMap();
             CreateMap<MovieGenreUpsertDTO, MovieGenre>();
 
-            CreateMap<ProductionDTO, Production>();
+            CreateMap<ProductionDTO, Production>().ReverseMap();
             CreateMap<ProductionUpsertDTO, Production>();
 
-            CreateMap<ReservationDTO, Reservation>();
+            CreateMap<ReservationDTO, Reservation>().ReverseMap();
             CreateMap<ReservationUpsertDTO, Reservation>();
 
-            CreateMap<SeatDTO, Seat>();
+            CreateMap<SeatDTO, Seat>().ReverseMap();
             CreateMap<SeatDTO, Seat>();
 
-            CreateMap<ShowDTO, Show>();
+            CreateMap<ShowDTO, Show>().ReverseMap();
             CreateMap<ShowUpsertDTO, Show>();
 
-            CreateMap<UserDTO, User>();
+            CreateMap<UserDTO, User>().ReverseMap();
             CreateMap<UserUpsertDTO, User>();
         }
     }
