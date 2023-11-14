@@ -1,4 +1,5 @@
 ﻿using eCinema.Core.Entities;
+using eCinema.Core.SearchObjects;
 using eCinema.Repository.RepositoriesInterfaces;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eCinema.Repository.Repositories
 {
-    public class ActorRepository : BaseRepository<Actor, int>,IActorRepository
+    public class ActorRepository : BaseRepository<Actor, int, BaseSearchObject>, IActorRepository
     {
         public ActorRepository(DatabaseContext db) : base(db) { }
 

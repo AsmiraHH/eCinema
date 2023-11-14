@@ -79,8 +79,9 @@ namespace eCinema.Repository.Migrations
                     b.Property<int>("NumberOfHalls")
                         .HasColumnType("int");
 
-                    b.Property<int>("PhoneNumber")
-                        .HasColumnType("int");
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
@@ -97,7 +98,7 @@ namespace eCinema.Repository.Migrations
                             Email = "plazamostar@gmail.com",
                             Name = "Cineplexx Plaza Mostar",
                             NumberOfHalls = 10,
-                            PhoneNumber = 60100100
+                            PhoneNumber = "060100100"
                         },
                         new
                         {
@@ -107,7 +108,7 @@ namespace eCinema.Repository.Migrations
                             Email = "srajevocinestar@gmail.com",
                             Name = "CineStar Sarajevo",
                             NumberOfHalls = 5,
-                            PhoneNumber = 60200200
+                            PhoneNumber = "060200200"
                         });
                 });
 
@@ -241,6 +242,63 @@ namespace eCinema.Repository.Migrations
                             ID = 10,
                             Name = "Austria"
                         });
+                });
+
+            modelBuilder.Entity("eCinema.Core.Entities.Employee", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CinemaId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordSalt")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("ProfilePhoto")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CinemaId");
+
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("eCinema.Core.Entities.Genre", b =>
@@ -384,7 +442,6 @@ namespace eCinema.Repository.Migrations
                         .HasColumnType("int");
 
                     b.Property<byte[]>("Photo")
-                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<int>("ProductionId")
@@ -634,8 +691,6 @@ namespace eCinema.Repository.Migrations
 
                     b.ToTable("Users");
 
-                    b.UseTptMappingStrategy();
-
                     b.HasData(
                         new
                         {
@@ -652,22 +707,6 @@ namespace eCinema.Repository.Migrations
                             PhoneNumber = "38761123456",
                             Role = 1
                         });
-                });
-
-            modelBuilder.Entity("eCinema.Core.Entities.Employee", b =>
-                {
-                    b.HasBaseType("eCinema.Core.Entities.User");
-
-                    b.Property<int>("CinemaId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasIndex("CinemaId");
-
-                    b.ToTable("Employee");
                 });
 
             modelBuilder.Entity("eCinema.Core.Entities.Cinema", b =>
@@ -690,6 +729,17 @@ namespace eCinema.Repository.Migrations
                         .IsRequired();
 
                     b.Navigation("Country");
+                });
+
+            modelBuilder.Entity("eCinema.Core.Entities.Employee", b =>
+                {
+                    b.HasOne("eCinema.Core.Entities.Cinema", "Cinema")
+                        .WithMany("Employees")
+                        .HasForeignKey("CinemaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cinema");
                 });
 
             modelBuilder.Entity("eCinema.Core.Entities.Hall", b =>
@@ -830,23 +880,6 @@ namespace eCinema.Repository.Migrations
                     b.Navigation("Hall");
 
                     b.Navigation("Movie");
-                });
-
-            modelBuilder.Entity("eCinema.Core.Entities.Employee", b =>
-                {
-                    b.HasOne("eCinema.Core.Entities.Cinema", "Cinema")
-                        .WithMany("Employees")
-                        .HasForeignKey("CinemaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eCinema.Core.Entities.User", null)
-                        .WithOne()
-                        .HasForeignKey("eCinema.Core.Entities.Employee", "ID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cinema");
                 });
 
             modelBuilder.Entity("eCinema.Core.Entities.Actor", b =>

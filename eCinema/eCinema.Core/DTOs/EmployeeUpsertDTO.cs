@@ -1,11 +1,22 @@
 ﻿using eCinema.Core.Entities;
+using eCinema.Core.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eCinema.Core.DTOs
 {
     public class EmployeeUpsertDTO
     {
-        public string Title { get; set; } = null!;
+        public int? ID { get; set; }
+        public string FirstName { get; set; } = null!;
+        public string LastName { get; set; } = null!;
+        public string Email { get; set; } = null!;
+        public string? Password { get; set; }
+        public string PhoneNumber { get; set; } = null!;
+        public DateTime BirthDate { get; set; }
+        public Gender Gender { get; set; }
+        public Role Role { get; set; }
+        public bool IsActive { get; set; }
+        public byte[]? ProfilePhoto { get; set; }
         public int CinemaId { get; set; }
     }
 }

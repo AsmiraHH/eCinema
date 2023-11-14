@@ -16,7 +16,7 @@ namespace eCinema.Service.Validators
             RuleFor(a => a.LastName).NotEmpty().WithErrorCode("NotEmpty");
             RuleFor(a => a.Email).NotEmpty().WithErrorCode("NotEmpty");
             RuleFor(a => a.PhoneNumber).NotEmpty().WithErrorCode("NotEmpty");
-            
+
             RuleFor(a => a.Password)
                 .NotEmpty()
                 .NotNull()
@@ -33,7 +33,7 @@ namespace eCinema.Service.Validators
             RuleFor(a => a.IsVerified).NotNull().WithErrorCode("NotNull");
             RuleFor(a => a.IsActive).NotNull().WithErrorCode("NotNull");
 
-            RuleFor(a => a.ProfilePhoto).NotNull().WithErrorCode("NotNull");//uraditi validaciju slike
+            //RuleFor(a => a.ProfilePhoto).NotNull().WithErrorCode("NotNull");//uraditi validaciju slike
         }
     }
 }

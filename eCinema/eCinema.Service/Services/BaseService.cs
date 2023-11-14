@@ -4,20 +4,16 @@ using eCinema.Repository.UnitOfWork;
 using eCinema.Core.Helpers;
 using eCinema.Service.ServiceInterfaces;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using eCinema.Core.SearchObjects;
 
 namespace eCinema.Service.Services
 {
-    public abstract class BaseService<TEntity, TDTO, TUpsertDTO, TRepository> : IBaseService<int, TDTO, TUpsertDTO>
+    public abstract class BaseService<TEntity, TDTO, TUpsertDTO, TSearchObject, TRepository> : IBaseService<int, TDTO, TUpsertDTO, TSearchObject>
         where TEntity : class
         where TDTO : class
         where TUpsertDTO : class
-        where TRepository : class, IBaseRepository<TEntity, int>
+        where TSearchObject : BaseSearchObject
+        where TRepository : class, IBaseRepository<TEntity, int, TSearchObject>
     {
         protected readonly IMapper Mapper;
         protected readonly UnitOfWork UnitOfWork;
@@ -38,6 +34,11 @@ namespace eCinema.Service.Services
         {
             var entity = await CurrentRepository.GetByIdAsync(id);
             return Mapper.Map<TDTO>(entity);
+        }
+        public virtual async Task<List<TDTO>> GetPagedAsync(TSearchObject searchObject)
+        {
+            var list = await CurrentRepository.GetPagedAsync(searchObject);
+            return Mapper.Map<List<TDTO>>(list);
         }
         public virtual async Task<TDTO> AddAsync(TUpsertDTO dto)
         {

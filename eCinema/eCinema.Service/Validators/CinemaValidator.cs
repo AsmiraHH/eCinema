@@ -15,7 +15,7 @@ namespace eCinema.Service.Validators
             RuleFor(a => a.Name).NotEmpty().WithErrorCode("NotEmpty");
             RuleFor(a => a.Address).NotEmpty().WithErrorCode("NotEmpty");
             RuleFor(a => a.Email).NotEmpty().WithErrorCode("NotEmpty");
-            RuleFor(a => a.PhoneNumber).NotNull().WithErrorCode("NotNull");
+            RuleFor(a => a.PhoneNumber).NotEmpty().WithErrorCode("NotEmpty");
             RuleFor(a => a.NumberOfHalls).NotNull().WithErrorCode("NotNull");
             RuleFor(a => a.CityId).NotNull().WithErrorCode("NotNull");
         }

@@ -189,7 +189,7 @@ namespace eCinema.Repository
                  Name = "Cineplexx Plaza Mostar",
                  Address = "Bisce Polje bb",
                  Email = "plazamostar@gmail.com",
-                 PhoneNumber = 060100100,
+                 PhoneNumber = "060100100",
                  NumberOfHalls = 10,
                  CityId = 1,
              },
@@ -199,7 +199,7 @@ namespace eCinema.Repository
                  Name = "CineStar Sarajevo",
                  Address = "Dzemala Bijedica St",
                  Email = "srajevocinestar@gmail.com",
-                 PhoneNumber = 060200200,
+                 PhoneNumber = "060200200",
                  NumberOfHalls = 5,
                  CityId = 2,
              });

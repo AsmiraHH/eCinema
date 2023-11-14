@@ -11,7 +11,7 @@ namespace eCinema.Core.DTOs
         public string Author { get; set; } = null!;
         public int ReleaseYear { get; set; }
         public int Duration { get; set; }
-        public byte[] Photo { get; set; } = null!;
+        public byte[]? Photo { get; set; } = null!;
         public int LanguageId { get; set; }
         public Language Language { get; set; } = null!;
         public int ProductionId { get; set; }

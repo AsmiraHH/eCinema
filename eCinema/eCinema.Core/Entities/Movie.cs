@@ -10,7 +10,7 @@ namespace eCinema.Core.Entities
         public string Author { get; set; } = null!;
         public int ReleaseYear { get; set; }
         public int Duration { get; set; }
-        public byte[] Photo { get; set; } = null!;
+        public byte[]? Photo { get; set; } = null!;
 
         [ForeignKey(nameof(Language))]
         public int LanguageId { get; set; }

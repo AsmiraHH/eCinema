@@ -1,13 +1,10 @@
 ﻿using eCinema.Core.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using eCinema.Core.SearchObjects;
 
 namespace eCinema.Service.ServiceInterfaces
 {
-    public interface IEmployeeService : IBaseService<int, EmployeeDTO, EmployeeUpsertDTO>
+    public interface IEmployeeService : IBaseService<int, EmployeeDTO, EmployeeUpsertDTO, BaseSearchObject>
     {
+        Task ChangePassword(EmployeeNewPasswordDTO dto);
     }
 }

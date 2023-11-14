@@ -17,7 +17,7 @@ namespace eCinema.Service.Validators
             RuleFor(a => a.Author).NotEmpty().WithErrorCode("NotEmpty");
             RuleFor(a => a.ReleaseYear).NotNull().WithErrorCode("NotNull");
             RuleFor(a => a.Duration).NotNull().WithErrorCode("NotNull");
-            RuleFor(a => a.Photo).NotNull().WithErrorCode("NotNull");
+            //RuleFor(a => a.Photo).NotNull().WithErrorCode("NotNull");
             RuleFor(a => a.LanguageId).NotNull().WithErrorCode("NotNull");
             RuleFor(a => a.ProductionId).NotNull().WithErrorCode("NotNull");
         }

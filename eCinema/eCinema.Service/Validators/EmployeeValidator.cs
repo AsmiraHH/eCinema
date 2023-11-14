@@ -12,7 +12,12 @@ namespace eCinema.Service.Validators
     {
         public EmployeeValidator()
         {
-            RuleFor(a => a.Title).NotEmpty().WithErrorCode("NotEmpty");
+            RuleFor(c => c.FirstName).NotEmpty().WithErrorCode("NotEmpty");
+            RuleFor(c => c.LastName).NotEmpty().WithErrorCode("NotEmpty");
+            RuleFor(c => c.Email).NotEmpty().WithErrorCode("NotEmpty");
+            RuleFor(c => c.BirthDate).NotNull().WithErrorCode("NotNull");
+            RuleFor(c => c.Gender).NotNull().WithErrorCode("NotNull");
+            RuleFor(c => c.IsActive).NotNull().WithErrorCode("NotNull");
             RuleFor(a => a.CinemaId).NotNull().WithErrorCode("NotNull");
         }
     }

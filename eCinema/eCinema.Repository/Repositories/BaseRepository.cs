@@ -1,14 +1,18 @@
-﻿using eCinema.Repository.RepositoriesInterfaces;
+﻿using eCinema.Core.SearchObjects;
+using eCinema.Repository.RepositoriesInterfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace eCinema.Repository.Repositories
 {
-    public abstract class BaseRepository<TEntity, TPrimaryKey> : IBaseRepository<TEntity, TPrimaryKey> where TEntity : class
+    public abstract class BaseRepository<TEntity, TPrimaryKey, TSearchObject> : IBaseRepository<TEntity, TPrimaryKey, TSearchObject>
+        where TEntity : class
+        where TSearchObject : BaseSearchObject
     {
         protected readonly DatabaseContext db;
         protected readonly DbSet<TEntity> dbSet;
@@ -39,6 +43,13 @@ namespace eCinema.Repository.Repositories
         public virtual async Task<TEntity?> GetByIdAsync(TPrimaryKey id)
         {
             return await dbSet.FindAsync(id);
+        }
+        public virtual async Task<List<TEntity>> GetPagedAsync(TSearchObject searchObject)
+        {
+            return await dbSet
+                   .Skip((searchObject.PageNumber - 1) * searchObject.PageSize)
+                   .Take(searchObject.PageSize)
+                   .ToListAsync();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using eCinema.Core.DTOs;
 using eCinema.Core.Entities;
+using eCinema.Core.SearchObjects;
 using eCinema.Repository.RepositoriesInterfaces;
 using eCinema.Repository.UnitOfWork;
 using eCinema.Service.ServiceInterfaces;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace eCinema.Service.Services
 {
-    public class GenreService : BaseService<Genre, GenreDTO, GenreUpsertDTO, IGenreRepository>, IGenreService
+    public class GenreService : BaseService<Genre, GenreDTO, GenreUpsertDTO, BaseSearchObject, IGenreRepository>, IGenreService
     {
         public GenreService(IMapper mapper, IUnitOfWork unitOfWork, IValidator<GenreUpsertDTO> validator) : base(mapper, unitOfWork, validator)
         {

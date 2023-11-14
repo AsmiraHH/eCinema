@@ -1,4 +1,5 @@
 ﻿using eCinema.Core.DTOs;
+using eCinema.Service.CryptoService;
 using eCinema.Service.ServiceInterfaces;
 using eCinema.Service.Services;
 using eCinema.Service.Validators;
@@ -29,8 +30,10 @@ namespace eCinema.Service
             services.AddScoped<IProductionService, ProductionService>();
             services.AddScoped<IReservationService, ReservationService>();
             services.AddScoped<ISeatService, SeatService>();
+            services.AddScoped<IHallService, HallService>();
             services.AddScoped<IShowService, ShowService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICryptoService, CryptoService.CryptoService>();
         }
 
         public static void ConfigureValidators(this IServiceCollection services)
@@ -48,6 +51,7 @@ namespace eCinema.Service
             services.AddScoped<IValidator<ProductionUpsertDTO>, ProductionValidator>();
             services.AddScoped<IValidator<ReservationUpsertDTO>, ReservationValidator>();
             services.AddScoped<IValidator<SeatUpsertDTO>, SeatValidator>();
+            services.AddScoped<IValidator<HallUpsertDTO>, HallValidator>();
             services.AddScoped<IValidator<ShowUpsertDTO>, ShowValidator>();
             services.AddScoped<IValidator<UserUpsertDTO>, UserValidator>();
         }

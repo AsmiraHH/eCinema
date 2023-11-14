@@ -1,5 +1,6 @@
 ﻿using eCinema.Core.Exceptions;
 using eCinema.Core.Helpers;
+using eCinema.Core.SearchObjects;
 using eCinema.Service.ServiceInterfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,10 +8,11 @@ namespace eCinema.Controllers
 {
     [ApiController]
     [Route("[controller]/[action]")]
-    public abstract class BaseController<TDTO, TUpsertDTO, TService> : Controller
+    public abstract class BaseController<TDTO, TUpsertDTO, TSearchObject, TService> : Controller
         where TDTO : class
         where TUpsertDTO : class
-        where TService : IBaseService<int, TDTO, TUpsertDTO>
+        where TSearchObject : BaseSearchObject
+        where TService : IBaseService<int, TDTO, TUpsertDTO, TSearchObject>
     {
         protected readonly TService service;
 
@@ -25,6 +27,20 @@ namespace eCinema.Controllers
             try
             {
                 var dto = await service.GetByIdAsync(id);
+                return Ok(dto);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet]
+        public virtual async Task<IActionResult> GetPaged([FromQuery] TSearchObject searchObject)
+        {
+            try
+            {
+                var dto = await service.GetPagedAsync(searchObject);
                 return Ok(dto);
             }
             catch (Exception)

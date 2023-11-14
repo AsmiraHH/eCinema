@@ -20,14 +20,14 @@ namespace eCinema.Core
             CreateMap<CountryDTO, Country>().ReverseMap();
             CreateMap<CountryUpsertDTO, Country>();
 
-            CreateMap<EmployeeDTO, Employee>().ReverseMap(); 
-            CreateMap<EmployeeDTO, Employee>();
+            CreateMap<EmployeeDTO, Employee>().ReverseMap();
+            CreateMap<EmployeeUpsertDTO, Employee>();
 
             CreateMap<GenreDTO, Genre>().ReverseMap();
             CreateMap<GenreUpsertDTO, Genre>();
 
             CreateMap<HallDTO, Hall>().ReverseMap();
-            CreateMap<HallDTO, Hall>();
+            CreateMap<HallUpsertDTO, Hall>();
 
             CreateMap<LanguageDTO, Language>().ReverseMap();
             CreateMap<LanguageUpsertDTO, Language>();
@@ -36,7 +36,7 @@ namespace eCinema.Core
             CreateMap<MovieUpsertDTO, Movie>();
 
             CreateMap<MovieActorDTO, MovieActor>().ReverseMap();
-            CreateMap<MovieActorUpsertDTO, MovieActorDTO>();
+            CreateMap<MovieActorUpsertDTO, MovieActor>();
 
             CreateMap<MovieGenreDTO, MovieGenre>().ReverseMap();
             CreateMap<MovieGenreUpsertDTO, MovieGenre>();
@@ -48,7 +48,7 @@ namespace eCinema.Core
             CreateMap<ReservationUpsertDTO, Reservation>();
 
             CreateMap<SeatDTO, Seat>().ReverseMap();
-            CreateMap<SeatDTO, Seat>();
+            CreateMap<SeatUpsertDTO, Seat>();
 
             CreateMap<ShowDTO, Show>().ReverseMap();
             CreateMap<ShowUpsertDTO, Show>();

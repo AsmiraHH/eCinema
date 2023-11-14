@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace eCinema.Repository.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -143,7 +143,7 @@ namespace eCinema.Repository.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PhoneNumber = table.Column<int>(type: "int", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NumberOfHalls = table.Column<int>(type: "int", nullable: false),
                     CityId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -169,7 +169,7 @@ namespace eCinema.Repository.Migrations
                     Author = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ReleaseYear = table.Column<int>(type: "int", nullable: false),
                     Duration = table.Column<int>(type: "int", nullable: false),
-                    Photo = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    Photo = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     LanguageId = table.Column<int>(type: "int", nullable: false),
                     ProductionId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -191,26 +191,31 @@ namespace eCinema.Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Employee",
+                name: "Employees",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Gender = table.Column<int>(type: "int", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PasswordSalt = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Role = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    ProfilePhoto = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     CinemaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Employee", x => x.ID);
+                    table.PrimaryKey("PK_Employees", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Employee_Cinemas_CinemaId",
+                        name: "FK_Employees_Cinemas_CinemaId",
                         column: x => x.CinemaId,
                         principalTable: "Cinemas",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.NoAction);
-                    table.ForeignKey(
-                        name: "FK_Employee_Users_ID",
-                        column: x => x.ID,
-                        principalTable: "Users",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.NoAction);
                 });
@@ -450,8 +455,8 @@ namespace eCinema.Repository.Migrations
                 columns: new[] { "ID", "Address", "CityId", "Email", "Name", "NumberOfHalls", "PhoneNumber" },
                 values: new object[,]
                 {
-                    { 1, "Bisce Polje bb", 1, "plazamostar@gmail.com", "Cineplexx Plaza Mostar", 10, 60100100 },
-                    { 2, "Dzemala Bijedica St", 2, "srajevocinestar@gmail.com", "CineStar Sarajevo", 5, 60200200 }
+                    { 1, "Bisce Polje bb", 1, "plazamostar@gmail.com", "Cineplexx Plaza Mostar", 10, "060100100" },
+                    { 2, "Dzemala Bijedica St", 2, "srajevocinestar@gmail.com", "CineStar Sarajevo", 5, "060200200" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -465,8 +470,8 @@ namespace eCinema.Repository.Migrations
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employee_CinemaId",
-                table: "Employee",
+                name: "IX_Employees_CinemaId",
+                table: "Employees",
                 column: "CinemaId");
 
             migrationBuilder.CreateIndex(
@@ -539,7 +544,7 @@ namespace eCinema.Repository.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Employee");
+                name: "Employees");
 
             migrationBuilder.DropTable(
                 name: "MovieActors");

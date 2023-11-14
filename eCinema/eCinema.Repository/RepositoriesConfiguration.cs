@@ -23,6 +23,7 @@ namespace eCinema.Repository
             services.AddScoped<IProductionRepository, ProductionRepository>();
             services.AddScoped<IReservationRepository, ReservationRepository>();
             services.AddScoped<ISeatRepository, SeatRepository>();
+            services.AddScoped<IHallRepository, HallRepository>();
             services.AddScoped<IShowRepository, ShowRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
 

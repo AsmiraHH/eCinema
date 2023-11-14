@@ -1,13 +1,9 @@
 ﻿using eCinema.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using eCinema.Core.SearchObjects;
 
 namespace eCinema.Repository.RepositoriesInterfaces
 {
-    public interface IActorRepository : IBaseRepository<Actor, int>
+    public interface IActorRepository : IBaseRepository<Actor, int, BaseSearchObject>
     {
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using eCinema.Core.DTOs;
 using eCinema.Core.Entities;
+using eCinema.Core.SearchObjects;
 using eCinema.Repository.RepositoriesInterfaces;
 using eCinema.Repository.UnitOfWork;
 using eCinema.Service.ServiceInterfaces;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace eCinema.Service.Services
 {
-    public class CityService : BaseService<City, CityDTO, CityUpsertDTO, ICityRepository>, ICityService
+    public class CityService : BaseService<City, CityDTO, CityUpsertDTO, BaseSearchObject, ICityRepository>, ICityService
     {
         public CityService(IMapper mapper, IUnitOfWork unitOfWork, IValidator<CityUpsertDTO> validator) : base(mapper, unitOfWork, validator)
         {

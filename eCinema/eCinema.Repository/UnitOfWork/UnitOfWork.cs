@@ -1,4 +1,5 @@
 ﻿using eCinema.Repository.RepositoriesInterfaces;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace eCinema.Repository.UnitOfWork
 {
@@ -19,6 +20,7 @@ namespace eCinema.Repository.UnitOfWork
         public readonly IProductionRepository ProductionRepository;
         public readonly IReservationRepository ReservationRepository;
         public readonly ISeatRepository SeatRepository;
+        public readonly IHallRepository HallRepository;
         public readonly IShowRepository ShowRepository;
         public readonly IUserRepository UserRepository;
 
@@ -37,6 +39,7 @@ namespace eCinema.Repository.UnitOfWork
             IProductionRepository productionRepository,
             IReservationRepository reservationRepository,
             ISeatRepository seatRepository,
+            IHallRepository hallRepository,
             IShowRepository showRepository,
             IUserRepository userRepository)
         {
@@ -54,9 +57,25 @@ namespace eCinema.Repository.UnitOfWork
             ProductionRepository = productionRepository;
             ReservationRepository = reservationRepository;
             SeatRepository = seatRepository;
+            HallRepository = hallRepository;
             ShowRepository = showRepository;
             UserRepository = userRepository;
         }
+        public async Task<IDbContextTransaction> BeginTransactionAsync()
+        {
+            return await _db.Database.BeginTransactionAsync();
+        }
+
+        public async Task CommitTransactionAsync()
+        {
+            await _db.Database.CommitTransactionAsync();
+        }
+
+        public async Task RollbackTransactionAsync()
+        {
+            await _db.Database.RollbackTransactionAsync();
+        }
+
         public async Task<int> SaveChangesAsync()
         {
             return await _db.SaveChangesAsync();

@@ -1,4 +1,5 @@
 ﻿using eCinema.Core.Entities;
+using eCinema.Core.SearchObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace eCinema.Repository.RepositoriesInterfaces
 {
-    public interface ICinemaRepository : IBaseRepository<Cinema, int>
+    public interface ICinemaRepository : IBaseRepository<Cinema, int, BaseSearchObject>
     {
     }
 }

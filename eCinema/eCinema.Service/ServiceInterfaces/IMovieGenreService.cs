@@ -1,4 +1,5 @@
 ﻿using eCinema.Core.DTOs;
+using eCinema.Core.SearchObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace eCinema.Service.ServiceInterfaces
 {
-    public interface IMovieGenreService : IBaseService<int, MovieGenreDTO, MovieGenreUpsertDTO>
+    public interface IMovieGenreService : IBaseService<int, MovieGenreDTO, MovieGenreUpsertDTO, BaseSearchObject>
     {
     }
 }
