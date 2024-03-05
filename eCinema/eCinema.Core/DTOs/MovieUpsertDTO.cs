@@ -9,9 +9,9 @@ namespace eCinema.Core.DTOs
         public string Title { get; set; } = null!;
         public string Description { get; set; } = null!;
         public string Author { get; set; } = null!;
-        public int ReleaseYear { get; set; }
+        public int ReleaseYear { get; set; } 
         public int Duration { get; set; }
-        public byte[]? Photo { get; set; } = null!;
+        //public byte[]? Photo { get; set; } = null!;
         public int LanguageId { get; set; }
         public int ProductionId { get; set; }
     }

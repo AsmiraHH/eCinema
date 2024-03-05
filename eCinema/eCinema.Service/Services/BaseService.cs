@@ -5,6 +5,7 @@ using eCinema.Core.Helpers;
 using eCinema.Service.ServiceInterfaces;
 using FluentValidation;
 using eCinema.Core.SearchObjects;
+using System.Threading;
 
 namespace eCinema.Service.Services
 {
@@ -35,10 +36,10 @@ namespace eCinema.Service.Services
             var entity = await CurrentRepository.GetByIdAsync(id);
             return Mapper.Map<TDTO>(entity);
         }
-        public virtual async Task<List<TDTO>> GetPagedAsync(TSearchObject searchObject)
+        public virtual async Task<PagedList<TDTO>> GetPagedAsync(TSearchObject searchObject)
         {
             var list = await CurrentRepository.GetPagedAsync(searchObject);
-            return Mapper.Map<List<TDTO>>(list);
+            return Mapper.Map<PagedList<TDTO>>(list);
         }
         public virtual async Task<TDTO> AddAsync(TUpsertDTO dto)
         {

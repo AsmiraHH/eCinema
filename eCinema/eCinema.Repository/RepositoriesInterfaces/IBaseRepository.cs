@@ -1,9 +1,5 @@
-﻿using eCinema.Core.SearchObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using eCinema.Core.Helpers;
+using eCinema.Core.SearchObjects;
 
 namespace eCinema.Repository.RepositoriesInterfaces
 {
@@ -15,7 +11,7 @@ namespace eCinema.Repository.RepositoriesInterfaces
         void Update(TEntity entity);
         void Delete(TEntity entity);
         Task<TEntity?> GetByIdAsync(TPrimaryKey id);
-        Task<List<TEntity>> GetPagedAsync(TSearchObject searchObject);
+        Task<PagedList<TEntity>> GetPagedAsync(TSearchObject searchObject);
         Task DeleteByIdAsync(TPrimaryKey id);
     }
 }

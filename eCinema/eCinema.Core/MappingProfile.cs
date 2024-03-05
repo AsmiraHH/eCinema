@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using eCinema.Core.DTOs;
 using eCinema.Core.Entities;
+using eCinema.Core.Helpers;
+using FluentValidation.Results;
 
 namespace eCinema.Core
 {
@@ -55,6 +57,10 @@ namespace eCinema.Core
 
             CreateMap<UserDTO, User>().ReverseMap();
             CreateMap<UserUpsertDTO, User>();
+
+            CreateMap(typeof(PagedList<>), typeof(PagedList<>));
+
+            CreateMap<ValidationFailure, ValidationError>();
         }
     }
 }

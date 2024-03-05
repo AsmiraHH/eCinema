@@ -1,9 +1,5 @@
-﻿using eCinema.Core.SearchObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using eCinema.Core.Helpers;
+using eCinema.Core.SearchObjects;
 
 namespace eCinema.Service.ServiceInterfaces
 {
@@ -13,7 +9,7 @@ namespace eCinema.Service.ServiceInterfaces
         where TSearchObject : BaseSearchObject
     {
         Task<TDTO?> GetByIdAsync(TPrimaryKey id);
-        Task<List<TDTO>> GetPagedAsync(TSearchObject searchObject);
+        Task<PagedList<TDTO>> GetPagedAsync(TSearchObject searchObject);
         Task<TDTO> AddAsync(TUpsertDTO dto);
         Task<TDTO> UpdateAsync(TUpsertDTO dto);
         Task DeleteAsync(TDTO dto);

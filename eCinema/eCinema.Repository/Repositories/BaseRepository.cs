@@ -1,12 +1,7 @@
-﻿using eCinema.Core.SearchObjects;
+﻿using eCinema.Core.Helpers;
+using eCinema.Core.SearchObjects;
 using eCinema.Repository.RepositoriesInterfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace eCinema.Repository.Repositories
 {
@@ -44,12 +39,9 @@ namespace eCinema.Repository.Repositories
         {
             return await dbSet.FindAsync(id);
         }
-        public virtual async Task<List<TEntity>> GetPagedAsync(TSearchObject searchObject)
+        public virtual async Task<PagedList<TEntity>> GetPagedAsync(TSearchObject searchObject)
         {
-            return await dbSet
-                   .Skip((searchObject.PageNumber - 1) * searchObject.PageSize)
-                   .Take(searchObject.PageSize)
-                   .ToListAsync();
+            return await dbSet.ToPagedListAsync(searchObject);
         }
     }
 }

@@ -1,11 +1,8 @@
 ﻿using eCinema.Core.Entities;
+using eCinema.Core.Helpers;
 using eCinema.Core.SearchObjects;
 using eCinema.Repository.RepositoriesInterfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace eCinema.Repository.Repositories
 {
@@ -13,5 +10,16 @@ namespace eCinema.Repository.Repositories
     {
         public ShowRepository(DatabaseContext db) : base(db) { }
 
+        public override async Task<PagedList<Show>> GetPagedAsync(ShowSearchObject searchObject)
+        {
+            var items = dbSet.Include(x => x.Hall).AsQueryable();
+
+            if (searchObject.CinemaID != null)
+                items = items.Include(x => x.Hall).Where(x => x.Hall.CinemaId == searchObject.CinemaID).AsQueryable();
+
+            var result = await items.ToPagedListAsync(searchObject);
+
+            return result;
+        }
     }
 }
