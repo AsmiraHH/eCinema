@@ -7,7 +7,7 @@ namespace eCinema.Controllers
 {
     public class EmployeeController : BaseController<EmployeeDTO, EmployeeUpsertDTO, BaseSearchObject, IEmployeeService>
     {
-        public EmployeeController(IEmployeeService service) : base(service) { }
+        public EmployeeController(IEmployeeService service, ILogger<EmployeeController> logger) : base(service, logger) { }
 
         [HttpPut]
         public async Task<IActionResult> ChangePassword([FromBody] EmployeeNewPasswordDTO dto)
@@ -17,8 +17,9 @@ namespace eCinema.Controllers
                 await service.ChangePassword(dto);
                 return Ok();
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                logger.LogError(e, $"Error while changing password for object with ID {dto.ID}", dto.ID);
                 return BadRequest();
             }
         }

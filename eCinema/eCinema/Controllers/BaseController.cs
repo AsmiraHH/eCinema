@@ -15,10 +15,11 @@ namespace eCinema.Controllers
         where TService : IBaseService<int, TDTO, TUpsertDTO, TSearchObject>
     {
         protected readonly TService service;
-
-        public BaseController(TService service)
+        protected readonly ILogger<BaseController<TDTO, TUpsertDTO, TSearchObject, TService>> logger;
+        public BaseController(TService service, ILogger<BaseController<TDTO, TUpsertDTO, TSearchObject, TService>> logger)
         {
             this.service = service;
+            this.logger = logger;
         }
 
         [HttpGet("{id}")]
@@ -29,8 +30,9 @@ namespace eCinema.Controllers
                 var dto = await service.GetByIdAsync(id);
                 return Ok(dto);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                logger.LogError(e, $"Error while getting object with ID {id}", id);
                 return BadRequest();
             }
         }
@@ -43,8 +45,9 @@ namespace eCinema.Controllers
                 var dto = await service.GetPagedAsync(searchObject);
                 return Ok(dto);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                logger.LogError(e, $"Error while getting paged object with page number {searchObject.PageNumber} and page size {searchObject.PageSize}", searchObject.PageNumber, searchObject.PageSize);
                 return BadRequest();
             }
         }
@@ -63,6 +66,7 @@ namespace eCinema.Controllers
             }
             catch (Exception e)
             {
+                logger.LogError(e, $"Error while posting an object");
                 return BadRequest(e);
             }
         }
@@ -81,6 +85,7 @@ namespace eCinema.Controllers
             }
             catch (Exception e)
             {
+                logger.LogError(e, $"Error while updating an object");
                 return BadRequest(e);
             }
         }
@@ -95,6 +100,7 @@ namespace eCinema.Controllers
             }
             catch (Exception e)
             {
+                logger.LogError(e, $"Error while deleting an object with ID {id}", id);
                 return BadRequest(e.Message);
             }
         }
