@@ -51,6 +51,17 @@ namespace eCinema.Repository.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Actors");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            BirthDate = new DateTime(2024, 3, 6, 21, 56, 20, 332, DateTimeKind.Local).AddTicks(9432),
+                            Email = "jennifer.lopez@gmail.com",
+                            FirstName = "Jennifer",
+                            Gender = 1,
+                            LastName = "Lopez"
+                        });
                 });
 
             modelBuilder.Entity("eCinema.Core.Entities.Cinema", b =>
@@ -299,6 +310,23 @@ namespace eCinema.Repository.Migrations
                     b.HasIndex("CinemaId");
 
                     b.ToTable("Employees");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            BirthDate = new DateTime(2024, 3, 6, 21, 56, 20, 332, DateTimeKind.Local).AddTicks(9491),
+                            CinemaId = 1,
+                            Email = "almedina.golos@eCinema.com",
+                            FirstName = "Almedina",
+                            Gender = 1,
+                            IsActive = true,
+                            LastName = "Gološ",
+                            PasswordHash = "b4I5yA4Mp+0Pg1C3EsKU17sS13eDExGtBjjI07Vh/JM=",
+                            PasswordSalt = "1wQEjdSFeZttx6dlvEDjOg==",
+                            PhoneNumber = "38761327546",
+                            Role = 0
+                        });
                 });
 
             modelBuilder.Entity("eCinema.Core.Entities.Genre", b =>
@@ -383,6 +411,15 @@ namespace eCinema.Repository.Migrations
                     b.HasIndex("CinemaId");
 
                     b.ToTable("Hall");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            CinemaId = 1,
+                            Name = "A1",
+                            NumberOfSeats = 25
+                        });
                 });
 
             modelBuilder.Entity("eCinema.Core.Entities.Language", b =>
@@ -461,6 +498,19 @@ namespace eCinema.Repository.Migrations
                     b.HasIndex("ProductionId");
 
                     b.ToTable("Movies");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Author = "",
+                            Description = "",
+                            Duration = 150,
+                            LanguageId = 1,
+                            ProductionId = 1,
+                            ReleaseYear = 2001,
+                            Title = "Fast and furious"
+                        });
                 });
 
             modelBuilder.Entity("eCinema.Core.Entities.MovieActor", b =>
@@ -476,6 +526,13 @@ namespace eCinema.Repository.Migrations
                     b.HasIndex("ActorId");
 
                     b.ToTable("MovieActors");
+
+                    b.HasData(
+                        new
+                        {
+                            MovieId = 1,
+                            ActorId = 1
+                        });
                 });
 
             modelBuilder.Entity("eCinema.Core.Entities.MovieGenre", b =>
@@ -491,6 +548,13 @@ namespace eCinema.Repository.Migrations
                     b.HasIndex("GenreId");
 
                     b.ToTable("MovieGenres");
+
+                    b.HasData(
+                        new
+                        {
+                            MovieId = 1,
+                            GenreId = 1
+                        });
                 });
 
             modelBuilder.Entity("eCinema.Core.Entities.Production", b =>
@@ -570,6 +634,16 @@ namespace eCinema.Repository.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Reservations");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            SeatId = 1,
+                            ShowId = 1,
+                            UserId = 1,
+                            isActive = true
+                        });
                 });
 
             modelBuilder.Entity("eCinema.Core.Entities.Seat", b =>
@@ -595,6 +669,15 @@ namespace eCinema.Repository.Migrations
                     b.HasIndex("HallId");
 
                     b.ToTable("Seats");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Column = 1,
+                            HallId = 1,
+                            Row = "A"
+                        });
                 });
 
             modelBuilder.Entity("eCinema.Core.Entities.Show", b =>
@@ -605,7 +688,7 @@ namespace eCinema.Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<int?>("CinemaID")
+                    b.Property<int>("CinemaId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
@@ -628,13 +711,26 @@ namespace eCinema.Repository.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("CinemaID");
+                    b.HasIndex("CinemaId");
 
                     b.HasIndex("HallId");
 
                     b.HasIndex("MovieId");
 
                     b.ToTable("Shows");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            CinemaId = 1,
+                            Date = new DateTime(2024, 3, 6, 21, 56, 20, 332, DateTimeKind.Local).AddTicks(9597),
+                            Format = 2,
+                            HallId = 1,
+                            MovieId = 1,
+                            Price = 25.0,
+                            StartTime = new DateTime(2024, 3, 6, 21, 56, 20, 332, DateTimeKind.Local).AddTicks(9601)
+                        });
                 });
 
             modelBuilder.Entity("eCinema.Core.Entities.User", b =>
@@ -861,12 +957,14 @@ namespace eCinema.Repository.Migrations
 
             modelBuilder.Entity("eCinema.Core.Entities.Show", b =>
                 {
-                    b.HasOne("eCinema.Core.Entities.Cinema", null)
+                    b.HasOne("eCinema.Core.Entities.Cinema", "Cinema")
                         .WithMany("Shows")
-                        .HasForeignKey("CinemaID");
+                        .HasForeignKey("CinemaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("eCinema.Core.Entities.Hall", "Hall")
-                        .WithMany()
+                        .WithMany("Shows")
                         .HasForeignKey("HallId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -876,6 +974,8 @@ namespace eCinema.Repository.Migrations
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Cinema");
 
                     b.Navigation("Hall");
 
@@ -916,6 +1016,8 @@ namespace eCinema.Repository.Migrations
             modelBuilder.Entity("eCinema.Core.Entities.Hall", b =>
                 {
                     b.Navigation("Seats");
+
+                    b.Navigation("Shows");
                 });
 
             modelBuilder.Entity("eCinema.Core.Entities.Language", b =>

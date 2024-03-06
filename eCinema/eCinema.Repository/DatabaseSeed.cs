@@ -1,11 +1,6 @@
 ﻿using eCinema.Core.Entities;
 using eCinema.Core.Enums;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace eCinema.Repository
 {
@@ -20,6 +15,15 @@ namespace eCinema.Repository
             SeedProduction(modelBuilder);
             SeedCinema(modelBuilder);
             SeedGenre(modelBuilder);
+            SeedActors(modelBuilder);
+            SeedEmployees(modelBuilder);
+            SeedHalls(modelBuilder);
+            SeedMovies(modelBuilder);
+            SeedMoviesActors(modelBuilder);
+            SeedMoviesGenres(modelBuilder);
+            SeedSeats(modelBuilder);
+            SeedShows(modelBuilder);
+            SeedReservations(modelBuilder);
         }
         private void SeedCountries(ModelBuilder modelBuilder)
         {
@@ -150,6 +154,120 @@ namespace eCinema.Repository
                     PhoneNumber = "38761123456",
                     IsVerified = false,
                     IsActive = true,
+                });
+        }
+        private void SeedActors(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Actor>().HasData(
+                new Actor
+                {
+                    ID = 1,
+                    FirstName = "Jennifer",
+                    LastName = "Lopez",
+                    Email = "jennifer.lopez@gmail.com",
+                    Gender = Gender.Female,
+                    BirthDate = DateTime.Now
+                });
+        }
+        private void SeedHalls(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Hall>().HasData(
+                new Hall
+                {
+                    ID = 1,
+                    Name = "A1",
+                    NumberOfSeats = 25,
+                    CinemaId = 1
+                });
+        }
+        private void SeedMovies(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Movie>().HasData(
+                new Movie
+                {
+                    ID = 1,
+                    Title = "Fast and furious",
+                    Description = "",
+                    Author = "",
+                    ReleaseYear = 2001,
+                    Duration = 150,
+                    LanguageId = 1,
+                    ProductionId = 1
+                });
+        }
+        private void SeedMoviesActors(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<MovieActor>().HasData(
+                new MovieActor
+                {
+                    MovieId = 1,
+                    ActorId = 1,
+                });
+        }
+        private void SeedMoviesGenres(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<MovieGenre>().HasData(
+                new MovieGenre
+                {
+                    MovieId = 1,
+                    GenreId = 1,
+                });
+        }
+        private void SeedSeats(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Seat>().HasData(
+                new Seat
+                {
+                    ID = 1,
+                    HallId = 1,
+                    Row = "A",
+                    Column = 1,
+                });
+        }
+        private void SeedShows(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Show>().HasData(
+                new Show
+                {
+                    ID = 1,
+                    Date = DateTime.Now,
+                    StartTime = DateTime.Now,
+                    Format = Format.ThreeD,
+                    Price = 25,
+                    HallId = 1,
+                    CinemaId = 1,
+                    MovieId = 1,
+                });
+        }
+        private void SeedReservations(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Reservation>().HasData(
+                new Reservation
+                {
+                    ID = 1,
+                    isActive = true,
+                    ShowId = 1,
+                    SeatId = 1,
+                    UserId = 1,
+                });
+        }
+        private void SeedEmployees(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Employee>().HasData(
+                new Employee
+                {
+                    ID = 1,
+                    FirstName = "Almedina",
+                    LastName = "Gološ",
+                    Email = "almedina.golos@eCinema.com",
+                    Role = Role.User,
+                    Gender = Gender.Female,
+                    PasswordHash = "b4I5yA4Mp+0Pg1C3EsKU17sS13eDExGtBjjI07Vh/JM=", //Plain text: test
+                    PasswordSalt = "1wQEjdSFeZttx6dlvEDjOg==",
+                    PhoneNumber = "38761327546",
+                    IsActive = true,
+                    BirthDate = DateTime.Now,
+                    CinemaId = 1
                 });
         }
         private void SeedProduction(ModelBuilder modelBuilder)

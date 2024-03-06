@@ -20,6 +20,10 @@ namespace eCinema.Core.Entities
         public int HallId { get; set; }
         public Hall Hall { get; set; } = null!;
 
+        [ForeignKey(nameof(Cinema))]
+        public int CinemaId { get; set; }
+        public Cinema Cinema { get; set; } = null!;
+
         [ForeignKey(nameof(Movie))]
         public int MovieId { get; set; }
         public Movie Movie { get; set; } = null!;

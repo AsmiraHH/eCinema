@@ -12,10 +12,10 @@ namespace eCinema.Repository.Repositories
 
         public override async Task<PagedList<Show>> GetPagedAsync(ShowSearchObject searchObject)
         {
-            var items = dbSet.Include(x => x.Hall).AsQueryable();
+            var items = dbSet.Include(x => x.Hall).Include(x => x.Cinema).Include(x => x.Movie).AsQueryable();
 
             if (searchObject.CinemaID != null)
-                items = items.Include(x => x.Hall).Where(x => x.Hall.CinemaId == searchObject.CinemaID).AsQueryable();
+                items = items.Where(x => x.CinemaId == searchObject.CinemaID);
 
             var result = await items.ToPagedListAsync(searchObject);
 

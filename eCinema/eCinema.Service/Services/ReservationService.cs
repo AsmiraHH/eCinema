@@ -6,11 +6,6 @@ using eCinema.Repository.RepositoriesInterfaces;
 using eCinema.Repository.UnitOfWork;
 using eCinema.Service.ServiceInterfaces;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace eCinema.Service.Services
 {
@@ -19,6 +14,12 @@ namespace eCinema.Service.Services
         public ReservationService(IMapper mapper, IUnitOfWork unitOfWork, IValidator<ReservationUpsertDTO> validator) : base(mapper, unitOfWork, validator)
         {
 
+        }
+
+        public async Task<IEnumerable<ReservationDTO>> GetByUserID(int userID)
+        {
+            var entities = await CurrentRepository.GetByUserID(userID);
+            return Mapper.Map<IEnumerable<ReservationDTO>>(entities);
         }
     }
 }

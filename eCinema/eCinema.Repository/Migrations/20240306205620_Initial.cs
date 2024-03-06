@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace eCinema.Repository.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -321,17 +321,18 @@ namespace eCinema.Repository.Migrations
                     Format = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<double>(type: "float", nullable: false),
                     HallId = table.Column<int>(type: "int", nullable: false),
-                    MovieId = table.Column<int>(type: "int", nullable: false),
-                    CinemaID = table.Column<int>(type: "int", nullable: true)
+                    CinemaId = table.Column<int>(type: "int", nullable: false),
+                    MovieId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Shows", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Shows_Cinemas_CinemaID",
-                        column: x => x.CinemaID,
+                        name: "FK_Shows_Cinemas_CinemaId",
+                        column: x => x.CinemaId,
                         principalTable: "Cinemas",
-                        principalColumn: "ID");
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Shows_Hall_HallId",
                         column: x => x.HallId,
@@ -379,6 +380,11 @@ namespace eCinema.Repository.Migrations
                         principalColumn: "ID",
                         onDelete: ReferentialAction.NoAction);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Actors",
+                columns: new[] { "ID", "BirthDate", "Email", "FirstName", "Gender", "LastName" },
+                values: new object[] { 1, new DateTime(2024, 3, 6, 21, 56, 20, 332, DateTimeKind.Local).AddTicks(9432), "jennifer.lopez@gmail.com", "Jennifer", 1, "Lopez" });
 
             migrationBuilder.InsertData(
                 table: "Countries",
@@ -459,6 +465,46 @@ namespace eCinema.Repository.Migrations
                     { 2, "Dzemala Bijedica St", 2, "srajevocinestar@gmail.com", "CineStar Sarajevo", 5, "060200200" }
                 });
 
+            migrationBuilder.InsertData(
+                table: "Movies",
+                columns: new[] { "ID", "Author", "Description", "Duration", "LanguageId", "Photo", "ProductionId", "ReleaseYear", "Title" },
+                values: new object[] { 1, "", "", 150, 1, null, 1, 2001, "Fast and furious" });
+
+            migrationBuilder.InsertData(
+                table: "Employees",
+                columns: new[] { "ID", "BirthDate", "CinemaId", "Email", "FirstName", "Gender", "IsActive", "LastName", "PasswordHash", "PasswordSalt", "PhoneNumber", "ProfilePhoto", "Role" },
+                values: new object[] { 1, new DateTime(2024, 3, 6, 21, 56, 20, 332, DateTimeKind.Local).AddTicks(9491), 1, "almedina.golos@eCinema.com", "Almedina", 1, true, "Gološ", "b4I5yA4Mp+0Pg1C3EsKU17sS13eDExGtBjjI07Vh/JM=", "1wQEjdSFeZttx6dlvEDjOg==", "38761327546", null, 0 });
+
+            migrationBuilder.InsertData(
+                table: "Hall",
+                columns: new[] { "ID", "CinemaId", "Name", "NumberOfSeats" },
+                values: new object[] { 1, 1, "A1", 25 });
+
+            migrationBuilder.InsertData(
+                table: "MovieActors",
+                columns: new[] { "ActorId", "MovieId" },
+                values: new object[] { 1, 1 });
+
+            migrationBuilder.InsertData(
+                table: "MovieGenres",
+                columns: new[] { "GenreId", "MovieId" },
+                values: new object[] { 1, 1 });
+
+            migrationBuilder.InsertData(
+                table: "Seats",
+                columns: new[] { "ID", "Column", "HallId", "Row" },
+                values: new object[] { 1, 1, 1, "A" });
+
+            migrationBuilder.InsertData(
+                table: "Shows",
+                columns: new[] { "ID", "CinemaId", "Date", "Format", "HallId", "MovieId", "Price", "StartTime" },
+                values: new object[] { 1, 1, new DateTime(2024, 3, 6, 21, 56, 20, 332, DateTimeKind.Local).AddTicks(9597), 2, 1, 1, 25.0, new DateTime(2024, 3, 6, 21, 56, 20, 332, DateTimeKind.Local).AddTicks(9601) });
+
+            migrationBuilder.InsertData(
+                table: "Reservations",
+                columns: new[] { "ID", "SeatId", "ShowId", "UserId", "isActive" },
+                values: new object[] { 1, 1, 1, 1, true });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Cinemas_CityId",
                 table: "Cinemas",
@@ -525,9 +571,9 @@ namespace eCinema.Repository.Migrations
                 column: "HallId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Shows_CinemaID",
+                name: "IX_Shows_CinemaId",
                 table: "Shows",
-                column: "CinemaID");
+                column: "CinemaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Shows_HallId",

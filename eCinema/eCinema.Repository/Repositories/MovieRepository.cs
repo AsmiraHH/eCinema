@@ -15,7 +15,7 @@ namespace eCinema.Repository.Repositories
             var items = dbSet.Include(x => x.MovieGenres).ThenInclude(x => x.Genre).AsQueryable();
 
             if (searchObject.Genre != null)
-                items = items.Where(x => x.MovieGenres.Any(y => y.GenreId == searchObject.Genre)).AsQueryable();
+                items = items.Where(x => x.MovieGenres.Any(y => y.GenreId == searchObject.Genre));
 
             var result = await items.ToPagedListAsync(searchObject);
 

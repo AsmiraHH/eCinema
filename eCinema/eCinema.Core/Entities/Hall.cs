@@ -15,6 +15,7 @@ namespace eCinema.Core.Entities
         public Cinema Cinema { get; set; } = null!;
 
         public ICollection<Seat> Seats { get; set; } = null!;
+        public ICollection<Show> Shows { get; set; } = null!;
 
     }
 }
