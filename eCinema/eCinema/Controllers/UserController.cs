@@ -2,6 +2,7 @@
 using eCinema.Core.SearchObjects;
 using eCinema.Service.ServiceInterfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace eCinema.Controllers
 {
@@ -23,5 +24,20 @@ namespace eCinema.Controllers
                 return BadRequest();
             }
         }
+        [HttpGet("{username}")]
+        public virtual async Task<IActionResult> GetRoles(string username)
+        {
+            try
+            {
+                var roles = await service.GetRoles(username);
+                return Ok(roles);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, $"Error while getting role of object with username {username}", username);
+                return BadRequest();
+            }
+        }
+        
     }
 }

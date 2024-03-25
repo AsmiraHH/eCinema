@@ -1,11 +1,7 @@
 ﻿using eCinema.Core.Entities;
 using eCinema.Core.SearchObjects;
 using eCinema.Repository.RepositoriesInterfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace eCinema.Repository.Repositories
 {
@@ -13,5 +9,13 @@ namespace eCinema.Repository.Repositories
     {
         public UserRepository(DatabaseContext db) : base(db) { }
 
+        public virtual async Task<User?> GetByUsernameAsync(string username)
+        {
+            return await dbSet.FirstOrDefaultAsync(x => x.Username == username);
+        }
+        public virtual async Task<List<string>> GetRolesByUsernameAsync(string username)
+        {
+            return await dbSet.Where(x => x.Username == username).Select(x => x.Role.ToString()).ToListAsync();
+        }
     }
 }

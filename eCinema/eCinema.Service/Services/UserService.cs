@@ -8,13 +8,6 @@ using eCinema.Repository.UnitOfWork;
 using eCinema.Service.CryptoService;
 using eCinema.Service.ServiceInterfaces;
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace eCinema.Service.Services
 {
@@ -58,6 +51,27 @@ namespace eCinema.Service.Services
             await UnitOfWork.SaveChangesAsync();
 
             return Mapper.Map<UserDTO>(entity);
+        }
+        public async Task<UserDTO> Login(string username, string password)
+        {
+            var user = await CurrentRepository.GetByUsernameAsync(username);
+
+            if (user == null)
+                throw new UserNotFoundException();
+            
+            if (!cryptoService.VerifyPassword(user.PasswordHash, password, user.PasswordSalt))
+                throw new UserWrongCredentialsException();
+
+            return Mapper.Map<UserDTO>(user);
+        }
+        public async Task<List<string>> GetRoles(string username)
+        {
+            var roles = await CurrentRepository.GetRolesByUsernameAsync(username);
+
+            if (roles == null)
+                return null;
+
+            return roles;
         }
 
         public async Task ChangePassword(UserNewPasswordDTO dto)

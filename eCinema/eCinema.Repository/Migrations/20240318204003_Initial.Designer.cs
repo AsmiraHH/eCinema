@@ -12,7 +12,7 @@ using eCinema.Repository;
 namespace eCinema.Repository.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240306205620_Initial")]
+    [Migration("20240318204003_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -59,7 +59,7 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            BirthDate = new DateTime(2024, 3, 6, 21, 56, 20, 332, DateTimeKind.Local).AddTicks(9432),
+                            BirthDate = new DateTime(2024, 3, 18, 21, 40, 2, 804, DateTimeKind.Local).AddTicks(7343),
                             Email = "jennifer.lopez@gmail.com",
                             FirstName = "Jennifer",
                             Gender = 1,
@@ -308,6 +308,10 @@ namespace eCinema.Repository.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("ID");
 
                     b.HasIndex("CinemaId");
@@ -318,7 +322,7 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            BirthDate = new DateTime(2024, 3, 6, 21, 56, 20, 332, DateTimeKind.Local).AddTicks(9491),
+                            BirthDate = new DateTime(2024, 3, 18, 21, 40, 2, 804, DateTimeKind.Local).AddTicks(7425),
                             CinemaId = 1,
                             Email = "almedina.golos@eCinema.com",
                             FirstName = "Almedina",
@@ -328,7 +332,8 @@ namespace eCinema.Repository.Migrations
                             PasswordHash = "b4I5yA4Mp+0Pg1C3EsKU17sS13eDExGtBjjI07Vh/JM=",
                             PasswordSalt = "1wQEjdSFeZttx6dlvEDjOg==",
                             PhoneNumber = "38761327546",
-                            Role = 0
+                            Role = 0,
+                            Username = "almedinaG"
                         });
                 });
 
@@ -727,12 +732,12 @@ namespace eCinema.Repository.Migrations
                         {
                             ID = 1,
                             CinemaId = 1,
-                            Date = new DateTime(2024, 3, 6, 21, 56, 20, 332, DateTimeKind.Local).AddTicks(9597),
+                            Date = new DateTime(2024, 3, 18, 21, 40, 2, 804, DateTimeKind.Local).AddTicks(7538),
                             Format = 2,
                             HallId = 1,
                             MovieId = 1,
                             Price = 25.0,
-                            StartTime = new DateTime(2024, 3, 6, 21, 56, 20, 332, DateTimeKind.Local).AddTicks(9601)
+                            StartTime = new DateTime(2024, 3, 18, 21, 40, 2, 804, DateTimeKind.Local).AddTicks(7542)
                         });
                 });
 
@@ -786,6 +791,10 @@ namespace eCinema.Repository.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("ID");
 
                     b.ToTable("Users");
@@ -804,7 +813,8 @@ namespace eCinema.Repository.Migrations
                             PasswordHash = "b4I5yA4Mp+0Pg1C3EsKU17sS13eDExGtBjjI07Vh/JM=",
                             PasswordSalt = "1wQEjdSFeZttx6dlvEDjOg==",
                             PhoneNumber = "38761123456",
-                            Role = 1
+                            Role = 1,
+                            Username = "asmiraH"
                         });
                 });
 

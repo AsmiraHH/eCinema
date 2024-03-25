@@ -2,12 +2,14 @@
 using eCinema.Core.Helpers;
 using eCinema.Core.SearchObjects;
 using eCinema.Service.ServiceInterfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eCinema.Controllers
 {
     [ApiController]
     [Route("[controller]/[action]")]
+    [Authorize(Roles = "Administrator,User")]
     public abstract class BaseController<TDTO, TUpsertDTO, TSearchObject, TService> : Controller
         where TDTO : class
         where TUpsertDTO : class
