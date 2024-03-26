@@ -3,6 +3,7 @@
 import 'package:ecinema_admin/models/movie.dart';
 import 'package:ecinema_admin/models/paged_result.dart';
 import 'package:ecinema_admin/providers/movie_provider.dart';
+import 'package:ecinema_admin/utils/util.dart';
 import 'package:ecinema_admin/widgets/master_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -45,41 +46,28 @@ class _MoviesScreenState extends State<MoviesScreen> {
               dataRowColor: MaterialStateProperty.all(const Color.fromARGB(42, 241, 241, 241)),
               // columnSpacing: 100,
               columns: [
-                DataColumn(
-                    label: Text(
-                  'Naziv',
-                )),
-                DataColumn(
-                    label: Text(
-                  'Opis',
-                )),
-                DataColumn(
-                    label: Text(
-                  'Autor',
-                )),
-                DataColumn(
-                    label: Text(
-                  'Trajanje',
-                )),
-                DataColumn(
-                    label: Text(
-                  'Jezik',
-                )),
-                DataColumn(
-                    label: Text(
-                  'Produkcija',
-                )),
-                // DataColumn(label: Text('Slika')),
+                DataColumn(label: Text('Naziv')),
+                DataColumn(label: Text('Opis')),
+                DataColumn(label: Text('Autor')),
+                DataColumn(label: Text('Trajanje')),
+                DataColumn(label: Text('Jezik')),
+                DataColumn(label: Text('Produkcija')),
+                DataColumn(label: Text('Slika')),
               ],
               rows: moviesResult?.items
                       .map((Movie movie) => DataRow(
                             cells: [
-                              DataCell(Text(movie.title ?? '')), // Handle null values
-                              DataCell(Text(movie.description ?? '')), // Handle null values
-                              DataCell(Text(movie.author ?? '')), // Handle null values
-                              DataCell(Text(movie.duration.toString())), // Format duration
-                              DataCell(Text(movie.languageId.toString())), // Handle null values
-                              DataCell(Text(movie.productionId.toString())), // Handle null values
+                              DataCell(Text(movie.title.toString())),
+                              DataCell(Text(movie.description.toString())),
+                              DataCell(Text(movie.author.toString())),
+                              DataCell(Text(movie.duration.toString())),
+                              DataCell(Text(movie.language!.name.toString())),
+                              DataCell(Text(movie.production!.name.toString())),
+                              DataCell(
+                                movie.photo != ""
+                                    ? SizedBox(width: 40, height: 40, child: fromBase64String(movie.photo!))
+                                    : const SizedBox(child: Icon(Icons.photo, size: 40, color: Colors.black)),
+                              )
                             ],
                           ))
                       .toList() ??

@@ -16,7 +16,13 @@ Movie _$MovieFromJson(Map<String, dynamic> json) => Movie(
       json['photo'] as String?,
     )
       ..author = json['author'] as String?
-      ..duration = json['duration'] as int?;
+      ..duration = json['duration'] as int?
+      ..production = json['production'] == null
+          ? null
+          : Production.fromJson(json['production'] as Map<String, dynamic>)
+      ..language = json['language'] == null
+          ? null
+          : Language.fromJson(json['language'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$MovieToJson(Movie instance) => <String, dynamic>{
       'id': instance.id,
@@ -26,6 +32,8 @@ Map<String, dynamic> _$MovieToJson(Movie instance) => <String, dynamic>{
       'duration': instance.duration,
       'releaseYear': instance.releaseYear,
       'productionId': instance.productionId,
+      'production': instance.production,
       'languageId': instance.languageId,
+      'language': instance.language,
       'photo': instance.photo,
     };

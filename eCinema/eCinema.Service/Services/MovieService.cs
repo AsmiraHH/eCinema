@@ -20,5 +20,17 @@ namespace eCinema.Service.Services
         {
 
         }
+        public override async Task<MovieDTO> AddAsync(MovieUpsertDTO dto)
+        {
+            await ValidateAsync(dto);
+
+            var entity = Mapper.Map<Movie>(dto);
+            if (!string.IsNullOrEmpty(dto?.PhotoBase64))
+                entity.Photo = Convert.FromBase64String(dto.PhotoBase64);
+
+            await CurrentRepository.AddAsync(entity);
+            await UnitOfWork.SaveChangesAsync();
+            return Mapper.Map<MovieDTO>(entity);
+        }
     }
 }

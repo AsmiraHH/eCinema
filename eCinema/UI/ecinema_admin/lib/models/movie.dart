@@ -1,3 +1,5 @@
+import 'package:ecinema_admin/models/language.dart';
+import 'package:ecinema_admin/models/production.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'movie.g.dart';
@@ -11,9 +13,9 @@ class Movie {
   int? duration;
   int? releaseYear;
   int? productionId;
-  // Production? production;
+  Production? production;
   int? languageId;
-  // Language? language;
+  Language? language;
   String? photo;
 
   Movie(this.id, this.title, this.description, this.releaseYear, this.productionId, this.languageId, this.photo);

@@ -12,7 +12,7 @@ namespace eCinema.Repository.Repositories
 
         public override async Task<PagedList<Movie>> GetPagedAsync(MovieSearchObject searchObject)
         {
-            var items = dbSet.Include(x => x.MovieGenres).ThenInclude(x => x.Genre).AsQueryable();
+            var items = dbSet.Include(x => x.MovieGenres).ThenInclude(x => x.Genre).Include(x => x.Production).Include(x => x.Language).AsQueryable();
 
             if (searchObject.Genre != null)
                 items = items.Where(x => x.MovieGenres.Any(y => y.GenreId == searchObject.Genre));
