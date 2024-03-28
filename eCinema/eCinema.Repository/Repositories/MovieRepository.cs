@@ -16,6 +16,8 @@ namespace eCinema.Repository.Repositories
 
             if (searchObject.Genre != null)
                 items = items.Where(x => x.MovieGenres.Any(y => y.GenreId == searchObject.Genre));
+            if (searchObject.Title != null)
+                items = items.Where(x => x.Title.ToLower().Contains(searchObject.Title.ToLower()));
 
             var result = await items.ToPagedListAsync(searchObject);
 
