@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:ecinema_admin/models/paged_result.dart';
 import 'package:http/http.dart' as http;
@@ -48,6 +49,22 @@ abstract class BaseProvider<T> with ChangeNotifier {
       return result;
     } else {
       throw Exception("Error");
+    }
+  }
+
+  Future<T> insert(dynamic object) async {
+    var url = "$_baseUrl$_endpoint/Post";
+    var uri = Uri.parse(url);
+    var headers = createHeaders();
+
+    var obj = jsonEncode(object);
+    var response = await http.post(uri, headers: headers, body: obj);
+
+    if (isValidResponse(response)) {
+      var data = jsonDecode(response.body);
+      return fromJson(data);
+    } else {
+      throw Exception('Error...');
     }
   }
 

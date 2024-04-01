@@ -26,25 +26,34 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[300],
+      backgroundColor: Color.fromARGB(255, 16, 24, 53),
       body: Center(
         child: Container(
           constraints: BoxConstraints(maxHeight: 300, maxWidth: 400),
           child: Card(
+            color: Colors.white.withOpacity(0.5),
             child: Padding(
               padding: EdgeInsets.all(25),
               child: Column(
                 children: [
                   TextField(
                     controller: _usernameController,
-                    decoration: InputDecoration(labelText: "Username", prefixIcon: Icon(Icons.person)),
+                    decoration: InputDecoration(
+                        labelText: "Username",
+                        prefixIcon: Icon(Icons.person),
+                        labelStyle: TextStyle(color: Colors.white),
+                        prefixIconColor: Colors.white),
                   ),
                   SizedBox(
                     height: 15,
                   ),
                   TextField(
                     controller: _passwordController,
-                    decoration: InputDecoration(labelText: "Password", prefixIcon: Icon(Icons.password)),
+                    decoration: InputDecoration(
+                        labelText: "Password",
+                        prefixIcon: Icon(Icons.password),
+                        labelStyle: TextStyle(color: Colors.white),
+                        prefixIconColor: Colors.white),
                   ),
                   SizedBox(
                     height: 25,
@@ -56,9 +65,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         login(username, password);
                       },
                       style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(Colors.blueAccent),
+                          backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 16, 24, 53)),
                           foregroundColor: MaterialStateProperty.all(Colors.white)),
-                      child: Text("Login"))
+                      child: Text("LOGIN"))
                 ],
               ),
             ),

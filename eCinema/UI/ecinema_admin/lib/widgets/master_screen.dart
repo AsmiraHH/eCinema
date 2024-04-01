@@ -18,6 +18,9 @@ class _MasterScreenState extends State<MasterScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title ?? ""),
+        // backgroundColor: Color.fromARGB(255, 16, 24, 53),
+        // titleTextStyle: TextStyle(color: Colors.white),
+        // iconTheme: IconThemeData(color: Colors.white),
       ),
       drawer: Drawer(
         child: ListView(
@@ -35,7 +38,7 @@ class _MasterScreenState extends State<MasterScreen> {
         constraints: BoxConstraints(minWidth: MediaQuery.sizeOf(context).width, minHeight: MediaQuery.sizeOf(context).height),
         child: Container(
           decoration: BoxDecoration(
-              // color: Colors.black, // Dark background color
+              // color: Color.fromARGB(255, 106, 8, 8), // Dark background color
               // image: DecorationImage(
               //   image: AssetImage("assets/images/cinemaPic.jpeg"),
               //   fit: BoxFit.cover,
