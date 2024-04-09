@@ -8,13 +8,10 @@ namespace eCinema.Core.DTOs
         public int ID { get; set; }
         public bool isActive { get; set; }
 
-        public int ShowId { get; set; }
-        public Show Show { get; set; } = null!;
+        public ShowDTO Show { get; set; } = null!;
 
-        public int SeatId { get; set; }
-        public Seat Seat { get; set; } = null!;
+        public SeatDTO Seat { get; set; } = null!;
 
-        public int UserId { get; set; }
-        public User User { get; set; } = null!;
+        public UserDTO User { get; set; } = null!;
     }
 }

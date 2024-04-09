@@ -12,7 +12,7 @@ using eCinema.Repository;
 namespace eCinema.Repository.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240318204003_Initial")]
+    [Migration("20240406155709_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -59,7 +59,7 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            BirthDate = new DateTime(2024, 3, 18, 21, 40, 2, 804, DateTimeKind.Local).AddTicks(7343),
+                            BirthDate = new DateTime(2024, 4, 6, 17, 57, 8, 767, DateTimeKind.Local).AddTicks(9075),
                             Email = "jennifer.lopez@gmail.com",
                             FirstName = "Jennifer",
                             Gender = 1,
@@ -322,7 +322,7 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            BirthDate = new DateTime(2024, 3, 18, 21, 40, 2, 804, DateTimeKind.Local).AddTicks(7425),
+                            BirthDate = new DateTime(2024, 4, 6, 17, 57, 8, 767, DateTimeKind.Local).AddTicks(9140),
                             CinemaId = 1,
                             Email = "almedina.golos@eCinema.com",
                             FirstName = "Almedina",
@@ -732,12 +732,12 @@ namespace eCinema.Repository.Migrations
                         {
                             ID = 1,
                             CinemaId = 1,
-                            Date = new DateTime(2024, 3, 18, 21, 40, 2, 804, DateTimeKind.Local).AddTicks(7538),
+                            Date = new DateTime(2024, 4, 6, 17, 57, 8, 767, DateTimeKind.Local).AddTicks(9316),
                             Format = 2,
                             HallId = 1,
                             MovieId = 1,
                             Price = 25.0,
-                            StartTime = new DateTime(2024, 3, 18, 21, 40, 2, 804, DateTimeKind.Local).AddTicks(7542)
+                            StartTime = new DateTime(2024, 4, 6, 17, 57, 8, 767, DateTimeKind.Local).AddTicks(9320)
                         });
                 });
 
@@ -823,7 +823,7 @@ namespace eCinema.Repository.Migrations
                     b.HasOne("eCinema.Core.Entities.City", "City")
                         .WithMany("Cinemas")
                         .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("City");
@@ -834,7 +834,7 @@ namespace eCinema.Repository.Migrations
                     b.HasOne("eCinema.Core.Entities.Country", "Country")
                         .WithMany("Cities")
                         .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Country");
@@ -845,7 +845,7 @@ namespace eCinema.Repository.Migrations
                     b.HasOne("eCinema.Core.Entities.Cinema", "Cinema")
                         .WithMany("Employees")
                         .HasForeignKey("CinemaId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Cinema");
@@ -856,7 +856,7 @@ namespace eCinema.Repository.Migrations
                     b.HasOne("eCinema.Core.Entities.Cinema", "Cinema")
                         .WithMany("Halls")
                         .HasForeignKey("CinemaId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Cinema");
@@ -867,13 +867,13 @@ namespace eCinema.Repository.Migrations
                     b.HasOne("eCinema.Core.Entities.Language", "Language")
                         .WithMany("Movies")
                         .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("eCinema.Core.Entities.Production", "Production")
                         .WithMany("Movies")
                         .HasForeignKey("ProductionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Language");
@@ -884,15 +884,15 @@ namespace eCinema.Repository.Migrations
             modelBuilder.Entity("eCinema.Core.Entities.MovieActor", b =>
                 {
                     b.HasOne("eCinema.Core.Entities.Actor", "Actor")
-                        .WithMany("MovieActors")
+                        .WithMany("Movies")
                         .HasForeignKey("ActorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("eCinema.Core.Entities.Movie", "Movie")
-                        .WithMany("MovieActors")
+                        .WithMany("Actors")
                         .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Actor");
@@ -903,15 +903,15 @@ namespace eCinema.Repository.Migrations
             modelBuilder.Entity("eCinema.Core.Entities.MovieGenre", b =>
                 {
                     b.HasOne("eCinema.Core.Entities.Genre", "Genre")
-                        .WithMany("MovieGenres")
+                        .WithMany("Movies")
                         .HasForeignKey("GenreId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("eCinema.Core.Entities.Movie", "Movie")
-                        .WithMany("MovieGenres")
+                        .WithMany("Genres")
                         .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Genre");
@@ -924,7 +924,7 @@ namespace eCinema.Repository.Migrations
                     b.HasOne("eCinema.Core.Entities.Country", "Country")
                         .WithMany("Productions")
                         .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Country");
@@ -935,19 +935,19 @@ namespace eCinema.Repository.Migrations
                     b.HasOne("eCinema.Core.Entities.Seat", "Seat")
                         .WithMany("Reservations")
                         .HasForeignKey("SeatId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("eCinema.Core.Entities.Show", "Show")
                         .WithMany("Reservations")
                         .HasForeignKey("ShowId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("eCinema.Core.Entities.User", "User")
                         .WithMany("Reservations")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Seat");
@@ -962,7 +962,7 @@ namespace eCinema.Repository.Migrations
                     b.HasOne("eCinema.Core.Entities.Hall", "Hall")
                         .WithMany("Seats")
                         .HasForeignKey("HallId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Hall");
@@ -973,19 +973,19 @@ namespace eCinema.Repository.Migrations
                     b.HasOne("eCinema.Core.Entities.Cinema", "Cinema")
                         .WithMany("Shows")
                         .HasForeignKey("CinemaId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("eCinema.Core.Entities.Hall", "Hall")
                         .WithMany("Shows")
                         .HasForeignKey("HallId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("eCinema.Core.Entities.Movie", "Movie")
                         .WithMany("Shows")
                         .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Cinema");
@@ -997,7 +997,7 @@ namespace eCinema.Repository.Migrations
 
             modelBuilder.Entity("eCinema.Core.Entities.Actor", b =>
                 {
-                    b.Navigation("MovieActors");
+                    b.Navigation("Movies");
                 });
 
             modelBuilder.Entity("eCinema.Core.Entities.Cinema", b =>
@@ -1023,7 +1023,7 @@ namespace eCinema.Repository.Migrations
 
             modelBuilder.Entity("eCinema.Core.Entities.Genre", b =>
                 {
-                    b.Navigation("MovieGenres");
+                    b.Navigation("Movies");
                 });
 
             modelBuilder.Entity("eCinema.Core.Entities.Hall", b =>
@@ -1040,9 +1040,9 @@ namespace eCinema.Repository.Migrations
 
             modelBuilder.Entity("eCinema.Core.Entities.Movie", b =>
                 {
-                    b.Navigation("MovieActors");
+                    b.Navigation("Actors");
 
-                    b.Navigation("MovieGenres");
+                    b.Navigation("Genres");
 
                     b.Navigation("Shows");
                 });

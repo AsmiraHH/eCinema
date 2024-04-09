@@ -7,6 +7,7 @@ namespace eCinema.Repository.RepositoriesInterfaces
         where TEntity : class
         where TSearchObject : BaseSearchObject
     {
+        Task<List<TEntity>?> GetAllAsync();
         Task AddAsync(TEntity entity);
         void Update(TEntity entity);
         void Delete(TEntity entity);

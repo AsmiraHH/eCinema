@@ -1,6 +1,4 @@
-﻿using eCinema.Core.Entities;
-using System.ComponentModel.DataAnnotations.Schema;
-
+﻿
 namespace eCinema.Core.DTOs
 {
     public class MovieUpsertDTO
@@ -9,10 +7,11 @@ namespace eCinema.Core.DTOs
         public string Title { get; set; } = null!;
         public string Description { get; set; } = null!;
         public string Author { get; set; } = null!;
-        public int ReleaseYear { get; set; } 
+        public int ReleaseYear { get; set; }
         public int Duration { get; set; }
         public string? PhotoBase64 { get; set; } = null!;
         public int LanguageId { get; set; }
         public int ProductionId { get; set; }
+        public List<int> GenreIDs { get; set; }
     }
 }

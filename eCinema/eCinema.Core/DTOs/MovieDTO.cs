@@ -12,11 +12,8 @@ namespace eCinema.Core.DTOs
         public int ReleaseYear { get; set; }
         public int Duration { get; set; }
         public byte[]? Photo { get; set; } = null!;
-        public int LanguageId { get; set; }
-        public Language Language { get; set; } = null!;
-        public int ProductionId { get; set; }
-        public Production Production { get; set; } = null!;
-        public int MovieGenreId { get; set; }
-        public MovieGenreDTO MovieGenre { get; set; } = null!;
+        public  LanguageDTO Language { get; set; } = null!;
+        public ProductionDTO Production { get; set; } = null!;
+        public List<MovieGenreDTO> Genres { get; set; } = null!;
     }
 }

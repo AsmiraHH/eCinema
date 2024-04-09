@@ -15,10 +15,8 @@ namespace eCinema.Core.DTOs
         public Format Format { get; set; }
         public double Price { get; set; }
 
-        public int HallId { get; set; }
-        public Hall Hall { get; set; } = null!;
+        public HallDTO Hall { get; set; } = null!;
 
-        public int MovieId { get; set; }
-        public Movie Movie { get; set; } = null!;
+        public MovieDTO Movie { get; set; } = null!;
     }
 }

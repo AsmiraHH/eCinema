@@ -386,7 +386,7 @@ namespace eCinema.Repository.Migrations
             migrationBuilder.InsertData(
                 table: "Actors",
                 columns: new[] { "ID", "BirthDate", "Email", "FirstName", "Gender", "LastName" },
-                values: new object[] { 1, new DateTime(2024, 3, 18, 21, 40, 2, 804, DateTimeKind.Local).AddTicks(7343), "jennifer.lopez@gmail.com", "Jennifer", 1, "Lopez" });
+                values: new object[] { 1, new DateTime(2024, 4, 6, 17, 57, 8, 767, DateTimeKind.Local).AddTicks(9075), "jennifer.lopez@gmail.com", "Jennifer", 1, "Lopez" });
 
             migrationBuilder.InsertData(
                 table: "Countries",
@@ -475,7 +475,7 @@ namespace eCinema.Repository.Migrations
             migrationBuilder.InsertData(
                 table: "Employees",
                 columns: new[] { "ID", "BirthDate", "CinemaId", "Email", "FirstName", "Gender", "IsActive", "LastName", "PasswordHash", "PasswordSalt", "PhoneNumber", "ProfilePhoto", "Role", "Username" },
-                values: new object[] { 1, new DateTime(2024, 3, 18, 21, 40, 2, 804, DateTimeKind.Local).AddTicks(7425), 1, "almedina.golos@eCinema.com", "Almedina", 1, true, "Gološ", "b4I5yA4Mp+0Pg1C3EsKU17sS13eDExGtBjjI07Vh/JM=", "1wQEjdSFeZttx6dlvEDjOg==", "38761327546", null, 0, "almedinaG" });
+                values: new object[] { 1, new DateTime(2024, 4, 6, 17, 57, 8, 767, DateTimeKind.Local).AddTicks(9140), 1, "almedina.golos@eCinema.com", "Almedina", 1, true, "Gološ", "b4I5yA4Mp+0Pg1C3EsKU17sS13eDExGtBjjI07Vh/JM=", "1wQEjdSFeZttx6dlvEDjOg==", "38761327546", null, 0, "almedinaG" });
 
             migrationBuilder.InsertData(
                 table: "Hall",
@@ -500,7 +500,7 @@ namespace eCinema.Repository.Migrations
             migrationBuilder.InsertData(
                 table: "Shows",
                 columns: new[] { "ID", "CinemaId", "Date", "Format", "HallId", "MovieId", "Price", "StartTime" },
-                values: new object[] { 1, 1, new DateTime(2024, 3, 18, 21, 40, 2, 804, DateTimeKind.Local).AddTicks(7538), 2, 1, 1, 25.0, new DateTime(2024, 3, 18, 21, 40, 2, 804, DateTimeKind.Local).AddTicks(7542) });
+                values: new object[] { 1, 1, new DateTime(2024, 4, 6, 17, 57, 8, 767, DateTimeKind.Local).AddTicks(9316), 2, 1, 1, 25.0, new DateTime(2024, 4, 6, 17, 57, 8, 767, DateTimeKind.Local).AddTicks(9320) });
 
             migrationBuilder.InsertData(
                 table: "Reservations",

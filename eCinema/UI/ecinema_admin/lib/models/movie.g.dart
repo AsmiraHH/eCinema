@@ -14,6 +14,10 @@ Movie _$MovieFromJson(Map<String, dynamic> json) => Movie(
       json['productionId'] as int?,
       json['languageId'] as int?,
       json['photo'] as String?,
+      (json['genreIDs'] as List<dynamic>?)?.map((e) => e as int).toList(),
+      (json['genres'] as List<dynamic>?)
+          ?.map((e) => MovieGenre.fromJson(e as Map<String, dynamic>))
+          .toList(),
     )
       ..author = json['author'] as String?
       ..duration = json['duration'] as int?
@@ -35,5 +39,7 @@ Map<String, dynamic> _$MovieToJson(Movie instance) => <String, dynamic>{
       'production': instance.production,
       'languageId': instance.languageId,
       'language': instance.language,
+      'genreIDs': instance.genreIDs,
+      'genres': instance.genres,
       'photo': instance.photo,
     };

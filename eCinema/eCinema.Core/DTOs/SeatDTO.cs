@@ -9,7 +9,6 @@ namespace eCinema.Core.DTOs
         public string Row { get; set; } = null!;
         public int Column { get; set; }
                 
-        public int HallId { get; set; }
-        public Hall Hall { get; set; } = null!;
+        public HallDTO Hall { get; set; } = null!;
     }
 }

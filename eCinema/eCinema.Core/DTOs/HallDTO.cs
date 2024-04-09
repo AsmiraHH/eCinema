@@ -9,7 +9,6 @@ namespace eCinema.Core.DTOs
         public int ID { get; set; }
         public string Name { get; set; } = null!;
         public int NumberOfSeats { get; set; }
-        public int CinemaId { get; set; }
-        public Cinema Cinema { get; set; } = null!;
+        public CinemaDTO Cinema { get; set; } = null!;
     }
 }

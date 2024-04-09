@@ -38,6 +38,20 @@ namespace eCinema.Controllers
                 return BadRequest();
             }
         }
+        [HttpGet]
+        public virtual async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var dto = await service.GetAllAsync();
+                return Ok(dto);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, $"Error while getting objects.");
+                return BadRequest();
+            }
+        }
 
         [HttpGet]
         public virtual async Task<IActionResult> GetPaged([FromQuery] TSearchObject searchObject)

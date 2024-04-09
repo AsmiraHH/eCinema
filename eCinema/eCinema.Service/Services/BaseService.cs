@@ -36,6 +36,11 @@ namespace eCinema.Service.Services
             var entity = await CurrentRepository.GetByIdAsync(id);
             return Mapper.Map<TDTO>(entity);
         }
+        public virtual async Task<List<TDTO>?> GetAllAsync()
+        {
+            var entities = await CurrentRepository.GetAllAsync();
+            return Mapper.Map<List<TDTO>>(entities);
+        }
         public virtual async Task<PagedList<TDTO>> GetPagedAsync(TSearchObject searchObject)
         {
             var list = await CurrentRepository.GetPagedAsync(searchObject);

@@ -20,8 +20,8 @@ namespace eCinema.Core.Entities
         public int ProductionId { get; set; }
         public Production Production { get; set; } = null!;
 
-        public ICollection<MovieGenre> MovieGenres { get; set; } = null!;
-        public ICollection<MovieActor> MovieActors { get; set; } = null!;
+        public ICollection<MovieGenre> Genres { get; set; } = new List<MovieGenre>();
+        public ICollection<MovieActor> Actors { get; set; } = new List<MovieActor>();
         public ICollection<Show> Shows { get; set; } = null!;
     }
 }

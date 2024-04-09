@@ -11,7 +11,6 @@ namespace eCinema.Core.DTOs
         public string Email { get; set; } = null!;
         public string PhoneNumber { get; set; } = null!;
         public int NumberOfHalls { get; set; }
-        public int CityId { get; set; }
-        public City City { get; set; } = null!;
+        public CityDTO City { get; set; } = null!;
     }
 }

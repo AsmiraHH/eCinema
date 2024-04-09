@@ -16,6 +16,10 @@ namespace eCinema.Repository.Repositories
             db = _db;
             dbSet = _db.Set<TEntity>();
         }
+        public virtual async Task<List<TEntity>?> GetAllAsync()
+        {
+            return await dbSet.ToListAsync();
+        }
         public virtual async Task AddAsync(TEntity entity)
         {
             await dbSet.AddAsync(entity);

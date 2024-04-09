@@ -15,6 +15,6 @@ namespace eCinema.Core.Entities
         public DateTime BirthDate { get; set; }
         public Gender Gender { get; set; }
 
-        public ICollection<MovieActor> MovieActors { get; set; } = null!;
+        public ICollection<MovieActor> Movies { get; set; } = null!;
     }
 }

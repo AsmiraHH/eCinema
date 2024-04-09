@@ -8,6 +8,7 @@ namespace eCinema.Service.ServiceInterfaces
         where TUpsertDTO : class
         where TSearchObject : BaseSearchObject
     {
+        Task<List<TDTO>?> GetAllAsync();
         Task<TDTO?> GetByIdAsync(TPrimaryKey id);
         Task<PagedList<TDTO>> GetPagedAsync(TSearchObject searchObject);
         Task<TDTO> AddAsync(TUpsertDTO dto);

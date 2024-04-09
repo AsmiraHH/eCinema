@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, use_build_context_synchronously
 
 import 'dart:convert';
 import 'dart:io';
@@ -13,10 +13,11 @@ import 'package:ecinema_admin/providers/movie_provider.dart';
 import 'package:ecinema_admin/providers/production_provider.dart';
 import 'package:ecinema_admin/utils/util.dart';
 import 'package:ecinema_admin/widgets/master_screen.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_image_picker/form_builder_image_picker.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:multi_dropdown/multiselect_dropdown.dart';
 import 'package:provider/provider.dart';
 
 class MoviesScreen extends StatefulWidget {
@@ -30,7 +31,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
   final _formKey = GlobalKey<FormBuilderState>();
   Map<String, dynamic>? filters = {};
   int _currentPage = 1;
-  final _pageSize = 5;
+  final _pageSize = 20;
 
   late MovieProvider _movieProvider;
   late GenreProvider _genreProvider;
@@ -38,19 +39,17 @@ class _MoviesScreenState extends State<MoviesScreen> {
   late ProductionProvider _productionProvider;
 
   PagedResult<Movie>? moviesResult;
-  PagedResult<Genre>? genresResult;
+  List<Genre>? genresResult;
   PagedResult<Language>? languagesResult;
   PagedResult<Production>? productionsResult;
 
   final TextEditingController _searchController = TextEditingController();
+  final MultiSelectController<int> _genreController = MultiSelectController<int>();
 
-  int? selectedGenre;
-  int? selectedLanguage;
-  int? selectedProduction;
+  Movie? selectedMovie;
+  bool? isMovieSelected;
 
-  File? _image;
   String? _base64Image;
-  final _imageNotifier = ValueNotifier<bool>(false);
 
   @override
   void initState() {
@@ -73,7 +72,8 @@ class _MoviesScreenState extends State<MoviesScreen> {
   @override
   Widget build(BuildContext context) {
     return MasterScreen(
-      child: Column(children: [buildSearchField(context), buildDataContainer(context)]),
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start, children: [buildSearchField(context), buildDataContainer(context)]),
       title: "Movies",
     );
   }
@@ -83,8 +83,6 @@ class _MoviesScreenState extends State<MoviesScreen> {
       var data = await _movieProvider.getPaged(request);
       setState(() {
         moviesResult = data;
-        // isLoading = false;
-        // clearFilters = true;
       });
     } catch (e) {
       showDialog(
@@ -99,7 +97,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
 
   void loadGenres() async {
     try {
-      var data = await _genreProvider.getPaged(filters);
+      var data = await _genreProvider.getAll();
       setState(() {
         genresResult = data;
       });
@@ -148,9 +146,10 @@ class _MoviesScreenState extends State<MoviesScreen> {
     }
   }
 
-  Row buildDataContainer(BuildContext context) {
-    return Row(children: [
-      SingleChildScrollView(
+  Expanded buildDataContainer(BuildContext context) {
+    return Expanded(
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
         child: ConstrainedBox(
           constraints: BoxConstraints(minWidth: MediaQuery.sizeOf(context).width),
           child: Container(
@@ -158,6 +157,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
             padding: EdgeInsets.only(left: 25, right: 25, top: 10, bottom: 10),
             decoration: BoxDecoration(/*color: Color.fromARGB(255, 16, 24, 53),*/ borderRadius: BorderRadius.circular(10)),
             child: DataTable(
+              showCheckboxColumn: false,
               // dataRowColor: MaterialStateProperty.all(const Color.fromARGB(42, 241, 241, 241)),
               // columnSpacing: 100,
               columns: [
@@ -169,29 +169,38 @@ class _MoviesScreenState extends State<MoviesScreen> {
                 DataColumn(label: Text('Produkcija')),
                 DataColumn(label: Text('Slika')),
               ],
-              rows: moviesResult?.items
-                      .map((Movie movie) => DataRow(
-                            cells: [
-                              DataCell(Text(movie.title.toString())),
-                              DataCell(Text(movie.description.toString())),
-                              DataCell(Text(movie.author.toString())),
-                              DataCell(Text(movie.duration.toString())),
-                              DataCell(Text(movie.language!.name.toString())),
-                              DataCell(Text(movie.production!.name.toString())),
-                              DataCell(
-                                movie.photo != ""
-                                    ? SizedBox(width: 40, height: 40, child: fromBase64String(movie.photo!))
-                                    : const SizedBox(child: Icon(Icons.photo, size: 40, color: Colors.black)),
-                              )
-                            ],
-                          ))
-                      .toList() ??
+              rows: moviesResult?.items.map((Movie movie) {
+                    final isMovieSelected = selectedMovie == movie;
+                    return DataRow(
+                      selected: isMovieSelected,
+                      onSelectChanged: (isMovieSelected) {
+                        if (isMovieSelected != null && isMovieSelected) {
+                          selectedMovie = movie;
+                        } else {
+                          selectedMovie = null;
+                        }
+                      },
+                      cells: [
+                        DataCell(Text(movie.title.toString())),
+                        DataCell(Text(movie.description.toString())),
+                        DataCell(Text(movie.author.toString())),
+                        DataCell(Text(movie.duration.toString())),
+                        DataCell(Text(movie.language!.name.toString())),
+                        DataCell(Text(movie.production!.name.toString())),
+                        DataCell(
+                          movie.photo != ""
+                              ? SizedBox(width: 40, height: 40, child: fromBase64String(movie.photo!))
+                              : const SizedBox(child: Icon(Icons.photo, size: 40, color: Colors.black)),
+                        )
+                      ],
+                    );
+                  }).toList() ??
                   [],
             ),
           ),
         ),
       ),
-    ]);
+    );
   }
 
   Row buildSearchField(BuildContext context) {
@@ -236,15 +245,49 @@ class _MoviesScreenState extends State<MoviesScreen> {
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
+                    // return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+                    return AlertDialog(
+                      backgroundColor: Colors.white,
+                      title: const Text('Add movie'),
+                      content: SingleChildScrollView(child: buildAddMovieModal(isEdit: false, movieEdit: null)),
+                      actions: <Widget>[
+                        MaterialButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('Close'),
+                          padding: const EdgeInsets.all(15),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                        ),
+                        MaterialButton(
+                          onPressed: () async {
+                            if (_formKey.currentState!.saveAndValidate()) {
+                              _saveMovie(false);
+                            }
+                          },
+                          child: Text('Save'),
+                          padding: const EdgeInsets.all(15),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                        )
+                      ],
+                    );
+                    // });
+                  });
+            },
+            child: const Icon(Icons.add)),
+        ElevatedButton(
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
                     return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
                       return AlertDialog(
                         backgroundColor: Colors.white,
-                        title: const Text('Add movie'),
-                        content: SingleChildScrollView(child: buildAddMovieModal()),
+                        title: const Text('Edit movie'),
+                        content: buildAddMovieModal(isEdit: true, movieEdit: selectedMovie),
                         actions: <Widget>[
                           MaterialButton(
                             onPressed: () {
-                              _imageNotifier.value = false;
                               Navigator.of(context).pop();
                             },
                             child: Text('Close'),
@@ -254,21 +297,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
                           MaterialButton(
                             onPressed: () async {
                               if (_formKey.currentState!.saveAndValidate()) {
-                                Map<String, dynamic> newMovie = Map.from(_formKey.currentState!.value);
-                                newMovie['photoBase64'] = _base64Image;
-                                try {
-                                  await _movieProvider.insert(newMovie);
-                                  Navigator.of(context).pop();
-                                  loadMovies({'PageNumber': _currentPage, 'PageSize': _pageSize});
-                                } catch (e) {
-                                  showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) => AlertDialog(
-                                            title: Text("Error"),
-                                            content: Text(e.toString()),
-                                            actions: [TextButton(onPressed: () => Navigator.pop(context), child: Text("OK"))],
-                                          ));
-                                }
+                                _saveMovie(true);
                               }
                             },
                             child: Text('Save'),
@@ -280,12 +309,18 @@ class _MoviesScreenState extends State<MoviesScreen> {
                     });
                   });
             },
-            child: const Icon(Icons.add))
+            child: const Icon(Icons.edit))
       ]),
     );
   }
 
   Widget buildAddMovieModal({bool isEdit = false, Movie? movieEdit}) {
+    if (!isEdit) {
+      _genreController.clearAllSelection();
+      _base64Image = "";
+    } else {
+      _base64Image = movieEdit?.photo!;
+    }
     return SizedBox(
         height: 500,
         width: 900,
@@ -300,37 +335,42 @@ class _MoviesScreenState extends State<MoviesScreen> {
                     spacing: 40,
                     runSpacing: 10,
                     children: [
-                      SizedBox(
+                      Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                        SizedBox(
                           width: 250,
-                          height: 400,
-                          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                            ValueListenableBuilder<bool>(
-                              valueListenable: _imageNotifier,
-                              builder: (context, isImageSelected, _) {
-                                return isImageSelected
-                                    ? Expanded(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Image(
-                                            image: FileImage(_image!),
-                                          ),
-                                        ),
-                                      )
-                                    : Container();
-                              },
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            MaterialButton(
-                              padding: const EdgeInsets.all(15),
-                              onPressed: () async => await _selectImage(),
-                              // color: Color.fromARGB(255, 16, 24, 53),
-                              // textColor: Colors.white,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                              child: Text('Select Image'),
-                            ),
-                          ])),
+                          child: FormBuilderImagePicker(
+                            name: 'photoBase64',
+                            availableImageSources: const [ImageSourceOption.gallery],
+                            maxImages: 1,
+                            previewAutoSizeWidth: true,
+                            fit: BoxFit.cover,
+                            previewHeight: 320,
+                            previewWidth: 100,
+                            initialValue: [
+                              isEdit && movieEdit?.photo != ""
+                                  ? SizedBox(
+                                      width: 300,
+                                      height: 320,
+                                      child: fromBase64String(movieEdit!.photo!),
+                                    )
+                                  : null
+                            ],
+                            onSaved: (value) {
+                              if (value!.first is! SizedBox && value?.first != null) {
+                                File file = File(value!.first.path);
+                                _base64Image = base64Encode(file!.readAsBytesSync());
+                              }
+                            },
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            validator: (value) {
+                              if (value!.isEmpty || value!.first == null) {
+                                return 'Image is required';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      ]),
                       Column(
                         children: [
                           SizedBox(
@@ -339,6 +379,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
                               cursorColor: Colors.grey,
                               autovalidateMode: AutovalidateMode.onUserInteraction,
                               name: 'Title',
+                              initialValue: movieEdit != null ? movieEdit.title : '',
                               decoration: InputDecoration(labelText: 'Title'),
                               validator:
                                   FormBuilderValidators.compose([FormBuilderValidators.required(errorText: 'Title is required')]),
@@ -350,6 +391,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
                               cursorColor: Colors.grey,
                               autovalidateMode: AutovalidateMode.onUserInteraction,
                               name: 'Author',
+                              initialValue: movieEdit != null ? movieEdit.author : '',
                               decoration: InputDecoration(labelText: 'Author'),
                               validator: FormBuilderValidators.compose(
                                   [FormBuilderValidators.required(errorText: 'Author is required')]),
@@ -360,7 +402,8 @@ class _MoviesScreenState extends State<MoviesScreen> {
                             child: FormBuilderTextField(
                               cursorColor: Colors.grey,
                               autovalidateMode: AutovalidateMode.onUserInteraction,
-                              name: 'Release year',
+                              name: 'ReleaseYear',
+                              initialValue: movieEdit != null ? movieEdit.releaseYear.toString() : '',
                               decoration: InputDecoration(labelText: 'Release year'),
                               validator: FormBuilderValidators.compose(
                                   [FormBuilderValidators.required(errorText: 'Release year is required')]),
@@ -372,6 +415,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
                               cursorColor: Colors.grey,
                               autovalidateMode: AutovalidateMode.onUserInteraction,
                               name: 'Duration',
+                              initialValue: movieEdit != null ? movieEdit.duration.toString() : '',
                               decoration: InputDecoration(labelText: 'Duration'),
                               validator: FormBuilderValidators.compose(
                                   [FormBuilderValidators.required(errorText: 'Duration is required')]),
@@ -384,6 +428,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
                               maxLines: 2,
                               autovalidateMode: AutovalidateMode.onUserInteraction,
                               name: 'Description',
+                              initialValue: movieEdit != null ? movieEdit.description.toString() : '',
                               decoration: InputDecoration(labelText: 'Description'),
                               validator: FormBuilderValidators.compose(
                                   [FormBuilderValidators.required(errorText: 'Description is required')]),
@@ -393,32 +438,6 @@ class _MoviesScreenState extends State<MoviesScreen> {
                       ),
                       Column(
                         children: [
-                          SizedBox(
-                            width: 250,
-                            child: FormBuilderDropdown<int>(
-                              items: genresResult?.items
-                                      .map((e) => DropdownMenuItem(
-                                            value: e.id,
-                                            child: Text(
-                                              e.name!,
-                                              // style: TextStyle(color: Colors.black), // Text color for dropdown menu items
-                                            ),
-                                          ))
-                                      .toList() ??
-                                  [],
-                              onChanged: (int? value) {
-                                setState(() {
-                                  selectedGenre = value;
-                                });
-                              },
-                              initialValue: selectedGenre,
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              name: 'GenreId',
-                              decoration: InputDecoration(labelText: 'Genre'),
-                              validator:
-                                  FormBuilderValidators.compose([FormBuilderValidators.required(errorText: 'Genre is required')]),
-                            ),
-                          ),
                           SizedBox(
                             width: 250,
                             child: FormBuilderDropdown<int>(
@@ -432,15 +451,10 @@ class _MoviesScreenState extends State<MoviesScreen> {
                                           ))
                                       .toList() ??
                                   [],
-                              onChanged: (int? value) {
-                                setState(() {
-                                  selectedLanguage = value;
-                                });
-                              },
-                              initialValue: selectedLanguage,
                               // style: TextStyle(color: Colors.white),
                               autovalidateMode: AutovalidateMode.onUserInteraction,
                               name: 'LanguageId',
+                              initialValue: movieEdit != null ? movieEdit.language!.id : null,
                               decoration: InputDecoration(labelText: 'Language'),
                               validator: FormBuilderValidators.compose(
                                   [FormBuilderValidators.required(errorText: 'Language is required')]),
@@ -459,18 +473,62 @@ class _MoviesScreenState extends State<MoviesScreen> {
                                           ))
                                       .toList() ??
                                   [],
-                              onChanged: (int? value) {
-                                setState(() {
-                                  selectedProduction = value;
-                                });
-                              },
-                              initialValue: selectedProduction,
                               // style: TextStyle(color: Colors.white),
                               autovalidateMode: AutovalidateMode.onUserInteraction,
                               name: 'ProductionId',
+                              initialValue: movieEdit != null ? movieEdit.production!.id : null,
                               decoration: InputDecoration(labelText: 'Production'),
                               validator: FormBuilderValidators.compose(
                                   [FormBuilderValidators.required(errorText: 'Production is required')]),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 250,
+                            child: FormBuilderField(
+                              name: 'GenreIDs',
+                              builder: (FormFieldState<dynamic> field) {
+                                return InputDecorator(
+                                  decoration: InputDecoration(
+                                    labelText: 'Genre',
+                                    labelStyle: TextStyle(fontSize: 20.0),
+                                    errorText: field.errorText,
+                                  ),
+                                  child: MultiSelectDropDown<int>(
+                                    controller: _genreController,
+                                    inputDecoration: BoxDecoration(
+                                      color: Colors.transparent,
+                                      border: Border.all(color: Colors.transparent),
+                                    ),
+                                    hint: "",
+                                    padding: EdgeInsets.all(0),
+                                    onOptionSelected: (List<ValueItem<int>> selectedOptions) {
+                                      _genreController.setSelectedOptions(selectedOptions);
+                                    },
+                                    options: genresResult!.map((e) {
+                                      return ValueItem<int>(
+                                        value: e.id,
+                                        label: e.name!,
+                                      );
+                                    }).toList(),
+                                    selectedOptions: movieEdit?.genres != null
+                                        ? movieEdit!.genres!.map((movieGenre) {
+                                            return ValueItem<int>(
+                                              value: movieGenre.genre!.id!,
+                                              label: movieGenre.genre!.name!,
+                                            );
+                                          }).toList()
+                                        : [],
+                                    selectionType: SelectionType.multi,
+                                  ),
+                                );
+                              },
+                              validator: (value) {
+                                if (_genreController.selectedOptions.isEmpty) {
+                                  return 'Genre is required';
+                                } else {
+                                  return null;
+                                }
+                              },
                             ),
                           ),
                         ],
@@ -482,14 +540,32 @@ class _MoviesScreenState extends State<MoviesScreen> {
         ));
   }
 
-  Future<void> _selectImage() async {
-    final result = await FilePicker.platform.pickFiles(type: FileType.image);
-    if (result != null && result.files.single.path != null) {
-      setState(() {
-        _image = File(result.files.single.path!);
-        _base64Image = base64Encode(_image!.readAsBytesSync());
-        _imageNotifier.value = true;
-      });
+  Future<void> _saveMovie(bool isEdit) async {
+    Map<String, dynamic> newMovie = Map.from(_formKey.currentState!.value);
+    if (isEdit) {
+      newMovie['id'] = selectedMovie?.id;
+    }
+
+    newMovie['photoBase64'] = _base64Image;
+    newMovie['GenreIDs'] = _genreController.selectedOptions.map((e) => e.value).toList();
+
+    try {
+      if (!isEdit) {
+        await _movieProvider.insert(newMovie);
+      } else {
+        await _movieProvider.update(newMovie);
+      }
+
+      Navigator.of(context).pop();
+      loadMovies({'PageNumber': _currentPage, 'PageSize': _pageSize});
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: Text("Error"),
+                content: Text(e.toString()),
+                actions: [TextButton(onPressed: () => Navigator.pop(context), child: Text("OK"))],
+              ));
     }
   }
 }

@@ -40,6 +40,9 @@ dependencies:
   flutter_form_builder: ^9.2.1
   form_builder_validators: ^9.1.0
   file_picker: ^8.0.0+1
+  multi_dropdown: ^2.1.4
+  form_builder_image_picker: ^4.0.0
+  
 
 dev_dependencies:
   flutter_test:

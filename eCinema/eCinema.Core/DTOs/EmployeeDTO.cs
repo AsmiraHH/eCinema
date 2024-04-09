@@ -16,7 +16,6 @@ namespace eCinema.Core.DTOs
         public Role Role { get; set; }
         public bool IsActive { get; set; }
         public byte[]? ProfilePhoto { get; set; }
-        public int CinemaId { get; set; }
-        public Cinema Cinema { get; set; } = null!;
+        public CinemaDTO Cinema { get; set; } = null!;
     }
 }

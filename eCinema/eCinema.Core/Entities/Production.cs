@@ -9,8 +9,8 @@ namespace eCinema.Core.Entities
 
         [ForeignKey(nameof(Country))]
         public int CountryId { get; set; }
-        public Country Country { get; set; } = null!;
+        public virtual Country Country { get; set; } = null!;
 
-        public ICollection<Movie> Movies { get; set; } = null!;
+        public virtual ICollection<Movie> Movies { get; set; } = null!;
     }
 }

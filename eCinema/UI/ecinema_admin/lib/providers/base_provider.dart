@@ -29,6 +29,24 @@ abstract class BaseProvider<T> with ChangeNotifier {
     return headers;
   }
 
+  Future<List<T>> getAll() async {
+    var url = "$_baseUrl$_endpoint/GetAll";
+    var uri = Uri.parse(url);
+    var headers = createHeaders();
+
+    var req = await http.get(uri, headers: headers);
+    if (isValidResponse(req)) {
+      List<T> result = [];
+      var data = jsonDecode(req.body);
+      for (var item in data) {
+        result.add(fromJson(item));
+      }
+      return result;
+    } else {
+      throw Exception("Error");
+    }
+  }
+
   Future<PagedResult<T>> getPaged(dynamic params) async {
     var queryString = getQueryString(params);
     var url = "$_baseUrl$_endpoint/GetPaged?$queryString";
@@ -59,6 +77,22 @@ abstract class BaseProvider<T> with ChangeNotifier {
 
     var obj = jsonEncode(object);
     var response = await http.post(uri, headers: headers, body: obj);
+
+    if (isValidResponse(response)) {
+      var data = jsonDecode(response.body);
+      return fromJson(data);
+    } else {
+      throw Exception('Error...');
+    }
+  }
+
+  Future<T> update(dynamic object) async {
+    var url = "$_baseUrl$_endpoint/Put";
+    var uri = Uri.parse(url);
+    var headers = createHeaders();
+
+    var obj = jsonEncode(object);
+    var response = await http.put(uri, headers: headers, body: obj);
 
     if (isValidResponse(response)) {
       var data = jsonDecode(response.body);
