@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: "Ecinema",
       // theme: ThemeData(
       //   textTheme: const TextTheme(
@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
       //     titleSmall: TextStyle(color: Colors.white),
       //   ).apply(bodyColor: Colors.white, displayColor: Colors.white),
       // ),
-      home: const LoginScreen(),
+      home: LoginScreen(),
     );
   }
 }

@@ -47,7 +47,6 @@ class _MoviesScreenState extends State<MoviesScreen> {
   final MultiSelectController<int> _genreController = MultiSelectController<int>();
 
   Movie? selectedMovie;
-  bool? isMovieSelected;
 
   String? _base64Image;
 
@@ -170,16 +169,11 @@ class _MoviesScreenState extends State<MoviesScreen> {
                 DataColumn(label: Text('Slika')),
               ],
               rows: moviesResult?.items.map((Movie movie) {
-                    final isMovieSelected = selectedMovie == movie;
                     return DataRow(
-                      selected: isMovieSelected,
-                      onSelectChanged: (isMovieSelected) {
-                        if (isMovieSelected != null && isMovieSelected) {
-                          selectedMovie = movie;
-                        } else {
-                          selectedMovie = null;
-                        }
-                      },
+                      selected: selectedMovie == movie,
+                      onSelectChanged: (isSelected) => setState(() {
+                        selectedMovie = movie;
+                      }),
                       cells: [
                         DataCell(Text(movie.title.toString())),
                         DataCell(Text(movie.description.toString())),
@@ -275,6 +269,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
                   });
             },
             child: const Icon(Icons.add)),
+        SizedBox(width: 5),
         ElevatedButton(
             onPressed: () {
               showDialog(
@@ -309,7 +304,37 @@ class _MoviesScreenState extends State<MoviesScreen> {
                     });
                   });
             },
-            child: const Icon(Icons.edit))
+            child: const Icon(Icons.edit)),
+        SizedBox(width: 5),
+        ElevatedButton(
+            onPressed: selectedMovie == null
+                ? () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                              title: Text("Warning"),
+                              content: Text("You have to select at least one movie."),
+                              actions: [TextButton(onPressed: () => Navigator.pop(context), child: Text("OK"))],
+                            ));
+                  }
+                : () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                              title: Text("Delete movie"),
+                              content: Text("Are you sure you want to delete the selected movie?"),
+                              actions: [
+                                TextButton(onPressed: () => Navigator.pop(context), child: Text("Cancel")),
+                                TextButton(
+                                    onPressed: () {
+                                      _deleteMovie();
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("Delete"))
+                              ],
+                            ));
+                  },
+            child: const Icon(Icons.delete_forever_rounded))
       ]),
     );
   }
@@ -356,14 +381,14 @@ class _MoviesScreenState extends State<MoviesScreen> {
                                   : null
                             ],
                             onSaved: (value) {
-                              if (value!.first is! SizedBox && value?.first != null) {
-                                File file = File(value!.first.path);
-                                _base64Image = base64Encode(file!.readAsBytesSync());
+                              if (value != null && value.isNotEmpty && value.first is! SizedBox && value.first != null) {
+                                File file = File(value.first.path);
+                                _base64Image = base64Encode(file.readAsBytesSync());
                               }
                             },
                             autovalidateMode: AutovalidateMode.onUserInteraction,
                             validator: (value) {
-                              if (value!.isEmpty || value!.first == null) {
+                              if (value!.isEmpty || value.first == null) {
                                 return 'Image is required';
                               }
                               return null;
@@ -558,6 +583,24 @@ class _MoviesScreenState extends State<MoviesScreen> {
 
       Navigator.of(context).pop();
       loadMovies({'PageNumber': _currentPage, 'PageSize': _pageSize});
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: Text("Error"),
+                content: Text(e.toString()),
+                actions: [TextButton(onPressed: () => Navigator.pop(context), child: Text("OK"))],
+              ));
+    }
+  }
+
+  Future<void> _deleteMovie() async {
+    try {
+      var response = await _movieProvider.delete(selectedMovie!.id!);
+
+      if (response) {
+        loadMovies({'PageNumber': _currentPage, 'PageSize': _pageSize});
+      }
     } catch (e) {
       showDialog(
           context: context,

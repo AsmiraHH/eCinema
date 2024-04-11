@@ -102,6 +102,20 @@ abstract class BaseProvider<T> with ChangeNotifier {
     }
   }
 
+  Future<bool> delete(int id) async {
+    var url = "$_baseUrl$_endpoint/Delete/$id";
+    var uri = Uri.parse(url);
+    var headers = createHeaders();
+
+    var response = await http.delete(uri, headers: headers);
+
+    if (!isValidResponse(response)) {
+      throw Exception('Error...');
+    }
+
+    return true;
+  }
+
   T fromJson(data) {
     throw Exception("Not implemented fromJson method");
   }

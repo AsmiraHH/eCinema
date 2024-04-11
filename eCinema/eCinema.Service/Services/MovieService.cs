@@ -51,7 +51,7 @@ namespace eCinema.Service.Services
             if (dto.GenreIDs.Any())
             {
                 await _movieGenreService.DeleteByMovieIdAsync(entity.ID);
-                
+
                 entity.Genres = new List<MovieGenre>();
                 foreach (var genre in dto.GenreIDs)
                 {
@@ -66,6 +66,15 @@ namespace eCinema.Service.Services
             CurrentRepository.Update(entity);
             await UnitOfWork.SaveChangesAsync();
             return Mapper.Map<MovieDTO>(entity);
+        }
+        public override async Task DeleteByIdAsync(int id)
+        {
+            var entity = CurrentRepository.GetByIdAsync(id);
+            if (entity.Result != null)
+                await _movieGenreService.DeleteByMovieIdAsync(id);
+
+            await CurrentRepository.DeleteByIdAsync(id);
+            await UnitOfWork.SaveChangesAsync();
         }
     }
 }
