@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'package:ecinema_admin/helpers/constants.dart';
 import 'package:ecinema_admin/models/genre.dart';
 import 'package:ecinema_admin/models/language.dart';
 import 'package:ecinema_admin/models/movie.dart';
@@ -154,7 +155,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
           child: Container(
             margin: const EdgeInsets.only(left: 80, right: 80, bottom: 70, top: 20),
             padding: EdgeInsets.only(left: 25, right: 25, top: 10, bottom: 10),
-            decoration: BoxDecoration(/*color: Color.fromARGB(255, 16, 24, 53),*/ borderRadius: BorderRadius.circular(10)),
+            decoration: BoxDecoration(color: blueColor, borderRadius: BorderRadius.circular(10)),
             child: DataTable(
               showCheckboxColumn: false,
               // dataRowColor: MaterialStateProperty.all(const Color.fromARGB(42, 241, 241, 241)),
@@ -202,14 +203,14 @@ class _MoviesScreenState extends State<MoviesScreen> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Container(
-          margin: const EdgeInsets.fromLTRB(80, 40, 16, 0),
+          margin: const EdgeInsets.fromLTRB(80, 40, 10, 0),
           height: 35,
           width: 400,
           child: TextField(
             controller: _searchController,
             decoration: InputDecoration(
-                // filled: true,
-                // fillColor: Color.fromARGB(150, 16, 24, 53),
+                filled: true,
+                fillColor: blueColor,
                 contentPadding: const EdgeInsets.only(top: 10.0, left: 10.0),
                 suffixIcon: const Icon(
                   Icons.search,
@@ -235,13 +236,16 @@ class _MoviesScreenState extends State<MoviesScreen> {
       margin: const EdgeInsets.fromLTRB(40, 40, 20, 0),
       child: Row(children: [
         ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: blueColor,
+                shape: RoundedRectangleBorder(side: BorderSide(color: Colors.white), borderRadius: BorderRadius.circular(15))),
             onPressed: () {
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
                     // return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
                     return AlertDialog(
-                      backgroundColor: Colors.white,
+                      backgroundColor: blueColor,
                       title: const Text('Add movie'),
                       content: SingleChildScrollView(child: buildAddMovieModal(isEdit: false, movieEdit: null)),
                       actions: <Widget>[
@@ -271,13 +275,16 @@ class _MoviesScreenState extends State<MoviesScreen> {
             child: const Icon(Icons.add)),
         SizedBox(width: 5),
         ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: blueColor,
+                shape: RoundedRectangleBorder(side: BorderSide(color: Colors.white), borderRadius: BorderRadius.circular(15))),
             onPressed: () {
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
                     return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
                       return AlertDialog(
-                        backgroundColor: Colors.white,
+                        backgroundColor: blueColor,
                         title: const Text('Edit movie'),
                         content: buildAddMovieModal(isEdit: true, movieEdit: selectedMovie),
                         actions: <Widget>[
@@ -307,6 +314,9 @@ class _MoviesScreenState extends State<MoviesScreen> {
             child: const Icon(Icons.edit)),
         SizedBox(width: 5),
         ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: blueColor,
+                shape: RoundedRectangleBorder(side: BorderSide(color: Colors.white), borderRadius: BorderRadius.circular(15))),
             onPressed: selectedMovie == null
                 ? () {
                     showDialog(
@@ -347,7 +357,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
       _base64Image = movieEdit?.photo!;
     }
     return SizedBox(
-        height: 500,
+        height: 450,
         width: 900,
         child: Padding(
           padding: const EdgeInsets.all(35.0),
@@ -519,6 +529,10 @@ class _MoviesScreenState extends State<MoviesScreen> {
                                     errorText: field.errorText,
                                   ),
                                   child: MultiSelectDropDown<int>(
+                                    optionsBackgroundColor: Colors.black,
+                                    selectedOptionBackgroundColor: Colors.black,
+                                    fieldBackgroundColor: Colors.black,
+                                    singleSelectItemStyle: TextStyle(color: Colors.black, backgroundColor: Colors.black),
                                     controller: _genreController,
                                     inputDecoration: BoxDecoration(
                                       color: Colors.transparent,
@@ -544,6 +558,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
                                           }).toList()
                                         : [],
                                     selectionType: SelectionType.multi,
+                                    chipConfig: ChipConfig(backgroundColor: blueColor.withOpacity(1)),
                                   ),
                                 );
                               },

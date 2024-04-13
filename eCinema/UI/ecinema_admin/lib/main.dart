@@ -25,19 +25,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: "Ecinema",
-      // theme: ThemeData(
-      //   textTheme: const TextTheme(
-      //     bodyLarge: TextStyle(color: Colors.white),
-      //     bodyMedium: TextStyle(color: Colors.white),
-      //     bodySmall: TextStyle(color: Colors.white),
-      //     titleLarge: TextStyle(color: Colors.white),
-      //     titleMedium: TextStyle(color: Colors.white),
-      //     titleSmall: TextStyle(color: Colors.white),
-      //   ).apply(bodyColor: Colors.white, displayColor: Colors.white),
-      // ),
-      home: LoginScreen(),
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: Colors.white,
+        textTheme: const TextTheme(
+          bodyLarge: TextStyle(color: Colors.white),
+          bodyMedium: TextStyle(color: Colors.white),
+          bodySmall: TextStyle(color: Colors.white),
+          titleLarge: TextStyle(color: Colors.white),
+          titleMedium: TextStyle(color: Colors.white),
+          titleSmall: TextStyle(color: Colors.white),
+        ).apply(bodyColor: Colors.white, displayColor: Colors.white, decorationColor: Colors.white),
+      ),
+      home: const LoginScreen(),
     );
   }
 }
