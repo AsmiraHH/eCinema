@@ -6,5 +6,6 @@ namespace eCinema.Repository.RepositoriesInterfaces
     public interface IReservationRepository : IBaseRepository<Reservation, int, BaseSearchObject>
     {
         Task<IEnumerable<Reservation>> GetByUserID(int userID);
+        Task DeleteByShowIdsAsync(List<int> ids);
     }
 }

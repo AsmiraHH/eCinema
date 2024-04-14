@@ -10,5 +10,7 @@ namespace eCinema.Repository.RepositoriesInterfaces
 {
     public interface IShowRepository : IBaseRepository<Show, int, ShowSearchObject>
     {
+        Task DeleteByMovieIdAsync(int id);
+        Task<List<Show>> GetByMovieIdAsync(int id);
     }
 }

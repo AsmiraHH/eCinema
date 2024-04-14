@@ -13,5 +13,14 @@ namespace eCinema.Repository.Repositories
         {
             return await dbSet.Include(x => x.Show).Where(x => x.UserId == userID).ToListAsync();
         }
+        public virtual async Task DeleteByShowIdsAsync(List<int> ids)
+        {
+            foreach (var id in ids)
+            {
+                var resEntities = await dbSet.Where(x => x.ShowId == id).ToListAsync();
+                if (resEntities != null)
+                    dbSet.RemoveRange(resEntities);
+            }
+        }
     }
 }

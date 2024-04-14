@@ -12,9 +12,11 @@ namespace eCinema.Service.Services
     public class MovieService : BaseService<Movie, MovieDTO, MovieUpsertDTO, MovieSearchObject, IMovieRepository>, IMovieService
     {
         private IMovieGenreService _movieGenreService;
-        public MovieService(IMapper mapper, IMovieGenreService movieGenreService, IUnitOfWork unitOfWork, IValidator<MovieUpsertDTO> validator) : base(mapper, unitOfWork, validator)
+        private IShowService _showService;
+        public MovieService(IMapper mapper, IMovieGenreService movieGenreService, IShowService showService, IUnitOfWork unitOfWork, IValidator<MovieUpsertDTO> validator) : base(mapper, unitOfWork, validator)
         {
             _movieGenreService = movieGenreService;
+            _showService = showService;
         }
         public override async Task<MovieDTO> AddAsync(MovieUpsertDTO dto)
         {
@@ -71,7 +73,10 @@ namespace eCinema.Service.Services
         {
             var entity = CurrentRepository.GetByIdAsync(id);
             if (entity.Result != null)
+            {
+                await _showService.DeleteByMovieIdAsync(id);
                 await _movieGenreService.DeleteByMovieIdAsync(id);
+            }
 
             await CurrentRepository.DeleteByIdAsync(id);
             await UnitOfWork.SaveChangesAsync();

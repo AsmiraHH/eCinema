@@ -112,7 +112,7 @@ namespace eCinema.Repository.Migrations
                         column: x => x.CountryId,
                         principalTable: "Countries",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -132,7 +132,7 @@ namespace eCinema.Repository.Migrations
                         column: x => x.CountryId,
                         principalTable: "Countries",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -156,7 +156,7 @@ namespace eCinema.Repository.Migrations
                         column: x => x.CityId,
                         principalTable: "Cities",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -182,13 +182,13 @@ namespace eCinema.Repository.Migrations
                         column: x => x.LanguageId,
                         principalTable: "Languages",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Movies_Productions_ProductionId",
                         column: x => x.ProductionId,
                         principalTable: "Productions",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -219,7 +219,7 @@ namespace eCinema.Repository.Migrations
                         column: x => x.CinemaId,
                         principalTable: "Cinemas",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -240,7 +240,7 @@ namespace eCinema.Repository.Migrations
                         column: x => x.CinemaId,
                         principalTable: "Cinemas",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -258,13 +258,13 @@ namespace eCinema.Repository.Migrations
                         column: x => x.ActorId,
                         principalTable: "Actors",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_MovieActors_Movies_MovieId",
                         column: x => x.MovieId,
                         principalTable: "Movies",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -282,13 +282,13 @@ namespace eCinema.Repository.Migrations
                         column: x => x.GenreId,
                         principalTable: "Genres",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_MovieGenres_Movies_MovieId",
                         column: x => x.MovieId,
                         principalTable: "Movies",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -309,7 +309,7 @@ namespace eCinema.Repository.Migrations
                         column: x => x.HallId,
                         principalTable: "Hall",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -323,24 +323,17 @@ namespace eCinema.Repository.Migrations
                     Format = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<double>(type: "float", nullable: false),
                     HallId = table.Column<int>(type: "int", nullable: false),
-                    CinemaId = table.Column<int>(type: "int", nullable: false),
                     MovieId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Shows", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Shows_Cinemas_CinemaId",
-                        column: x => x.CinemaId,
-                        principalTable: "Cinemas",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.NoAction);
-                    table.ForeignKey(
                         name: "FK_Shows_Hall_HallId",
                         column: x => x.HallId,
                         principalTable: "Hall",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Shows_Movies_MovieId",
                         column: x => x.MovieId,
@@ -368,7 +361,7 @@ namespace eCinema.Repository.Migrations
                         column: x => x.SeatId,
                         principalTable: "Seats",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Reservations_Shows_ShowId",
                         column: x => x.ShowId,
@@ -380,13 +373,13 @@ namespace eCinema.Repository.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 table: "Actors",
                 columns: new[] { "ID", "BirthDate", "Email", "FirstName", "Gender", "LastName" },
-                values: new object[] { 1, new DateTime(2024, 4, 6, 17, 57, 8, 767, DateTimeKind.Local).AddTicks(9075), "jennifer.lopez@gmail.com", "Jennifer", 1, "Lopez" });
+                values: new object[] { 1, new DateTime(2024, 4, 14, 17, 7, 40, 250, DateTimeKind.Local).AddTicks(6244), "jennifer.lopez@gmail.com", "Jennifer", 1, "Lopez" });
 
             migrationBuilder.InsertData(
                 table: "Countries",
@@ -475,7 +468,7 @@ namespace eCinema.Repository.Migrations
             migrationBuilder.InsertData(
                 table: "Employees",
                 columns: new[] { "ID", "BirthDate", "CinemaId", "Email", "FirstName", "Gender", "IsActive", "LastName", "PasswordHash", "PasswordSalt", "PhoneNumber", "ProfilePhoto", "Role", "Username" },
-                values: new object[] { 1, new DateTime(2024, 4, 6, 17, 57, 8, 767, DateTimeKind.Local).AddTicks(9140), 1, "almedina.golos@eCinema.com", "Almedina", 1, true, "Gološ", "b4I5yA4Mp+0Pg1C3EsKU17sS13eDExGtBjjI07Vh/JM=", "1wQEjdSFeZttx6dlvEDjOg==", "38761327546", null, 0, "almedinaG" });
+                values: new object[] { 1, new DateTime(2024, 4, 14, 17, 7, 40, 250, DateTimeKind.Local).AddTicks(6296), 1, "almedina.golos@eCinema.com", "Almedina", 1, true, "Gološ", "b4I5yA4Mp+0Pg1C3EsKU17sS13eDExGtBjjI07Vh/JM=", "1wQEjdSFeZttx6dlvEDjOg==", "38761327546", null, 0, "almedinaG" });
 
             migrationBuilder.InsertData(
                 table: "Hall",
@@ -499,8 +492,8 @@ namespace eCinema.Repository.Migrations
 
             migrationBuilder.InsertData(
                 table: "Shows",
-                columns: new[] { "ID", "CinemaId", "Date", "Format", "HallId", "MovieId", "Price", "StartTime" },
-                values: new object[] { 1, 1, new DateTime(2024, 4, 6, 17, 57, 8, 767, DateTimeKind.Local).AddTicks(9316), 2, 1, 1, 25.0, new DateTime(2024, 4, 6, 17, 57, 8, 767, DateTimeKind.Local).AddTicks(9320) });
+                columns: new[] { "ID", "Date", "Format", "HallId", "MovieId", "Price", "StartTime" },
+                values: new object[] { 1, new DateTime(2024, 4, 14, 17, 7, 40, 250, DateTimeKind.Local).AddTicks(6375), 2, 1, 1, 25.0, new DateTime(2024, 4, 14, 17, 7, 40, 250, DateTimeKind.Local).AddTicks(6378) });
 
             migrationBuilder.InsertData(
                 table: "Reservations",
@@ -571,11 +564,6 @@ namespace eCinema.Repository.Migrations
                 name: "IX_Seats_HallId",
                 table: "Seats",
                 column: "HallId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Shows_CinemaId",
-                table: "Shows",
-                column: "CinemaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Shows_HallId",

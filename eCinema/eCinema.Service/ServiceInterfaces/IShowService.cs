@@ -10,5 +10,6 @@ namespace eCinema.Service.ServiceInterfaces
 {
     public interface IShowService : IBaseService<int, ShowDTO, ShowUpsertDTO, ShowSearchObject>
     {
+        Task DeleteByMovieIdAsync(int id);
     }
 }

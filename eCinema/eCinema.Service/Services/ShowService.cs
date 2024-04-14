@@ -16,9 +16,19 @@ namespace eCinema.Service.Services
 {
     public class ShowService : BaseService<Show, ShowDTO, ShowUpsertDTO, ShowSearchObject, IShowRepository>, IShowService
     {
-        public ShowService(IMapper mapper, IUnitOfWork unitOfWork, IValidator<ShowUpsertDTO> validator) : base(mapper, unitOfWork, validator)
+        private IReservationService _reservationService;
+        public ShowService(IMapper mapper, IReservationService reservationService, IUnitOfWork unitOfWork, IValidator<ShowUpsertDTO> validator) : base(mapper, unitOfWork, validator)
         {
+            _reservationService = reservationService;
+        }
+        public virtual async Task DeleteByMovieIdAsync(int id)
+        {
+            var shows = CurrentRepository.GetByMovieIdAsync(id);
+            if(shows!=null)
+                await _reservationService.DeleteByShowIdsAsync(shows.Result.Select(x=>x.ID).ToList());
 
+            await CurrentRepository.DeleteByMovieIdAsync(id);
+            await UnitOfWork.SaveChangesAsync();
         }
     }
 }

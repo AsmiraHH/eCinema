@@ -17,6 +17,6 @@ namespace eCinema.Core.Entities
 
         public ICollection<Hall> Halls { get; set; } = null!;
         public ICollection<Employee> Employees { get; set; } = null!;
-        public ICollection<Show> Shows { get; set; } = null!;
+        //public ICollection<Show> Shows { get; set; } = null!;
     }
 }

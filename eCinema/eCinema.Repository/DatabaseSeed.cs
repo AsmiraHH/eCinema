@@ -236,7 +236,6 @@ namespace eCinema.Repository
                     Format = Format.ThreeD,
                     Price = 25,
                     HallId = 1,
-                    CinemaId = 1,
                     MovieId = 1,
                 });
         }

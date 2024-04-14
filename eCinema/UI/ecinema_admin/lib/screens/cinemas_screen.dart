@@ -428,8 +428,8 @@ class _CinemasScreenState extends State<CinemasScreen> {
                           SizedBox(
                             width: 250,
                             child: FormBuilderDropdown<int>(
-                              items: citiesResult!
-                                      .map((e) => DropdownMenuItem(
+                              items: citiesResult
+                                      ?.map((e) => DropdownMenuItem(
                                             value: e.id,
                                             child: Text(
                                               e.name!,

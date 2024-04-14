@@ -21,5 +21,10 @@ namespace eCinema.Service.Services
             var entities = await CurrentRepository.GetByUserID(userID);
             return Mapper.Map<IEnumerable<ReservationDTO>>(entities);
         }
+        public virtual async Task DeleteByShowIdsAsync(List<int> ids)
+        {
+            await CurrentRepository.DeleteByShowIdsAsync(ids);
+            await UnitOfWork.SaveChangesAsync();
+        }
     }
 }
