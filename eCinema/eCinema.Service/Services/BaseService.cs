@@ -36,6 +36,11 @@ namespace eCinema.Service.Services
             var entity = await CurrentRepository.GetByIdAsync(id);
             return Mapper.Map<TDTO>(entity);
         }
+        public virtual IQueryable<TEntity> AddInclude(IQueryable<TEntity> query)
+        {
+            return query;
+        }
+
         public virtual async Task<List<TDTO>?> GetAllAsync()
         {
             var entities = await CurrentRepository.GetAllAsync();

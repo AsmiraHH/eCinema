@@ -278,39 +278,49 @@ class _MoviesScreenState extends State<MoviesScreen> {
             style: ElevatedButton.styleFrom(
                 backgroundColor: blueColor,
                 shape: RoundedRectangleBorder(side: BorderSide(color: Colors.white), borderRadius: BorderRadius.circular(15))),
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
-                      return AlertDialog(
-                        backgroundColor: blueColor,
-                        title: const Text('Edit movie'),
-                        content: buildAddMovieModal(isEdit: true, movieEdit: selectedMovie),
-                        actions: <Widget>[
-                          MaterialButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Text('Close'),
-                            padding: const EdgeInsets.all(15),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                          ),
-                          MaterialButton(
-                            onPressed: () async {
-                              if (_formKey.currentState!.saveAndValidate()) {
-                                _saveMovie(true);
-                              }
-                            },
-                            child: Text('Save'),
-                            padding: const EdgeInsets.all(15),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                          )
-                        ],
-                      );
-                    });
-                  });
-            },
+            onPressed: selectedMovie == null
+                ? () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                              title: Text("Warning"),
+                              content: Text("You have to select at least one movie."),
+                              actions: [TextButton(onPressed: () => Navigator.pop(context), child: Text("OK"))],
+                            ));
+                  }
+                : () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+                            return AlertDialog(
+                              backgroundColor: blueColor,
+                              title: const Text('Edit movie'),
+                              content: buildAddMovieModal(isEdit: true, movieEdit: selectedMovie),
+                              actions: <Widget>[
+                                MaterialButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('Close'),
+                                  padding: const EdgeInsets.all(15),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                ),
+                                MaterialButton(
+                                  onPressed: () async {
+                                    if (_formKey.currentState!.saveAndValidate()) {
+                                      _saveMovie(true);
+                                    }
+                                  },
+                                  child: Text('Save'),
+                                  padding: const EdgeInsets.all(15),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                )
+                              ],
+                            );
+                          });
+                        });
+                  },
             child: const Icon(Icons.edit)),
         SizedBox(width: 5),
         ElevatedButton(
@@ -440,8 +450,11 @@ class _MoviesScreenState extends State<MoviesScreen> {
                               name: 'ReleaseYear',
                               initialValue: movieEdit != null ? movieEdit.releaseYear.toString() : '',
                               decoration: InputDecoration(labelText: 'Release year'),
-                              validator: FormBuilderValidators.compose(
-                                  [FormBuilderValidators.required(errorText: 'Release year is required')]),
+                              validator: FormBuilderValidators.compose([
+                                FormBuilderValidators.required(errorText: 'Release year is required'),
+                                FormBuilderValidators.numeric(errorText: 'Release year has to be a number'),
+                                FormBuilderValidators.minLength(4, errorText: 'Release year has to have at least four digits')
+                              ]),
                             ),
                           ),
                           SizedBox(
@@ -452,8 +465,10 @@ class _MoviesScreenState extends State<MoviesScreen> {
                               name: 'Duration',
                               initialValue: movieEdit != null ? movieEdit.duration.toString() : '',
                               decoration: InputDecoration(labelText: 'Duration'),
-                              validator: FormBuilderValidators.compose(
-                                  [FormBuilderValidators.required(errorText: 'Duration is required')]),
+                              validator: FormBuilderValidators.compose([
+                                FormBuilderValidators.required(errorText: 'Duration is required'),
+                                FormBuilderValidators.numeric(errorText: 'Duration has to be a number (minutes)'),
+                              ]),
                             ),
                           ),
                           SizedBox(
@@ -481,7 +496,6 @@ class _MoviesScreenState extends State<MoviesScreen> {
                                             value: e.id,
                                             child: Text(
                                               e.name!,
-                                              // style: TextStyle(color: Colors.black), // Text color for dropdown menu items
                                             ),
                                           ))
                                       .toList() ??
@@ -489,7 +503,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
                               // style: TextStyle(color: Colors.white),
                               autovalidateMode: AutovalidateMode.onUserInteraction,
                               name: 'LanguageId',
-                              initialValue: movieEdit != null ? movieEdit.language!.id : null,
+                              initialValue: movieEdit?.language?.id, // != null ? movieEdit.language!.id : null,
                               decoration: InputDecoration(labelText: 'Language'),
                               validator: FormBuilderValidators.compose(
                                   [FormBuilderValidators.required(errorText: 'Language is required')]),
@@ -503,7 +517,6 @@ class _MoviesScreenState extends State<MoviesScreen> {
                                             value: e.id,
                                             child: Text(
                                               e.name!,
-                                              // style: TextStyle(color: Colors.black), // Text color for dropdown menu items
                                             ),
                                           ))
                                       .toList() ??
@@ -511,7 +524,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
                               // style: TextStyle(color: Colors.white),
                               autovalidateMode: AutovalidateMode.onUserInteraction,
                               name: 'ProductionId',
-                              initialValue: movieEdit != null ? movieEdit.production!.id : null,
+                              initialValue: movieEdit?.production?.id, //movieEdit != null ? movieEdit.production!.id : null,
                               decoration: InputDecoration(labelText: 'Production'),
                               validator: FormBuilderValidators.compose(
                                   [FormBuilderValidators.required(errorText: 'Production is required')]),

@@ -9,7 +9,7 @@ using FluentValidation;
 
 namespace eCinema.Service.Services
 {
-    public class CinemaService : BaseService<Cinema, CinemaDTO, CinemaUpsertDTO, BaseSearchObject, ICinemaRepository>, ICinemaService
+    public class CinemaService : BaseService<Cinema, CinemaDTO, CinemaUpsertDTO, CinemaSearchObject, ICinemaRepository>, ICinemaService
     {
         public CinemaService(IMapper mapper, IUnitOfWork unitOfWork, IValidator<CinemaUpsertDTO> validator) : base(mapper, unitOfWork, validator)
         {

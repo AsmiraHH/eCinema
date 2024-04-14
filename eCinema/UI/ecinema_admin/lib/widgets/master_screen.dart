@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:ecinema_admin/helpers/constants.dart';
+import 'package:ecinema_admin/screens/cinemas_screen.dart';
 import 'package:ecinema_admin/screens/movies_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -30,6 +31,12 @@ class _MasterScreenState extends State<MasterScreen> {
               title: Text("Movies"),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MoviesScreen()));
+              },
+            ),
+            ListTile(
+              title: Text("Cinemas"),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CinemasScreen()));
               },
             )
           ],
