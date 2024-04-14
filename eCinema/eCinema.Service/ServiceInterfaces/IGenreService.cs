@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace eCinema.Service.ServiceInterfaces
 {
-    public interface IGenreService : IBaseService<int, GenreDTO, GenreUpsertDTO, BaseSearchObject>
+    public interface IGenreService : IBaseService<int, GenreDTO, GenreUpsertDTO, GenreSearchObject>
     {
     }
 }

@@ -1,53 +1,47 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:ecinema_admin/helpers/constants.dart';
-import 'package:ecinema_admin/models/cinema.dart';
-import 'package:ecinema_admin/models/city.dart';
+import 'package:ecinema_admin/models/genre.dart';
 import 'package:ecinema_admin/models/paged_result.dart';
-import 'package:ecinema_admin/providers/cinema_provider.dart';
-import 'package:ecinema_admin/providers/city_provider.dart';
+import 'package:ecinema_admin/providers/genre_provider.dart';
 import 'package:ecinema_admin/widgets/master_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:provider/provider.dart';
 
-class CinemasScreen extends StatefulWidget {
-  const CinemasScreen({super.key});
+class GenresScreen extends StatefulWidget {
+  const GenresScreen({super.key});
 
   @override
-  State<CinemasScreen> createState() => _CinemasScreenState();
+  State<GenresScreen> createState() => _GenresScreenState();
 }
 
-class _CinemasScreenState extends State<CinemasScreen> {
+class _GenresScreenState extends State<GenresScreen> {
   final _currentPage = 1;
   final _pageSize = 10;
-  final _formKey = GlobalKey<FormBuilderState>();
-  late CinemaProvider _cinemaProvider;
-  late CityProvider _cityProvider;
-  PagedResult<Cinema>? cinemaResult;
-  List<City>? citiesResult;
+  late GenreProvider _genreProvider;
+  PagedResult<Genre>? genresResult;
   final TextEditingController _searchController = TextEditingController();
-  Cinema? selectedCinema;
+  Genre? selectedGenre;
+  final _formKey = GlobalKey<FormBuilderState>();
   @override
   void initState() {
     super.initState();
-    _cinemaProvider = context.read<CinemaProvider>();
-    _cityProvider = context.read<CityProvider>();
-    loadCinemas({'PageNumber': _currentPage, 'PageSize': _pageSize});
-    loadCities();
+    _genreProvider = context.read<GenreProvider>();
+    loadGenres({'PageNumber': _currentPage, 'PageSize': _pageSize});
 
     _searchController.addListener(() {
       final searchText = _searchController.text;
-      loadCinemas({'PageNumber': _currentPage, 'PageSize': _pageSize, 'Name': searchText});
+      loadGenres({'PageNumber': _currentPage, 'PageSize': _pageSize, 'Name': searchText});
     });
   }
 
-  Future<void> loadCinemas(dynamic request) async {
+  void loadGenres(dynamic request) async {
     try {
-      var data = await _cinemaProvider.getPaged(request);
+      var data = await _genreProvider.getPaged(request);
       setState(() {
-        cinemaResult = data;
+        genresResult = data;
       });
     } catch (e) {
       showDialog(
@@ -60,38 +54,21 @@ class _CinemasScreenState extends State<CinemasScreen> {
     }
   }
 
-  Future<void> loadCities() async {
-    try {
-      var data = await _cityProvider.getAll();
-      setState(() {
-        citiesResult = data;
-      });
-    } catch (e) {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-                title: const Text("Error"),
-                content: Text(e.toString()),
-                actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text("OK"))],
-              ));
-    }
-  }
-
-  Future<void> _saveCinema(bool isEdit) async {
-    Map<String, dynamic> newCinema = Map.from(_formKey.currentState!.value);
+  Future<void> _saveGenre(bool isEdit) async {
+    Map<String, dynamic> newGenre = Map.from(_formKey.currentState!.value);
     if (isEdit) {
-      newCinema['id'] = selectedCinema?.id;
+      newGenre['id'] = selectedGenre?.id;
     }
 
     try {
       if (!isEdit) {
-        await _cinemaProvider.insert(newCinema);
+        await _genreProvider.insert(newGenre);
       } else {
-        await _cinemaProvider.update(newCinema);
+        await _genreProvider.update(newGenre);
       }
 
       Navigator.of(context).pop();
-      loadCinemas({'PageNumber': _currentPage, 'PageSize': _pageSize});
+      loadGenres({'PageNumber': _currentPage, 'PageSize': _pageSize});
     } catch (e) {
       showDialog(
           context: context,
@@ -103,12 +80,12 @@ class _CinemasScreenState extends State<CinemasScreen> {
     }
   }
 
-  Future<void> _deleteCinema() async {
+  Future<void> _deleteGenre() async {
     try {
-      var response = await _cinemaProvider.delete(selectedCinema!.id!);
+      var response = await _genreProvider.delete(selectedGenre!.id!);
 
       if (response) {
-        loadCinemas({'PageNumber': _currentPage, 'PageSize': _pageSize});
+        loadGenres({'PageNumber': _currentPage, 'PageSize': _pageSize});
       }
     } catch (e) {
       showDialog(
@@ -124,7 +101,7 @@ class _CinemasScreenState extends State<CinemasScreen> {
   @override
   Widget build(BuildContext context) {
     return MasterScreen(
-      title: "Cinemas",
+      title: "Genres",
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.start, children: [buildSearchField(context), buildDataContainer(context)]),
     );
@@ -143,26 +120,32 @@ class _CinemasScreenState extends State<CinemasScreen> {
             child: DataTable(
               showCheckboxColumn: false,
               columns: const [
-                DataColumn(label: Text('Name')),
-                DataColumn(label: Text('Address')),
-                DataColumn(label: Text('City')),
-                DataColumn(label: Text('Email')),
-                DataColumn(label: Text('Phone number')),
-                DataColumn(label: Text('Number of halls')),
+                DataColumn(
+                  label: SizedBox(
+                    width: 1500,
+                    child: Center(
+                      child: Text(
+                        'Name',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ),
               ],
-              rows: cinemaResult?.items.map((Cinema cinema) {
+              rows: genresResult?.items.map((Genre genre) {
                     return DataRow(
-                      selected: selectedCinema == cinema,
+                      selected: selectedGenre == genre,
                       onSelectChanged: (isSelected) => setState(() {
-                        selectedCinema = cinema;
+                        selectedGenre = genre;
                       }),
                       cells: [
-                        DataCell(Text(cinema.name.toString())),
-                        DataCell(Text(cinema.address.toString())),
-                        DataCell(Text(cinema.city!.name.toString())),
-                        DataCell(Text(cinema.email.toString())),
-                        DataCell(Text(cinema.phoneNumber.toString())),
-                        DataCell(Text(cinema.numberOfHalls.toString())),
+                        DataCell(Container(
+                          alignment: Alignment.center,
+                          child: Text(
+                            genre.name.toString(),
+                            textAlign: TextAlign.center,
+                          ),
+                        )),
                       ],
                     );
                   }).toList() ??
@@ -222,8 +205,8 @@ class _CinemasScreenState extends State<CinemasScreen> {
                   builder: (BuildContext context) {
                     return AlertDialog(
                       backgroundColor: blueColor,
-                      title: const Text('Add cinema'),
-                      content: SingleChildScrollView(child: buildAddCinemaModal(isEdit: false, cinemaEdit: null)),
+                      title: const Text('Add genre'),
+                      content: SingleChildScrollView(child: buildAddGenreModal(isEdit: false, genreEdit: null)),
                       actions: <Widget>[
                         MaterialButton(
                           onPressed: () {
@@ -236,7 +219,7 @@ class _CinemasScreenState extends State<CinemasScreen> {
                         MaterialButton(
                           onPressed: () async {
                             if (_formKey.currentState!.saveAndValidate()) {
-                              _saveCinema(false);
+                              _saveGenre(false);
                             }
                           },
                           padding: const EdgeInsets.all(15),
@@ -254,13 +237,13 @@ class _CinemasScreenState extends State<CinemasScreen> {
                 backgroundColor: blueColor,
                 shape:
                     RoundedRectangleBorder(side: const BorderSide(color: Colors.white), borderRadius: BorderRadius.circular(15))),
-            onPressed: selectedCinema == null
+            onPressed: selectedGenre == null
                 ? () {
                     showDialog(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
                               title: const Text("Warning"),
-                              content: const Text("You have to select at least one cinema."),
+                              content: const Text("You have to select at least one genre."),
                               actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text("OK"))],
                             ));
                   }
@@ -271,8 +254,8 @@ class _CinemasScreenState extends State<CinemasScreen> {
                           return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
                             return AlertDialog(
                               backgroundColor: blueColor,
-                              title: const Text('Edit cinema'),
-                              content: buildAddCinemaModal(isEdit: true, cinemaEdit: selectedCinema),
+                              title: const Text('Edit genre'),
+                              content: buildAddGenreModal(isEdit: true, genreEdit: selectedGenre),
                               actions: <Widget>[
                                 MaterialButton(
                                   onPressed: () {
@@ -285,7 +268,7 @@ class _CinemasScreenState extends State<CinemasScreen> {
                                 MaterialButton(
                                   onPressed: () async {
                                     if (_formKey.currentState!.saveAndValidate()) {
-                                      _saveCinema(true);
+                                      _saveGenre(true);
                                     }
                                   },
                                   padding: const EdgeInsets.all(15),
@@ -304,13 +287,13 @@ class _CinemasScreenState extends State<CinemasScreen> {
                 backgroundColor: blueColor,
                 shape:
                     RoundedRectangleBorder(side: const BorderSide(color: Colors.white), borderRadius: BorderRadius.circular(15))),
-            onPressed: selectedCinema == null
+            onPressed: selectedGenre == null
                 ? () {
                     showDialog(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
                               title: const Text("Warning"),
-                              content: const Text("You have to select at least one cinema."),
+                              content: const Text("You have to select at least one genre."),
                               actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text("OK"))],
                             ));
                   }
@@ -318,13 +301,13 @@ class _CinemasScreenState extends State<CinemasScreen> {
                     showDialog(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
-                              title: const Text("Delete cinema"),
-                              content: const Text("Are you sure you want to delete the selected cinema?"),
+                              title: const Text("Delete genre"),
+                              content: const Text("Are you sure you want to delete the selected genre?"),
                               actions: [
                                 TextButton(onPressed: () => Navigator.pop(context), child: const Text("Cancel")),
                                 TextButton(
                                     onPressed: () {
-                                      _deleteCinema();
+                                      _deleteGenre();
                                       Navigator.pop(context);
                                     },
                                     child: const Text("Delete"))
@@ -336,119 +319,32 @@ class _CinemasScreenState extends State<CinemasScreen> {
     );
   }
 
-  Widget buildAddCinemaModal({bool isEdit = false, Cinema? cinemaEdit}) {
+  Widget buildAddGenreModal({bool isEdit = false, Genre? genreEdit}) {
     return SizedBox(
-        height: 320,
-        width: 800,
+        height: 150,
+        width: 350,
         child: Padding(
           padding: const EdgeInsets.all(35.0),
           child: FormBuilder(
               key: _formKey,
               child: Column(
                 children: [
-                  Wrap(
-                    runAlignment: WrapAlignment.spaceEvenly,
-                    spacing: 40,
-                    runSpacing: 10,
+                  Column(
                     children: [
-                      Column(
-                        children: [
-                          SizedBox(
-                            width: 250,
-                            child: FormBuilderTextField(
-                              cursorColor: Colors.grey,
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              name: 'Name',
-                              initialValue: cinemaEdit != null ? cinemaEdit.name : '',
-                              decoration: const InputDecoration(labelText: 'Name'),
-                              validator:
-                                  FormBuilderValidators.compose([FormBuilderValidators.required(errorText: 'Name is required')]),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 250,
-                            child: FormBuilderTextField(
-                              cursorColor: Colors.grey,
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              name: 'Address',
-                              initialValue: cinemaEdit != null ? cinemaEdit.address : '',
-                              decoration: const InputDecoration(labelText: 'Address'),
-                              validator: FormBuilderValidators.compose(
-                                  [FormBuilderValidators.required(errorText: 'Address is required')]),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 250,
-                            child: FormBuilderTextField(
-                              cursorColor: Colors.grey,
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              name: 'Email',
-                              initialValue: cinemaEdit != null ? cinemaEdit.email.toString() : '',
-                              decoration: const InputDecoration(labelText: 'Email'),
-                              validator: FormBuilderValidators.compose([
-                                FormBuilderValidators.required(errorText: 'Email is required'),
-                                FormBuilderValidators.email(errorText: 'Email is not in the correct format')
-                              ]),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          SizedBox(
-                            width: 250,
-                            child: FormBuilderTextField(
-                              cursorColor: Colors.grey,
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              name: 'PhoneNumber',
-                              initialValue: cinemaEdit != null ? cinemaEdit.phoneNumber.toString() : '',
-                              decoration: const InputDecoration(labelText: 'Phone number'),
-                              validator: FormBuilderValidators.compose([
-                                FormBuilderValidators.required(errorText: 'Phone number is required'),
-                                FormBuilderValidators.minLength(9, errorText: 'Phone number is too short, minimum is 9 digits'),
-                                FormBuilderValidators.maxLength(12,
-                                    errorText: 'Phone number is too long, maximum is 12 characters')
-                              ]),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 250,
-                            child: FormBuilderTextField(
-                              cursorColor: Colors.grey,
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              name: 'NumberOfHalls',
-                              initialValue: cinemaEdit != null ? cinemaEdit.numberOfHalls.toString() : '',
-                              decoration: const InputDecoration(labelText: 'Number of halls'),
-                              validator: FormBuilderValidators.compose([
-                                FormBuilderValidators.required(errorText: 'Number of halls is required'),
-                                FormBuilderValidators.numeric(errorText: 'Number of halls has to be a number')
-                              ]),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 250,
-                            child: FormBuilderDropdown<int>(
-                              items: citiesResult
-                                      ?.map((e) => DropdownMenuItem(
-                                            value: e.id,
-                                            child: Text(
-                                              e.name!,
-                                            ),
-                                          ))
-                                      .toList() ??
-                                  [],
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              name: 'CityId',
-                              initialValue: cinemaEdit?.city?.id,
-                              decoration: const InputDecoration(labelText: 'City'),
-                              validator:
-                                  FormBuilderValidators.compose([FormBuilderValidators.required(errorText: 'City is required')]),
-                            ),
-                          ),
-                        ],
-                      ),
+                      SizedBox(
+                        width: 350,
+                        child: FormBuilderTextField(
+                          cursorColor: Colors.grey,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          name: 'Name',
+                          initialValue: genreEdit != null ? genreEdit.name : '',
+                          decoration: const InputDecoration(labelText: 'Name'),
+                          validator:
+                              FormBuilderValidators.compose([FormBuilderValidators.required(errorText: 'Name is required')]),
+                        ),
+                      )
                     ],
-                  )
+                  ),
                 ],
               )),
         ));

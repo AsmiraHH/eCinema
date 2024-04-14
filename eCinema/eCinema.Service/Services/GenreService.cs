@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace eCinema.Service.Services
 {
-    public class GenreService : BaseService<Genre, GenreDTO, GenreUpsertDTO, BaseSearchObject, IGenreRepository>, IGenreService
+    public class GenreService : BaseService<Genre, GenreDTO, GenreUpsertDTO, GenreSearchObject, IGenreRepository>, IGenreService
     {
         public GenreService(IMapper mapper, IUnitOfWork unitOfWork, IValidator<GenreUpsertDTO> validator) : base(mapper, unitOfWork, validator)
         {

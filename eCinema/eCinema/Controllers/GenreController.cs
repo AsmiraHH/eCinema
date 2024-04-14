@@ -4,7 +4,7 @@ using eCinema.Service.ServiceInterfaces;
 
 namespace eCinema.Controllers
 {
-    public class GenreController : BaseController<GenreDTO, GenreUpsertDTO, BaseSearchObject, IGenreService>
+    public class GenreController : BaseController<GenreDTO, GenreUpsertDTO, GenreSearchObject, IGenreService>
     {
         public GenreController(IGenreService service, ILogger<GenreController> logger) : base(service, logger) { }
     }
