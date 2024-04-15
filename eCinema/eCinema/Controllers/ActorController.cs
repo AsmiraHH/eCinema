@@ -4,7 +4,7 @@ using eCinema.Service.ServiceInterfaces;
 
 namespace eCinema.Controllers
 {
-    public class ActorController : BaseController<ActorDTO, ActorUpsertDTO, BaseSearchObject, IActorService>
+    public class ActorController : BaseController<ActorDTO, ActorUpsertDTO, ActorSearchObject, IActorService>
     {
         public ActorController(IActorService service, ILogger<ActorController> logger) : base(service, logger) { }
     }

@@ -1,3 +1,4 @@
+import 'package:ecinema_admin/providers/actor_provider.dart';
 import 'package:ecinema_admin/providers/cinema_provider.dart';
 import 'package:ecinema_admin/providers/city_provider.dart';
 import 'package:ecinema_admin/providers/genre_provider.dart';
@@ -19,6 +20,7 @@ void main() {
       ChangeNotifierProvider(create: (_) => LanguageProvider()),
       ChangeNotifierProvider(create: (_) => CinemaProvider()),
       ChangeNotifierProvider(create: (_) => CityProvider()),
+      ChangeNotifierProvider(create: (_) => ActorProvider()),
     ],
     child: const MyApp(),
   ));
