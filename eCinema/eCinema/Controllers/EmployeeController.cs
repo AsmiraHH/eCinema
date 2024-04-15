@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace eCinema.Controllers
 {
-    public class EmployeeController : BaseController<EmployeeDTO, EmployeeUpsertDTO, BaseSearchObject, IEmployeeService>
+    public class EmployeeController : BaseController<EmployeeDTO, EmployeeUpsertDTO, EmployeeSearchObject, IEmployeeService>
     {
         public EmployeeController(IEmployeeService service, ILogger<EmployeeController> logger) : base(service, logger) { }
 

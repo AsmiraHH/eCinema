@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace eCinema.Repository.RepositoriesInterfaces
 {
-    public interface IEmployeeRepository : IBaseRepository<Employee, int, BaseSearchObject>
+    public interface IEmployeeRepository : IBaseRepository<Employee, int, EmployeeSearchObject>
     {
     }
 }

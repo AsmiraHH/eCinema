@@ -8,15 +8,11 @@ using eCinema.Repository.UnitOfWork;
 using eCinema.Service.CryptoService;
 using eCinema.Service.ServiceInterfaces;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace eCinema.Service.Services
 {
-    public class EmployeeService : BaseService<Employee, EmployeeDTO, EmployeeUpsertDTO, BaseSearchObject, IEmployeeRepository>, IEmployeeService
+    public class EmployeeService : BaseService<Employee, EmployeeDTO, EmployeeUpsertDTO, EmployeeSearchObject, IEmployeeRepository>, IEmployeeService
     {
         private readonly ICryptoService cryptoService;
 
@@ -32,6 +28,12 @@ namespace eCinema.Service.Services
 
             entity.PasswordSalt = cryptoService.GenerateSalt();
             entity.PasswordHash = cryptoService.GenerateHash(upsertDTO.Password!, entity.PasswordSalt);
+
+            if (!string.IsNullOrEmpty(upsertDTO?.PhotoBase64))
+                entity.ProfilePhoto = Convert.FromBase64String(upsertDTO.PhotoBase64);
+
+            entity.Role = 0;
+            entity.IsActive = true;
 
             await CurrentRepository.AddAsync(entity);
             await UnitOfWork.SaveChangesAsync();
@@ -51,6 +53,9 @@ namespace eCinema.Service.Services
                 entity.PasswordSalt = cryptoService.GenerateSalt();
                 entity.PasswordHash = cryptoService.GenerateHash(upsertDTO.Password, entity.PasswordSalt);
             }
+
+            if (!string.IsNullOrEmpty(upsertDTO?.PhotoBase64))
+                entity.ProfilePhoto = Convert.FromBase64String(upsertDTO.PhotoBase64);
 
             CurrentRepository.Update(entity);
             await UnitOfWork.SaveChangesAsync();

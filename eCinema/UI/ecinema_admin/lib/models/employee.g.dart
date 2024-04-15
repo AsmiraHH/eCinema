@@ -22,13 +22,14 @@ Employee _$EmployeeFromJson(Map<String, dynamic> json) => Employee(
       json['cinema'] == null
           ? null
           : Cinema.fromJson(json['cinema'] as Map<String, dynamic>),
-    );
+    )..password = json['password'] as String?;
 
 Map<String, dynamic> _$EmployeeToJson(Employee instance) => <String, dynamic>{
       'id': instance.id,
       'firstName': instance.firstName,
       'lastName': instance.lastName,
       'username': instance.username,
+      'password': instance.password,
       'email': instance.email,
       'phoneNumber': instance.phoneNumber,
       'birthDate': instance.birthDate,
