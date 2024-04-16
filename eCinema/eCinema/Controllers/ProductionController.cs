@@ -4,7 +4,7 @@ using eCinema.Service.ServiceInterfaces;
 
 namespace eCinema.Controllers
 {
-    public class ProductionController : BaseController<ProductionDTO, ProductionUpsertDTO, BaseSearchObject, IProductionService>
+    public class ProductionController : BaseController<ProductionDTO, ProductionUpsertDTO, ProductionSearchObject, IProductionService>
     {
         public ProductionController(IProductionService service, ILogger<ProductionController> logger) : base(service, logger) { }
     }

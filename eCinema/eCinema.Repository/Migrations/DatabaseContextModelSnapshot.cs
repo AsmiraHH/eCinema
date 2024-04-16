@@ -56,7 +56,7 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            BirthDate = new DateTime(2024, 4, 14, 17, 7, 40, 250, DateTimeKind.Local).AddTicks(6244),
+                            BirthDate = new DateTime(2024, 4, 16, 9, 47, 27, 762, DateTimeKind.Local).AddTicks(5728),
                             Email = "jennifer.lopez@gmail.com",
                             FirstName = "Jennifer",
                             Gender = 1,
@@ -319,7 +319,7 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            BirthDate = new DateTime(2024, 4, 14, 17, 7, 40, 250, DateTimeKind.Local).AddTicks(6296),
+                            BirthDate = new DateTime(2024, 4, 16, 9, 47, 27, 762, DateTimeKind.Local).AddTicks(5794),
                             CinemaId = 1,
                             Email = "almedina.golos@eCinema.com",
                             FirstName = "Almedina",
@@ -480,13 +480,13 @@ namespace eCinema.Repository.Migrations
                     b.Property<int>("Duration")
                         .HasColumnType("int");
 
-                    b.Property<int>("LanguageId")
+                    b.Property<int?>("LanguageId")
                         .HasColumnType("int");
 
                     b.Property<byte[]>("Photo")
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<int>("ProductionId")
+                    b.Property<int?>("ProductionId")
                         .HasColumnType("int");
 
                     b.Property<int>("ReleaseYear")
@@ -723,12 +723,12 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            Date = new DateTime(2024, 4, 14, 17, 7, 40, 250, DateTimeKind.Local).AddTicks(6375),
+                            Date = new DateTime(2024, 4, 16, 9, 47, 27, 762, DateTimeKind.Local).AddTicks(5948),
                             Format = 2,
                             HallId = 1,
                             MovieId = 1,
                             Price = 25.0,
-                            StartTime = new DateTime(2024, 4, 14, 17, 7, 40, 250, DateTimeKind.Local).AddTicks(6378)
+                            StartTime = new DateTime(2024, 4, 16, 9, 47, 27, 762, DateTimeKind.Local).AddTicks(5952)
                         });
                 });
 
@@ -857,15 +857,11 @@ namespace eCinema.Repository.Migrations
                 {
                     b.HasOne("eCinema.Core.Entities.Language", "Language")
                         .WithMany("Movies")
-                        .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LanguageId");
 
                     b.HasOne("eCinema.Core.Entities.Production", "Production")
                         .WithMany("Movies")
-                        .HasForeignKey("ProductionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProductionId");
 
                     b.Navigation("Language");
 

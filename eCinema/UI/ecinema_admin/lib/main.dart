@@ -1,6 +1,7 @@
 import 'package:ecinema_admin/providers/actor_provider.dart';
 import 'package:ecinema_admin/providers/cinema_provider.dart';
 import 'package:ecinema_admin/providers/city_provider.dart';
+import 'package:ecinema_admin/providers/country_provider.dart';
 import 'package:ecinema_admin/providers/employee_provider.dart';
 import 'package:ecinema_admin/providers/genre_provider.dart';
 import 'package:ecinema_admin/providers/language_provider.dart';
@@ -21,6 +22,7 @@ void main() {
       ChangeNotifierProvider(create: (_) => LanguageProvider()),
       ChangeNotifierProvider(create: (_) => CinemaProvider()),
       ChangeNotifierProvider(create: (_) => CityProvider()),
+      ChangeNotifierProvider(create: (_) => CountryProvider()),
       ChangeNotifierProvider(create: (_) => ActorProvider()),
       ChangeNotifierProvider(create: (_) => EmployeeProvider()),
     ],

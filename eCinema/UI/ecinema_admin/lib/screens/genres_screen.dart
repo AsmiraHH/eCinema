@@ -85,6 +85,7 @@ class _GenresScreenState extends State<GenresScreen> {
       var response = await _genreProvider.delete(selectedGenre!.id!);
 
       if (response) {
+        selectedGenre = null;
         loadGenres({'PageNumber': _currentPage, 'PageSize': _pageSize});
       }
     } catch (e) {

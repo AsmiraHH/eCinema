@@ -38,6 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   TextField(
                     controller: _usernameController,
+                    cursorColor: Colors.white,
                     decoration: InputDecoration(
                         labelText: "Username",
                         prefixIcon: Icon(Icons.person),
@@ -49,6 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   TextField(
                     controller: _passwordController,
+                    cursorColor: Colors.white,
                     decoration: InputDecoration(
                         labelText: "Password",
                         prefixIcon: Icon(Icons.password),
@@ -56,18 +58,23 @@ class _LoginScreenState extends State<LoginScreen> {
                         prefixIconColor: Colors.white),
                   ),
                   SizedBox(
-                    height: 25,
+                    height: 35,
                   ),
-                  ElevatedButton(
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
                       onPressed: () {
                         String username = _usernameController.text;
                         String password = _passwordController.text;
                         login(username, password);
                       },
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 16, 24, 53)),
-                          foregroundColor: MaterialStateProperty.all(Colors.white)),
-                      child: Text("LOGIN"))
+                      style: ElevatedButton.styleFrom(
+                          minimumSize: const Size.fromHeight(45),
+                          backgroundColor: Color.fromARGB(255, 16, 24, 53),
+                          foregroundColor: Colors.white),
+                      child: Text("LOGIN"),
+                    ),
+                  ),
                 ],
               ),
             ),

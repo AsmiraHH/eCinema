@@ -108,6 +108,7 @@ class _CinemasScreenState extends State<CinemasScreen> {
       var response = await _cinemaProvider.delete(selectedCinema!.id!);
 
       if (response) {
+        selectedCinema = null;
         loadCinemas({'PageNumber': _currentPage, 'PageSize': _pageSize});
       }
     } catch (e) {

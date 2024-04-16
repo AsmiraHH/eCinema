@@ -158,16 +158,14 @@ class _MoviesScreenState extends State<MoviesScreen> {
             decoration: BoxDecoration(color: blueColor, borderRadius: BorderRadius.circular(10)),
             child: DataTable(
               showCheckboxColumn: false,
-              // dataRowColor: MaterialStateProperty.all(const Color.fromARGB(42, 241, 241, 241)),
-              // columnSpacing: 100,
               columns: [
-                DataColumn(label: Text('Naziv')),
-                DataColumn(label: Text('Opis')),
-                DataColumn(label: Text('Autor')),
-                DataColumn(label: Text('Trajanje')),
-                DataColumn(label: Text('Jezik')),
-                DataColumn(label: Text('Produkcija')),
-                DataColumn(label: Text('Slika')),
+                DataColumn(label: Text('Title')),
+                DataColumn(label: Text('Description')),
+                DataColumn(label: Text('Author')),
+                DataColumn(label: Text('Duration')),
+                DataColumn(label: Text('Language')),
+                DataColumn(label: Text('Production')),
+                DataColumn(label: Text('Photo')),
               ],
               rows: moviesResult?.items.map((Movie movie) {
                     return DataRow(
@@ -180,12 +178,12 @@ class _MoviesScreenState extends State<MoviesScreen> {
                         DataCell(Text(movie.description.toString())),
                         DataCell(Text(movie.author.toString())),
                         DataCell(Text(movie.duration.toString())),
-                        DataCell(Text(movie.language!.name.toString())),
-                        DataCell(Text(movie.production!.name.toString())),
+                        DataCell(Text(movie.language?.name != null ? movie.language!.name.toString() : '')),
+                        DataCell(Text(movie.production?.name != null ? movie.production!.name.toString() : '')),
                         DataCell(
                           movie.photo != ""
                               ? SizedBox(width: 40, height: 40, child: fromBase64String(movie.photo!))
-                              : const SizedBox(child: Icon(Icons.photo, size: 40, color: Colors.black)),
+                              : const SizedBox(child: Icon(Icons.photo, size: 40, color: Colors.white)),
                         )
                       ],
                     );
@@ -627,6 +625,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
       var response = await _movieProvider.delete(selectedMovie!.id!);
 
       if (response) {
+        selectedMovie = null;
         loadMovies({'PageNumber': _currentPage, 'PageSize': _pageSize});
       }
     } catch (e) {

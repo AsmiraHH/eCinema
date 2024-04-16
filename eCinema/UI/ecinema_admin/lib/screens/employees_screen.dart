@@ -122,6 +122,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
       var response = await _employeeProvider.delete(selectedEmployee!.id!);
 
       if (response) {
+        selectedEmployee = null;
         loadEmployees({'PageNumber': _currentPage, 'PageSize': _pageSize});
       }
     } catch (e) {

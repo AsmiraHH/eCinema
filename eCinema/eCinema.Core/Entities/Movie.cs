@@ -13,12 +13,12 @@ namespace eCinema.Core.Entities
         public byte[]? Photo { get; set; } = null!;
 
         [ForeignKey(nameof(Language))]
-        public int LanguageId { get; set; }
-        public Language Language { get; set; } = null!;
+        public int? LanguageId { get; set; }
+        public Language? Language { get; set; } 
 
         [ForeignKey(nameof(Production))]
-        public int ProductionId { get; set; }
-        public Production Production { get; set; } = null!;
+        public int? ProductionId { get; set; }
+        public Production? Production { get; set; } 
 
         public ICollection<MovieGenre> Genres { get; set; } = new List<MovieGenre>();
         public ICollection<MovieActor> Actors { get; set; } = new List<MovieActor>();

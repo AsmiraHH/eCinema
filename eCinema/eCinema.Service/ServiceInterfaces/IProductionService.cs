@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace eCinema.Service.ServiceInterfaces
 {
-    public interface IProductionService : IBaseService<int, ProductionDTO, ProductionUpsertDTO, BaseSearchObject>
+    public interface IProductionService : IBaseService<int, ProductionDTO, ProductionUpsertDTO, ProductionSearchObject>
     {
     }
 }
