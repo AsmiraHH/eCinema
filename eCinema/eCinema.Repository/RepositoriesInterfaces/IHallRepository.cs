@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace eCinema.Repository.RepositoriesInterfaces
 {
-    public interface IHallRepository : IBaseRepository<Hall, int, BaseSearchObject>
+    public interface IHallRepository : IBaseRepository<Hall, int, HallSearchObject>
     {
     }
 }

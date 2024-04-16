@@ -1,48 +1,55 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:ecinema_admin/helpers/constants.dart';
-import 'package:ecinema_admin/models/actor.dart';
+import 'package:ecinema_admin/models/cinema.dart';
+import 'package:ecinema_admin/models/hall.dart';
 import 'package:ecinema_admin/models/paged_result.dart';
-import 'package:ecinema_admin/providers/actor_provider.dart';
+import 'package:ecinema_admin/providers/cinema_provider.dart';
+import 'package:ecinema_admin/providers/hall_provider.dart';
 import 'package:ecinema_admin/widgets/master_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class ActorsScreen extends StatefulWidget {
-  const ActorsScreen({super.key});
+class HallsScreen extends StatefulWidget {
+  const HallsScreen({super.key});
 
   @override
-  State<ActorsScreen> createState() => _ActorsScreenState();
+  State<HallsScreen> createState() => _HallsScreenState();
 }
 
-class _ActorsScreenState extends State<ActorsScreen> {
+class _HallsScreenState extends State<HallsScreen> {
   final _currentPage = 1;
   final _pageSize = 10;
-  late ActorProvider _actorProvider;
   final _formKey = GlobalKey<FormBuilderState>();
-  PagedResult<Actor>? actorsResult;
+  late HallProvider _hallProvider;
+  late CinemaProvider _cinemaProvider;
+  PagedResult<Hall>? hallsResult;
+  List<Cinema>? cinemasResult;
+  Hall? selectedHall;
   final TextEditingController _searchController = TextEditingController();
-  Actor? selectedActor;
+  int? selectedCinema;
+
   @override
   void initState() {
     super.initState();
-    _actorProvider = context.read<ActorProvider>();
-    loadActors({'PageNumber': _currentPage, 'PageSize': _pageSize});
+    _hallProvider = context.read<HallProvider>();
+    _cinemaProvider = context.read<CinemaProvider>();
+    loadHalls({'PageNumber': _currentPage, 'PageSize': _pageSize});
+    loadCinemas();
 
     _searchController.addListener(() {
       final searchText = _searchController.text;
-      loadActors({'PageNumber': _currentPage, 'PageSize': _pageSize, 'Name': searchText});
+      loadHalls({'PageNumber': _currentPage, 'PageSize': _pageSize, 'Name': searchText, 'Cinema': selectedCinema});
     });
   }
 
-  Future<void> loadActors(dynamic request) async {
+  Future<void> loadHalls(dynamic request) async {
     try {
-      var data = await _actorProvider.getPaged(request);
+      var data = await _hallProvider.getPaged(request);
       setState(() {
-        actorsResult = data;
+        hallsResult = data;
       });
     } catch (e) {
       showDialog(
@@ -55,23 +62,12 @@ class _ActorsScreenState extends State<ActorsScreen> {
     }
   }
 
-  Future<void> _saveActor(bool isEdit) async {
-    Map<String, dynamic> newActor = Map.from(_formKey.currentState!.value);
-    newActor['BirthDate'] = DateFormat('yyyy-MM-dd').format(_formKey.currentState!.value['BirthDate']);
-
-    if (isEdit) {
-      newActor['id'] = selectedActor?.id;
-    }
-
+  Future<void> loadCinemas() async {
     try {
-      if (!isEdit) {
-        await _actorProvider.insert(newActor);
-      } else {
-        await _actorProvider.update(newActor);
-      }
-
-      Navigator.of(context).pop();
-      loadActors({'PageNumber': _currentPage, 'PageSize': _pageSize});
+      var data = await _cinemaProvider.getAll();
+      setState(() {
+        cinemasResult = data;
+      });
     } catch (e) {
       showDialog(
           context: context,
@@ -83,13 +79,39 @@ class _ActorsScreenState extends State<ActorsScreen> {
     }
   }
 
-  Future<void> _deleteActor() async {
+  Future<void> _saveHall(bool isEdit) async {
+    Map<String, dynamic> newHall = Map.from(_formKey.currentState!.value);
+    if (isEdit) {
+      newHall['id'] = selectedHall?.id;
+    }
+
     try {
-      var response = await _actorProvider.delete(selectedActor!.id!);
+      if (!isEdit) {
+        await _hallProvider.insert(newHall);
+      } else {
+        await _hallProvider.update(newHall);
+      }
+
+      Navigator.of(context).pop();
+      loadHalls({'PageNumber': _currentPage, 'PageSize': _pageSize});
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: const Text("Error"),
+                content: Text(e.toString()),
+                actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text("OK"))],
+              ));
+    }
+  }
+
+  Future<void> _deleteHall() async {
+    try {
+      var response = await _hallProvider.delete(selectedHall!.id!);
 
       if (response) {
-        selectedActor = null;
-        loadActors({'PageNumber': _currentPage, 'PageSize': _pageSize});
+        selectedHall = null;
+        loadHalls({'PageNumber': _currentPage, 'PageSize': _pageSize});
       }
     } catch (e) {
       showDialog(
@@ -105,7 +127,7 @@ class _ActorsScreenState extends State<ActorsScreen> {
   @override
   Widget build(BuildContext context) {
     return MasterScreen(
-      title: "Actors",
+      title: "Halls",
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.start, children: [buildSearchField(context), buildDataContainer(context)]),
     );
@@ -125,21 +147,19 @@ class _ActorsScreenState extends State<ActorsScreen> {
               showCheckboxColumn: false,
               columns: const [
                 DataColumn(label: Text('Name')),
-                DataColumn(label: Text('Gender')),
-                DataColumn(label: Text('Birth date')),
-                DataColumn(label: Text('Email')),
+                DataColumn(label: Text('Number of seats')),
+                DataColumn(label: Text('Country')),
               ],
-              rows: actorsResult?.items.map((Actor actor) {
+              rows: hallsResult?.items.map((Hall hall) {
                     return DataRow(
-                      selected: selectedActor == actor,
+                      selected: selectedHall == hall,
                       onSelectChanged: (isSelected) => setState(() {
-                        selectedActor = actor;
+                        selectedHall = hall;
                       }),
                       cells: [
-                        DataCell(Text('${actor.firstName} ${actor.lastName}')),
-                        DataCell(Text(actor.gender == 0 ? 'Male' : 'Female')),
-                        DataCell(Text(DateFormat('dd.MM.yyyy').format(DateTime.parse(actor.birthDate.toString())))),
-                        DataCell(Text(actor.email.toString())),
+                        DataCell(Text(hall.name.toString())),
+                        DataCell(Text(hall.numberOfSeats.toString())),
+                        DataCell(Text(hall.cinema!.name.toString())),
                       ],
                     );
                   }).toList() ??
@@ -149,6 +169,48 @@ class _ActorsScreenState extends State<ActorsScreen> {
         ),
       ),
     );
+  }
+
+  Container buildFilterDropDowns(BuildContext context) {
+    return Container(
+        decoration:
+            BoxDecoration(color: blueColor, border: Border.all(color: Colors.white), borderRadius: BorderRadius.circular(8)),
+        margin: const EdgeInsets.fromLTRB(40, 40, 10, 0),
+        height: 35,
+        width: 400,
+        child: DropdownButton<int>(
+          items: [
+            const DropdownMenuItem<int>(
+              value: null,
+              child: Text('All'),
+            ),
+            ...cinemasResult
+                    ?.map((e) => DropdownMenuItem(
+                          value: e.id,
+                          child: Text(
+                            e.name!,
+                          ),
+                        ))
+                    .toList() ??
+                [],
+          ],
+          value: selectedCinema,
+          onChanged: (int? newValue) {
+            setState(() {
+              selectedCinema = newValue;
+              loadHalls({
+                'PageNumber': _currentPage,
+                'PageSize': _pageSize,
+                'Name': _searchController.text,
+                'Cinema': selectedCinema,
+              });
+            });
+          },
+          isExpanded: true,
+          padding: const EdgeInsets.fromLTRB(10, 5, 5, 5),
+          underline: Container(),
+          style: const TextStyle(color: Colors.white),
+        ));
   }
 
   Row buildSearchField(BuildContext context) {
@@ -179,6 +241,7 @@ class _ActorsScreenState extends State<ActorsScreen> {
                     borderRadius: BorderRadius.all(Radius.circular(8)), borderSide: BorderSide(color: Colors.white))),
           ),
         ),
+        buildFilterDropDowns(context),
         buildButtons(context)
       ],
     );
@@ -199,8 +262,8 @@ class _ActorsScreenState extends State<ActorsScreen> {
                   builder: (BuildContext context) {
                     return AlertDialog(
                       backgroundColor: blueColor,
-                      title: const Text('Add actor'),
-                      content: SingleChildScrollView(child: buildAddActorModal(isEdit: false, actorEdit: null)),
+                      title: const Text('Add hall'),
+                      content: SingleChildScrollView(child: buildAddHallModal(isEdit: false, hallEdit: null)),
                       actions: <Widget>[
                         MaterialButton(
                           onPressed: () {
@@ -213,7 +276,7 @@ class _ActorsScreenState extends State<ActorsScreen> {
                         MaterialButton(
                           onPressed: () async {
                             if (_formKey.currentState!.saveAndValidate()) {
-                              _saveActor(false);
+                              _saveHall(false);
                             }
                           },
                           padding: const EdgeInsets.all(15),
@@ -231,13 +294,13 @@ class _ActorsScreenState extends State<ActorsScreen> {
                 backgroundColor: blueColor,
                 shape:
                     RoundedRectangleBorder(side: const BorderSide(color: Colors.white), borderRadius: BorderRadius.circular(15))),
-            onPressed: selectedActor == null
+            onPressed: selectedHall == null
                 ? () {
                     showDialog(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
                               title: const Text("Warning"),
-                              content: const Text("You have to select at least one actor."),
+                              content: const Text("You have to select at least one hall."),
                               actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text("OK"))],
                             ));
                   }
@@ -248,8 +311,8 @@ class _ActorsScreenState extends State<ActorsScreen> {
                           return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
                             return AlertDialog(
                               backgroundColor: blueColor,
-                              title: const Text('Edit actor'),
-                              content: buildAddActorModal(isEdit: true, actorEdit: selectedActor),
+                              title: const Text('Edit hall'),
+                              content: buildAddHallModal(isEdit: true, hallEdit: selectedHall),
                               actions: <Widget>[
                                 MaterialButton(
                                   onPressed: () {
@@ -262,7 +325,7 @@ class _ActorsScreenState extends State<ActorsScreen> {
                                 MaterialButton(
                                   onPressed: () async {
                                     if (_formKey.currentState!.saveAndValidate()) {
-                                      _saveActor(true);
+                                      _saveHall(true);
                                     }
                                   },
                                   padding: const EdgeInsets.all(15),
@@ -281,13 +344,13 @@ class _ActorsScreenState extends State<ActorsScreen> {
                 backgroundColor: blueColor,
                 shape:
                     RoundedRectangleBorder(side: const BorderSide(color: Colors.white), borderRadius: BorderRadius.circular(15))),
-            onPressed: selectedActor == null
+            onPressed: selectedHall == null
                 ? () {
                     showDialog(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
                               title: const Text("Warning"),
-                              content: const Text("You have to select at least one actor."),
+                              content: const Text("You have to select at least one hall."),
                               actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text("OK"))],
                             ));
                   }
@@ -295,13 +358,13 @@ class _ActorsScreenState extends State<ActorsScreen> {
                     showDialog(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
-                              title: const Text("Delete actor"),
-                              content: const Text("Are you sure you want to delete the selected actor?"),
+                              title: const Text("Delete hall"),
+                              content: const Text("Are you sure you want to delete the selected hall?"),
                               actions: [
                                 TextButton(onPressed: () => Navigator.pop(context), child: const Text("Cancel")),
                                 TextButton(
                                     onPressed: () {
-                                      _deleteActor();
+                                      _deleteHall();
                                       Navigator.pop(context);
                                     },
                                     child: const Text("Delete"))
@@ -313,10 +376,10 @@ class _ActorsScreenState extends State<ActorsScreen> {
     );
   }
 
-  Widget buildAddActorModal({bool isEdit = false, Actor? actorEdit}) {
+  Widget buildAddHallModal({bool isEdit = false, Hall? hallEdit}) {
     return SizedBox(
         height: 310,
-        width: 700,
+        width: 600,
         child: Padding(
           padding: const EdgeInsets.all(35.0),
           child: FormBuilder(
@@ -331,80 +394,49 @@ class _ActorsScreenState extends State<ActorsScreen> {
                       Column(
                         children: [
                           SizedBox(
-                            width: 250,
+                            width: 330,
                             child: FormBuilderTextField(
                               cursorColor: Colors.grey,
                               autovalidateMode: AutovalidateMode.onUserInteraction,
-                              name: 'FirstName',
-                              initialValue: actorEdit != null ? actorEdit.firstName : '',
-                              decoration: const InputDecoration(labelText: 'First name'),
-                              validator: FormBuilderValidators.compose(
-                                  [FormBuilderValidators.required(errorText: 'First name is required')]),
+                              name: 'Name',
+                              initialValue: hallEdit != null ? hallEdit.name : '',
+                              decoration: const InputDecoration(labelText: 'Name'),
+                              validator:
+                                  FormBuilderValidators.compose([FormBuilderValidators.required(errorText: 'Name is required')]),
                             ),
                           ),
                           SizedBox(
-                            width: 250,
+                            width: 330,
                             child: FormBuilderTextField(
                               cursorColor: Colors.grey,
                               autovalidateMode: AutovalidateMode.onUserInteraction,
-                              name: 'LastName',
-                              initialValue: actorEdit != null ? actorEdit.lastName : '',
-                              decoration: const InputDecoration(labelText: 'Last name'),
-                              validator: FormBuilderValidators.compose(
-                                  [FormBuilderValidators.required(errorText: 'Last name is required')]),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 250,
-                            child: FormBuilderTextField(
-                              cursorColor: Colors.grey,
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              name: 'Email',
-                              initialValue: actorEdit != null ? actorEdit.email : '',
-                              decoration: const InputDecoration(labelText: 'Email'),
+                              name: 'NumberOfSeats',
+                              initialValue: hallEdit != null ? hallEdit.numberOfSeats.toString() : '',
+                              decoration: const InputDecoration(labelText: 'Number of seats'),
                               validator: FormBuilderValidators.compose([
-                                FormBuilderValidators.required(errorText: 'Email is required'),
-                                FormBuilderValidators.email(errorText: 'Email is not in the correct format')
+                                FormBuilderValidators.required(errorText: 'Number of seats is required'),
+                                FormBuilderValidators.numeric(errorText: 'Number of seats has to be a number')
                               ]),
                             ),
                           ),
-                        ],
-                      ),
-                      Column(
-                        children: [
                           SizedBox(
-                            width: 250,
-                            child: FormBuilderDateTimePicker(
-                              format: DateFormat("yyyy-MM-dd"),
-                              inputType: InputType.date,
-                              cursorColor: Colors.grey,
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              name: 'BirthDate',
-                              initialValue: actorEdit != null ? DateTime.parse(actorEdit.birthDate.toString()) : null,
-                              decoration: const InputDecoration(labelText: 'Birth date'),
-                              validator: FormBuilderValidators.compose(
-                                  [FormBuilderValidators.required(errorText: 'Birth date is required')]),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 250,
+                            width: 330,
                             child: FormBuilderDropdown<int>(
-                              items: const [
-                                DropdownMenuItem<int>(
-                                  value: 0,
-                                  child: Text('Male'),
-                                ),
-                                DropdownMenuItem<int>(
-                                  value: 1,
-                                  child: Text('Female'),
-                                ),
-                              ],
+                              items: cinemasResult
+                                      ?.map((e) => DropdownMenuItem(
+                                            value: e.id,
+                                            child: Text(
+                                              e.name!,
+                                            ),
+                                          ))
+                                      .toList() ??
+                                  [],
                               autovalidateMode: AutovalidateMode.onUserInteraction,
-                              name: 'Gender',
-                              initialValue: actorEdit?.gender,
-                              decoration: const InputDecoration(labelText: 'Gender'),
+                              name: 'CinemaId',
+                              initialValue: hallEdit?.cinema?.id,
+                              decoration: const InputDecoration(labelText: 'Cinema'),
                               validator: FormBuilderValidators.compose(
-                                  [FormBuilderValidators.required(errorText: 'Gender is required')]),
+                                  [FormBuilderValidators.required(errorText: 'Cinema is required')]),
                             ),
                           ),
                         ],

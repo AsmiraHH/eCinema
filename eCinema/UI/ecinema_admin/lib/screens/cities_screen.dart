@@ -377,7 +377,7 @@ class _CitiesScreenState extends State<CitiesScreen> {
 
   Widget buildAddCityModal({bool isEdit = false, City? cityEdit}) {
     return SizedBox(
-        height: 250,
+        height: 310,
         width: 500,
         child: Padding(
           padding: const EdgeInsets.all(35.0),

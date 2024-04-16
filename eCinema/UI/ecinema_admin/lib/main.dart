@@ -4,6 +4,7 @@ import 'package:ecinema_admin/providers/city_provider.dart';
 import 'package:ecinema_admin/providers/country_provider.dart';
 import 'package:ecinema_admin/providers/employee_provider.dart';
 import 'package:ecinema_admin/providers/genre_provider.dart';
+import 'package:ecinema_admin/providers/hall_provider.dart';
 import 'package:ecinema_admin/providers/language_provider.dart';
 import 'package:ecinema_admin/providers/movie_provider.dart';
 import 'package:ecinema_admin/providers/production_provider.dart';
@@ -25,6 +26,7 @@ void main() {
       ChangeNotifierProvider(create: (_) => CountryProvider()),
       ChangeNotifierProvider(create: (_) => ActorProvider()),
       ChangeNotifierProvider(create: (_) => EmployeeProvider()),
+      ChangeNotifierProvider(create: (_) => HallProvider()),
     ],
     child: const MyApp(),
   ));

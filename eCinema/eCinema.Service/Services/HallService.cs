@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace eCinema.Service.Services
 {
-    public class HallService : BaseService<Hall,HallDTO, HallUpsertDTO, BaseSearchObject, IHallRepository>, IHallService
+    public class HallService : BaseService<Hall,HallDTO, HallUpsertDTO, HallSearchObject, IHallRepository>, IHallService
     {
         public HallService(IMapper mapper, IUnitOfWork unitOfWork, IValidator<HallUpsertDTO> validator) : base(mapper, unitOfWork, validator)
         {
