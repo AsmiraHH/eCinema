@@ -19,6 +19,6 @@ namespace eCinema.Core.DTOs
         public Role Role { get; set; }
         public bool IsVerified { get; set; }
         public bool IsActive { get; set; }
-        public byte[]? ProfilePhoto { get; set; }
+        public string? PhotoBase64 { get; set; }
     }
 }

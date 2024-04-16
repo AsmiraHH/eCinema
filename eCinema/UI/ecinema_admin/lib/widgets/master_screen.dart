@@ -7,6 +7,7 @@ import 'package:ecinema_admin/screens/employees_screen.dart';
 import 'package:ecinema_admin/screens/genres_screen.dart';
 import 'package:ecinema_admin/screens/movies_screen.dart';
 import 'package:ecinema_admin/screens/productions_screen.dart';
+import 'package:ecinema_admin/screens/users_screen.dart';
 import 'package:flutter/material.dart';
 
 class MasterScreen extends StatefulWidget {
@@ -65,6 +66,12 @@ class _MasterScreenState extends State<MasterScreen> {
               title: Text("Productions"),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ProductionsScreen()));
+              },
+            ),
+            ListTile(
+              title: Text("Users"),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const UsersScreen()));
               },
             )
           ],

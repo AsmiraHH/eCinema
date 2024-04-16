@@ -1,15 +1,12 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:ecinema_admin/helpers/constants.dart';
-import 'package:ecinema_admin/models/cinema.dart';
-import 'package:ecinema_admin/models/employee.dart';
 import 'package:ecinema_admin/models/paged_result.dart';
-import 'package:ecinema_admin/providers/cinema_provider.dart';
-import 'package:ecinema_admin/providers/employee_provider.dart';
+import 'package:ecinema_admin/models/user.dart';
+import 'package:ecinema_admin/providers/user_provider.dart';
 import 'package:ecinema_admin/utils/util.dart';
 import 'package:ecinema_admin/widgets/master_screen.dart';
 import 'package:flutter/material.dart';
@@ -19,54 +16,50 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class EmployeeScreen extends StatefulWidget {
-  const EmployeeScreen({super.key});
+class UsersScreen extends StatefulWidget {
+  const UsersScreen({super.key});
 
   @override
-  State<EmployeeScreen> createState() => _EmployeeScreenState();
+  State<UsersScreen> createState() => _UsersScreenState();
 }
 
-class _EmployeeScreenState extends State<EmployeeScreen> {
+class _UsersScreenState extends State<UsersScreen> {
   final _currentPage = 1;
   final _pageSize = 10;
-  late EmployeeProvider _employeeProvider;
-  late CinemaProvider _cinemaProvider;
-  PagedResult<Employee>? employeesResult;
-  List<Cinema>? cinemasResult;
-  Employee? selectedEmployee;
+  late UserProvider _userProvider;
+  PagedResult<User>? usersResult;
+  User? selectedUser;
   final TextEditingController _searchController = TextEditingController();
   final _formKey = GlobalKey<FormBuilderState>();
   String? _base64Image;
   int? selectedGender;
-  int? selectedCinema;
   bool? isActive;
+  bool? isVerified;
 
   @override
   void initState() {
     super.initState();
-    _employeeProvider = context.read<EmployeeProvider>();
-    _cinemaProvider = context.read<CinemaProvider>();
-    loadEmployees({'PageNumber': _currentPage, 'PageSize': _pageSize});
-    loadCinemas();
+    _userProvider = context.read<UserProvider>();
+    loadUsers({'PageNumber': _currentPage, 'PageSize': _pageSize});
 
     _searchController.addListener(() {
       final searchText = _searchController.text;
-      loadEmployees({
+      loadUsers({
         'PageNumber': _currentPage,
         'PageSize': _pageSize,
         'Name': searchText,
-        'isActive': isActive,
         'Gender': selectedGender,
-        'selectedCinema': selectedCinema
+        'isActive': isActive,
+        'isVerified': isVerified,
       });
     });
   }
 
-  Future<void> loadEmployees(dynamic request) async {
+  Future<void> loadUsers(dynamic request) async {
     try {
-      var data = await _employeeProvider.getPaged(request);
+      var data = await _userProvider.getPaged(request);
       setState(() {
-        employeesResult = data;
+        usersResult = data;
       });
     } catch (e) {
       showDialog(
@@ -79,40 +72,23 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
     }
   }
 
-  Future<void> loadCinemas() async {
-    try {
-      var data = await _cinemaProvider.getAll();
-      setState(() {
-        cinemasResult = data;
-      });
-    } catch (e) {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-                title: const Text("Error"),
-                content: Text(e.toString()),
-                actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text("OK"))],
-              ));
-    }
-  }
-
-  Future<void> _saveEmployee(bool isEdit) async {
-    Map<String, dynamic> newEmployee = Map.from(_formKey.currentState!.value);
+  Future<void> _saveUser(bool isEdit) async {
+    Map<String, dynamic> newUser = Map.from(_formKey.currentState!.value);
     if (isEdit) {
-      newEmployee['id'] = selectedEmployee?.id;
+      newUser['id'] = selectedUser?.id;
     }
-    newEmployee['photoBase64'] = _base64Image;
-    newEmployee['BirthDate'] = DateFormat('yyyy-MM-dd').format(_formKey.currentState!.value['BirthDate']);
+    newUser['photoBase64'] = _base64Image;
+    newUser['BirthDate'] = DateFormat('yyyy-MM-dd').format(_formKey.currentState!.value['BirthDate']);
 
     try {
       if (!isEdit) {
-        await _employeeProvider.insert(newEmployee);
+        await _userProvider.insert(newUser);
       } else {
-        await _employeeProvider.update(newEmployee);
+        await _userProvider.update(newUser);
       }
 
       Navigator.of(context).pop();
-      loadEmployees({'PageNumber': _currentPage, 'PageSize': _pageSize});
+      loadUsers({'PageNumber': _currentPage, 'PageSize': _pageSize});
     } catch (e) {
       showDialog(
           context: context,
@@ -124,13 +100,13 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
     }
   }
 
-  Future<void> _deleteEmployee() async {
+  Future<void> _deleteUser() async {
     try {
-      var response = await _employeeProvider.delete(selectedEmployee!.id!);
+      var response = await _userProvider.delete(selectedUser!.id!);
 
       if (response) {
-        selectedEmployee = null;
-        loadEmployees({'PageNumber': _currentPage, 'PageSize': _pageSize});
+        selectedUser = null;
+        loadUsers({'PageNumber': _currentPage, 'PageSize': _pageSize});
       }
     } catch (e) {
       showDialog(
@@ -146,7 +122,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
   @override
   Widget build(BuildContext context) {
     return MasterScreen(
-      title: "Employees",
+      title: "Users",
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [buildFilterDropDowns(context), buildSearchField(context), buildDataContainer(context)]),
@@ -166,34 +142,58 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
             child: DataTable(
               showCheckboxColumn: false,
               columns: const [
-                DataColumn(label: Text('First name')),
-                DataColumn(label: Text('Last name')),
+                DataColumn(label: Text('Name')),
                 DataColumn(label: Text('Username')),
                 DataColumn(label: Text('Email')),
                 DataColumn(label: Text('Phone number')),
                 DataColumn(label: Text('Birthdate')),
                 DataColumn(label: Text('Gender')),
-                DataColumn(label: Text('Cinema')),
+                DataColumn(label: Text('Active')),
+                DataColumn(label: Text('Verified')),
                 DataColumn(label: Text('Profile photo')),
               ],
-              rows: employeesResult?.items.map((Employee employee) {
+              rows: usersResult?.items.map((User user) {
                     return DataRow(
-                      selected: selectedEmployee == employee,
+                      selected: selectedUser == user,
                       onSelectChanged: (isSelected) => setState(() {
-                        selectedEmployee = employee;
+                        selectedUser = user;
                       }),
                       cells: [
-                        DataCell(Text(employee.firstName.toString())),
-                        DataCell(Text(employee.lastName.toString())),
-                        DataCell(Text(employee.username.toString())),
-                        DataCell(Text(employee.email.toString())),
-                        DataCell(Text(employee.phoneNumber.toString())),
-                        DataCell(Text(DateFormat('dd.MM.yyyy').format(DateTime.parse(employee.birthDate.toString())))),
-                        DataCell(Text(employee.gender == 0 ? 'Male' : 'Female')),
-                        DataCell(Text(employee.cinema!.name.toString())),
+                        DataCell(Text("${user.firstName} ${user.lastName}")),
+                        DataCell(Text(user.username.toString())),
+                        DataCell(Text(user.email.toString())),
+                        DataCell(Text(user.phoneNumber.toString())),
+                        DataCell(Text(DateFormat('dd.MM.yyyy').format(DateTime.parse(user.birthDate.toString())))),
+                        DataCell(Text(user.gender == 0 ? 'Male' : 'Female')),
+                        DataCell(Container(
+                            margin: const EdgeInsets.only(left: 9),
+                            child: user.isActive == true
+                                ? const Icon(
+                                    Icons.check_box_outlined,
+                                    color: Colors.green,
+                                    size: 25,
+                                  )
+                                : const Icon(
+                                    Icons.close_outlined,
+                                    color: Colors.red,
+                                    size: 25,
+                                  ))),
+                        DataCell(Container(
+                            margin: const EdgeInsets.only(left: 11),
+                            child: user.isVerified == true
+                                ? const Icon(
+                                    Icons.check_box_outlined,
+                                    color: Colors.green,
+                                    size: 25,
+                                  )
+                                : const Icon(
+                                    Icons.close_outlined,
+                                    color: Colors.red,
+                                    size: 25,
+                                  ))),
                         DataCell(
-                          employee.profilePhoto != ""
-                              ? SizedBox(width: 40, height: 40, child: fromBase64String(employee.profilePhoto!))
+                          user.profilePhoto != ""
+                              ? SizedBox(width: 40, height: 40, child: fromBase64String(user.profilePhoto!))
                               : const SizedBox(child: Icon(Icons.photo, size: 40, color: Colors.white)),
                         )
                       ],
@@ -236,54 +236,13 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
               onChanged: (int? newValue) {
                 setState(() {
                   selectedGender = newValue;
-                  loadEmployees({
+                  loadUsers({
                     'PageNumber': _currentPage,
                     'PageSize': _pageSize,
                     'Name': _searchController.text,
                     'Gender': selectedGender,
-                    'Cinema': selectedCinema,
                     'isActive': isActive,
-                  });
-                });
-              },
-              isExpanded: true,
-              padding: const EdgeInsets.fromLTRB(10, 5, 5, 5),
-              underline: Container(),
-              style: const TextStyle(color: Colors.white),
-            )),
-        Container(
-            decoration:
-                BoxDecoration(color: blueColor, border: Border.all(color: Colors.white), borderRadius: BorderRadius.circular(8)),
-            margin: const EdgeInsets.fromLTRB(40, 40, 10, 0),
-            height: 35,
-            width: 400,
-            child: DropdownButton<int>(
-              items: [
-                const DropdownMenuItem<int>(
-                  value: null,
-                  child: Text('All'),
-                ),
-                ...cinemasResult
-                        ?.map((e) => DropdownMenuItem(
-                              value: e.id,
-                              child: Text(
-                                e.name!,
-                              ),
-                            ))
-                        .toList() ??
-                    [],
-              ],
-              value: selectedCinema,
-              onChanged: (int? newValue) {
-                setState(() {
-                  selectedCinema = newValue;
-                  loadEmployees({
-                    'PageNumber': _currentPage,
-                    'PageSize': _pageSize,
-                    'Name': _searchController.text,
-                    'Gender': selectedGender,
-                    'Cinema': selectedCinema,
-                    'isActive': isActive,
+                    'isVerified': isVerified,
                   });
                 });
               },
@@ -321,13 +280,57 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
               onChanged: (int? newValue) {
                 setState(() {
                   isActive = newValue == null ? null : newValue != 0;
-                  loadEmployees({
+                  loadUsers({
                     'PageNumber': _currentPage,
                     'PageSize': _pageSize,
                     'Name': _searchController.text,
                     'Gender': selectedGender,
-                    'Cinema': selectedCinema,
-                    'isActive': isActive
+                    'isActive': isActive,
+                    'isVerified': isVerified
+                  });
+                });
+              },
+              isExpanded: true,
+              padding: const EdgeInsets.fromLTRB(10, 5, 5, 5),
+              underline: Container(),
+              style: const TextStyle(color: Colors.white),
+            )),
+        Container(
+            decoration:
+                BoxDecoration(color: blueColor, border: Border.all(color: Colors.white), borderRadius: BorderRadius.circular(8)),
+            margin: const EdgeInsets.fromLTRB(40, 40, 10, 0),
+            height: 35,
+            width: 400,
+            child: DropdownButton(
+              items: const [
+                DropdownMenuItem<int>(
+                  value: null,
+                  child: Text('All'),
+                ),
+                DropdownMenuItem<int>(
+                  value: 1,
+                  child: Text('Verified'),
+                ),
+                DropdownMenuItem<int>(
+                  value: 0,
+                  child: Text('Unverified'),
+                ),
+              ],
+              value: isVerified == null
+                  ? null
+                  : isVerified == true
+                      ? 1
+                      : 0,
+              onChanged: (int? newValue) {
+                setState(() {
+                  isVerified = newValue == null ? null : newValue != 0;
+                  loadUsers({
+                    'PageNumber': _currentPage,
+                    'PageSize': _pageSize,
+                    'Name': _searchController.text,
+                    'Gender': selectedGender,
+                    'isActive': isActive,
+                    'isVerified': isVerified
                   });
                 });
               },
@@ -388,8 +391,8 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                   builder: (BuildContext context) {
                     return AlertDialog(
                       backgroundColor: blueColor,
-                      title: const Text('Add employee'),
-                      content: SingleChildScrollView(child: buildAddEmployeeModal(isEdit: false, employeeEdit: null)),
+                      title: const Text('Add user'),
+                      content: SingleChildScrollView(child: buildAddUserModal(isEdit: false, userEdit: null)),
                       actions: <Widget>[
                         MaterialButton(
                           onPressed: () {
@@ -402,7 +405,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                         MaterialButton(
                           onPressed: () async {
                             if (_formKey.currentState!.saveAndValidate()) {
-                              _saveEmployee(false);
+                              _saveUser(false);
                             }
                           },
                           padding: const EdgeInsets.all(15),
@@ -420,13 +423,13 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                 backgroundColor: blueColor,
                 shape:
                     RoundedRectangleBorder(side: const BorderSide(color: Colors.white), borderRadius: BorderRadius.circular(15))),
-            onPressed: selectedEmployee == null
+            onPressed: selectedUser == null
                 ? () {
                     showDialog(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
                               title: const Text("Warning"),
-                              content: const Text("You have to select at least one employee."),
+                              content: const Text("You have to select at least one user."),
                               actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text("OK"))],
                             ));
                   }
@@ -437,8 +440,8 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                           return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
                             return AlertDialog(
                               backgroundColor: blueColor,
-                              title: const Text('Edit employee'),
-                              content: buildAddEmployeeModal(isEdit: true, employeeEdit: selectedEmployee),
+                              title: const Text('Edit user'),
+                              content: buildAddUserModal(isEdit: true, userEdit: selectedUser),
                               actions: <Widget>[
                                 MaterialButton(
                                   onPressed: () {
@@ -451,7 +454,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                                 MaterialButton(
                                   onPressed: () async {
                                     if (_formKey.currentState!.saveAndValidate()) {
-                                      _saveEmployee(true);
+                                      _saveUser(true);
                                     }
                                   },
                                   padding: const EdgeInsets.all(15),
@@ -470,13 +473,13 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                 backgroundColor: blueColor,
                 shape:
                     RoundedRectangleBorder(side: const BorderSide(color: Colors.white), borderRadius: BorderRadius.circular(15))),
-            onPressed: selectedEmployee == null
+            onPressed: selectedUser == null
                 ? () {
                     showDialog(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
                               title: const Text("Warning"),
-                              content: const Text("You have to select at least one employee."),
+                              content: const Text("You have to select at least one user."),
                               actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text("OK"))],
                             ));
                   }
@@ -484,13 +487,13 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                     showDialog(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
-                              title: const Text("Delete employee"),
-                              content: const Text("Are you sure you want to delete the selected employee?"),
+                              title: const Text("Delete user"),
+                              content: const Text("Are you sure you want to delete the selected user?"),
                               actions: [
                                 TextButton(onPressed: () => Navigator.pop(context), child: const Text("Cancel")),
                                 TextButton(
                                     onPressed: () {
-                                      _deleteEmployee();
+                                      _deleteUser();
                                       Navigator.pop(context);
                                     },
                                     child: const Text("Delete"))
@@ -502,7 +505,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
     );
   }
 
-  Widget buildAddEmployeeModal({bool isEdit = false, Employee? employeeEdit}) {
+  Widget buildAddUserModal({bool isEdit = false, User? userEdit}) {
     return SizedBox(
         height: 500,
         width: 900,
@@ -529,11 +532,11 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                             previewHeight: 320,
                             previewWidth: 100,
                             initialValue: [
-                              isEdit && employeeEdit?.profilePhoto != ""
+                              isEdit && userEdit?.profilePhoto != ""
                                   ? SizedBox(
                                       width: 300,
                                       height: 320,
-                                      child: fromBase64String(employeeEdit!.profilePhoto!),
+                                      child: fromBase64String(userEdit!.profilePhoto!),
                                     )
                                   : null
                             ],
@@ -561,7 +564,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                               cursorColor: Colors.grey,
                               autovalidateMode: AutovalidateMode.onUserInteraction,
                               name: 'FirstName',
-                              initialValue: employeeEdit != null ? employeeEdit.firstName : '',
+                              initialValue: userEdit != null ? userEdit.firstName : '',
                               decoration: const InputDecoration(labelText: 'First name'),
                               validator: FormBuilderValidators.compose(
                                   [FormBuilderValidators.required(errorText: 'First name is required')]),
@@ -573,7 +576,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                               cursorColor: Colors.grey,
                               autovalidateMode: AutovalidateMode.onUserInteraction,
                               name: 'LastName',
-                              initialValue: employeeEdit != null ? employeeEdit.lastName : '',
+                              initialValue: userEdit != null ? userEdit.lastName : '',
                               decoration: const InputDecoration(labelText: 'Last name'),
                               validator: FormBuilderValidators.compose(
                                   [FormBuilderValidators.required(errorText: 'Last name is required')]),
@@ -585,7 +588,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                               cursorColor: Colors.grey,
                               autovalidateMode: AutovalidateMode.onUserInteraction,
                               name: 'Username',
-                              initialValue: employeeEdit != null ? employeeEdit.username : '',
+                              initialValue: userEdit != null ? userEdit.username : '',
                               decoration: const InputDecoration(labelText: 'Username'),
                               validator: FormBuilderValidators.compose(
                                   [FormBuilderValidators.required(errorText: 'Username is required')]),
@@ -597,7 +600,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                               cursorColor: Colors.grey,
                               autovalidateMode: AutovalidateMode.onUserInteraction,
                               name: 'Email',
-                              initialValue: employeeEdit != null ? employeeEdit.email.toString() : '',
+                              initialValue: userEdit != null ? userEdit.email.toString() : '',
                               decoration: const InputDecoration(labelText: 'Email', errorMaxLines: 2),
                               validator: FormBuilderValidators.compose([
                                 FormBuilderValidators.required(errorText: 'Email is required'),
@@ -612,7 +615,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                                     cursorColor: Colors.grey,
                                     autovalidateMode: AutovalidateMode.onUserInteraction,
                                     name: 'Password',
-                                    initialValue: employeeEdit != null ? employeeEdit.password.toString() : '',
+                                    initialValue: userEdit != null ? userEdit.password.toString() : '',
                                     decoration: const InputDecoration(labelText: 'Password', errorMaxLines: 2),
                                     validator: FormBuilderValidators.compose([
                                       FormBuilderValidators.required(errorText: 'Password is required'),
@@ -644,7 +647,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                               cursorColor: Colors.grey,
                               autovalidateMode: AutovalidateMode.onUserInteraction,
                               name: 'PhoneNumber',
-                              initialValue: employeeEdit != null ? employeeEdit.phoneNumber.toString() : '',
+                              initialValue: userEdit != null ? userEdit.phoneNumber.toString() : '',
                               decoration: const InputDecoration(labelText: 'Phone number', errorMaxLines: 2),
                               validator: FormBuilderValidators.compose([
                                 FormBuilderValidators.required(errorText: 'Phone number is required'),
@@ -665,7 +668,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                               cursorColor: Colors.grey,
                               autovalidateMode: AutovalidateMode.onUserInteraction,
                               name: 'BirthDate',
-                              initialValue: employeeEdit != null ? DateTime.parse(employeeEdit.birthDate.toString()) : null,
+                              initialValue: userEdit != null ? DateTime.parse(userEdit.birthDate.toString()) : null,
                               decoration: const InputDecoration(labelText: 'Birth date'),
                               validator: FormBuilderValidators.compose(
                                   [FormBuilderValidators.required(errorText: 'Birth date is required')]),
@@ -686,30 +689,10 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                               ],
                               autovalidateMode: AutovalidateMode.onUserInteraction,
                               name: 'Gender',
-                              initialValue: employeeEdit?.gender,
+                              initialValue: userEdit?.gender,
                               decoration: const InputDecoration(labelText: 'Gender'),
                               validator: FormBuilderValidators.compose(
                                   [FormBuilderValidators.required(errorText: 'Gender is required')]),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 250,
-                            child: FormBuilderDropdown<int>(
-                              items: cinemasResult
-                                      ?.map((e) => DropdownMenuItem(
-                                            value: e.id,
-                                            child: Text(
-                                              e.name!,
-                                            ),
-                                          ))
-                                      .toList() ??
-                                  [],
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              name: 'CinemaId',
-                              initialValue: employeeEdit?.cinema?.id,
-                              decoration: const InputDecoration(labelText: 'Cinema'),
-                              validator: FormBuilderValidators.compose(
-                                  [FormBuilderValidators.required(errorText: 'Cinema is required')]),
                             ),
                           ),
                         ],

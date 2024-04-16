@@ -8,6 +8,7 @@ class User {
   String? firstName;
   String? lastName;
   String? username;
+  String? password;
   String? email;
   String? phoneNumber;
   String? birthDate;

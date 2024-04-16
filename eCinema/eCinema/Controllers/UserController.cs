@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace eCinema.Controllers
 {
-    public class UserController : BaseController<UserDTO, UserUpsertDTO, BaseSearchObject, IUserService>
+    public class UserController : BaseController<UserDTO, UserUpsertDTO, UserSearchObject, IUserService>
     {
         public UserController(IUserService service, ILogger<UserController> logger) : base(service, logger) { }
 

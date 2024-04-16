@@ -11,7 +11,7 @@ using FluentValidation;
 
 namespace eCinema.Service.Services
 {
-    public class UserService : BaseService<User, UserDTO, UserUpsertDTO, BaseSearchObject, IUserRepository>, IUserService
+    public class UserService : BaseService<User, UserDTO, UserUpsertDTO, UserSearchObject, IUserRepository>, IUserService
     {
         private readonly ICryptoService cryptoService;
         public UserService(IMapper mapper, IUnitOfWork unitOfWork, IValidator<UserUpsertDTO> validator, ICryptoService _cryptoService) : base(mapper, unitOfWork, validator)
@@ -27,6 +27,13 @@ namespace eCinema.Service.Services
 
             entity.PasswordSalt = cryptoService.GenerateSalt();
             entity.PasswordHash = cryptoService.GenerateHash(upsertDTO.Password!, entity.PasswordSalt);
+            
+            if (!string.IsNullOrEmpty(upsertDTO?.PhotoBase64))
+                entity.ProfilePhoto = Convert.FromBase64String(upsertDTO.PhotoBase64);
+
+            entity.Role = 0;
+            entity.IsActive = true;
+            entity.IsVerified = false;
 
             await CurrentRepository.AddAsync(entity);
             await UnitOfWork.SaveChangesAsync();
@@ -46,6 +53,13 @@ namespace eCinema.Service.Services
                 entity.PasswordSalt = cryptoService.GenerateSalt();
                 entity.PasswordHash = cryptoService.GenerateHash(upsertDTO.Password, entity.PasswordSalt);
             }
+
+            if (!string.IsNullOrEmpty(upsertDTO?.PhotoBase64))
+                entity.ProfilePhoto = Convert.FromBase64String(upsertDTO.PhotoBase64);
+
+            entity.Role = 0;
+            //entity.IsActive = true;
+            //entity.IsVerified = false;
 
             CurrentRepository.Update(entity);
             await UnitOfWork.SaveChangesAsync();

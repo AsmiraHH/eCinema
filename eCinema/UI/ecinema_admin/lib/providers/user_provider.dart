@@ -23,4 +23,9 @@ class UserProvider extends BaseProvider<User> {
       throw Exception("Error while fetching roles.");
     }
   }
+
+  @override
+  User fromJson(data) {
+    return User.fromJson(data);
+  }
 }
