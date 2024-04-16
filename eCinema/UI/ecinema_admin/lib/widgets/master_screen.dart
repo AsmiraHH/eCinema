@@ -4,6 +4,7 @@ import 'package:ecinema_admin/helpers/constants.dart';
 import 'package:ecinema_admin/screens/actors_screen.dart';
 import 'package:ecinema_admin/screens/cinemas_screen.dart';
 import 'package:ecinema_admin/screens/cities_screen.dart';
+import 'package:ecinema_admin/screens/countries_screen.dart';
 import 'package:ecinema_admin/screens/employees_screen.dart';
 import 'package:ecinema_admin/screens/genres_screen.dart';
 import 'package:ecinema_admin/screens/languages_screen.dart';
@@ -86,6 +87,12 @@ class _MasterScreenState extends State<MasterScreen> {
               title: Text("Cities"),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CitiesScreen()));
+              },
+            ),
+            ListTile(
+              title: Text("Countries"),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CountriesScreen()));
               },
             )
           ],

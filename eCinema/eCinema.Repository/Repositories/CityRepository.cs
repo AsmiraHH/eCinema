@@ -11,7 +11,7 @@ namespace eCinema.Repository.Repositories
         public CityRepository(DatabaseContext db) : base(db) { }
         public override async Task<PagedList<City>> GetPagedAsync(CitySearchObject searchObject)
         {
-            var items = dbSet.Include(x=>x.Country).OrderByDescending(x => x.Name).AsQueryable();
+            var items = dbSet.Include(x=>x.Country).OrderBy(x => x.Name).AsQueryable();
 
             if (searchObject.Country != null)
                 items = items.Where(x => x.CountryId == searchObject.Country);

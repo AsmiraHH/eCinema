@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace eCinema.Repository.RepositoriesInterfaces
 {
-    public interface ICountryRepository : IBaseRepository<Country, int, BaseSearchObject>
+    public interface ICountryRepository : IBaseRepository<Country, int, CountrySearchObject>
     {
     }
 }
