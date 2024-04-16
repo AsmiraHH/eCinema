@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace eCinema.Service.ServiceInterfaces
 {
-    public interface ICityService : IBaseService<int, CityDTO, CityUpsertDTO, BaseSearchObject>
+    public interface ICityService : IBaseService<int, CityDTO, CityUpsertDTO, CitySearchObject>
     {
     }
 }

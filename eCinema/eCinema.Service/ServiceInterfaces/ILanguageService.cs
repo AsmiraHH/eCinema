@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace eCinema.Service.ServiceInterfaces
 {
-    public interface ILanguageService : IBaseService<int, LanguageDTO, LanguageUpsertDTO, BaseSearchObject>
+    public interface ILanguageService : IBaseService<int, LanguageDTO, LanguageUpsertDTO, LanguageSearchObject>
     {
     }
 }

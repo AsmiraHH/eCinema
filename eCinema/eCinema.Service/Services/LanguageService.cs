@@ -6,15 +6,10 @@ using eCinema.Repository.RepositoriesInterfaces;
 using eCinema.Repository.UnitOfWork;
 using eCinema.Service.ServiceInterfaces;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace eCinema.Service.Services
 {
-    public class LanguageService : BaseService<Language,LanguageDTO, LanguageUpsertDTO, BaseSearchObject, ILanguageRepository>, ILanguageService
+    public class LanguageService : BaseService<Language,LanguageDTO, LanguageUpsertDTO, LanguageSearchObject, ILanguageRepository>, ILanguageService
     {
         public LanguageService(IMapper mapper, IUnitOfWork unitOfWork, IValidator<LanguageUpsertDTO> validator) : base(mapper, unitOfWork, validator)
         {

@@ -3,8 +3,10 @@
 import 'package:ecinema_admin/helpers/constants.dart';
 import 'package:ecinema_admin/screens/actors_screen.dart';
 import 'package:ecinema_admin/screens/cinemas_screen.dart';
+import 'package:ecinema_admin/screens/cities_screen.dart';
 import 'package:ecinema_admin/screens/employees_screen.dart';
 import 'package:ecinema_admin/screens/genres_screen.dart';
+import 'package:ecinema_admin/screens/languages_screen.dart';
 import 'package:ecinema_admin/screens/movies_screen.dart';
 import 'package:ecinema_admin/screens/productions_screen.dart';
 import 'package:ecinema_admin/screens/users_screen.dart';
@@ -72,6 +74,18 @@ class _MasterScreenState extends State<MasterScreen> {
               title: Text("Users"),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => const UsersScreen()));
+              },
+            ),
+            ListTile(
+              title: Text("Languages"),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const LanguagesScreen()));
+              },
+            ),
+            ListTile(
+              title: Text("Cities"),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CitiesScreen()));
               },
             )
           ],

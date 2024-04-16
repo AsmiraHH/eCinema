@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace eCinema.Service.Services
 {
-    public class CityService : BaseService<City, CityDTO, CityUpsertDTO, BaseSearchObject, ICityRepository>, ICityService
+    public class CityService : BaseService<City, CityDTO, CityUpsertDTO, CitySearchObject, ICityRepository>, ICityService
     {
         public CityService(IMapper mapper, IUnitOfWork unitOfWork, IValidator<CityUpsertDTO> validator) : base(mapper, unitOfWork, validator)
         {

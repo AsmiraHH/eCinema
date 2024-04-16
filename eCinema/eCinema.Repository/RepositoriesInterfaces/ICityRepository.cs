@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace eCinema.Repository.RepositoriesInterfaces
 {
-    public interface ICityRepository : IBaseRepository<City, int, BaseSearchObject>
+    public interface ICityRepository : IBaseRepository<City, int, CitySearchObject>
     {
     }
 }
