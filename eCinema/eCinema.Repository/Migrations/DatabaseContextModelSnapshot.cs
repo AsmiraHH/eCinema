@@ -56,7 +56,7 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            BirthDate = new DateTime(2024, 4, 16, 9, 47, 27, 762, DateTimeKind.Local).AddTicks(5728),
+                            BirthDate = new DateTime(2024, 4, 19, 14, 29, 28, 411, DateTimeKind.Local).AddTicks(8191),
                             Email = "jennifer.lopez@gmail.com",
                             FirstName = "Jennifer",
                             Gender = 1,
@@ -319,7 +319,7 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            BirthDate = new DateTime(2024, 4, 16, 9, 47, 27, 762, DateTimeKind.Local).AddTicks(5794),
+                            BirthDate = new DateTime(2024, 4, 19, 14, 29, 28, 411, DateTimeKind.Local).AddTicks(8248),
                             CinemaId = 1,
                             Email = "almedina.golos@eCinema.com",
                             FirstName = "Almedina",
@@ -693,11 +693,12 @@ namespace eCinema.Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Format")
-                        .HasColumnType("int");
+                    b.Property<string>("Format")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("HallId")
                         .HasColumnType("int");
@@ -707,9 +708,6 @@ namespace eCinema.Repository.Migrations
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
-
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("ID");
 
@@ -723,12 +721,11 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            Date = new DateTime(2024, 4, 16, 9, 47, 27, 762, DateTimeKind.Local).AddTicks(5948),
-                            Format = 2,
+                            DateTime = new DateTime(2024, 4, 19, 14, 29, 28, 411, DateTimeKind.Local).AddTicks(8327),
+                            Format = "ThreeD",
                             HallId = 1,
                             MovieId = 1,
-                            Price = 25.0,
-                            StartTime = new DateTime(2024, 4, 16, 9, 47, 27, 762, DateTimeKind.Local).AddTicks(5952)
+                            Price = 25.0
                         });
                 });
 

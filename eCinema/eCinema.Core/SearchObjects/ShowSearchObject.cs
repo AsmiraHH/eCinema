@@ -2,6 +2,9 @@
 {
     public class ShowSearchObject : BaseSearchObject
     {
-        public int? CinemaID { get; set; }
+        public int? Cinema { get; set; }
+        public int? Hall { get; set; }
+        public string? Format { get; set; }
+        public string? Movie { get; set; }
     }
 }

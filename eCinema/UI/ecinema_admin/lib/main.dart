@@ -8,6 +8,7 @@ import 'package:ecinema_admin/providers/hall_provider.dart';
 import 'package:ecinema_admin/providers/language_provider.dart';
 import 'package:ecinema_admin/providers/movie_provider.dart';
 import 'package:ecinema_admin/providers/production_provider.dart';
+import 'package:ecinema_admin/providers/show_provider.dart';
 import 'package:ecinema_admin/providers/user_provider.dart';
 import 'package:ecinema_admin/screens/login_screen.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,7 @@ void main() {
       ChangeNotifierProvider(create: (_) => ActorProvider()),
       ChangeNotifierProvider(create: (_) => EmployeeProvider()),
       ChangeNotifierProvider(create: (_) => HallProvider()),
+      ChangeNotifierProvider(create: (_) => ShowProvider()),
     ],
     child: const MyApp(),
   ));

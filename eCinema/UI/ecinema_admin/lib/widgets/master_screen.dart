@@ -11,6 +11,7 @@ import 'package:ecinema_admin/screens/halls_screen.dart';
 import 'package:ecinema_admin/screens/languages_screen.dart';
 import 'package:ecinema_admin/screens/movies_screen.dart';
 import 'package:ecinema_admin/screens/productions_screen.dart';
+import 'package:ecinema_admin/screens/shows_screen.dart';
 import 'package:ecinema_admin/screens/users_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -40,6 +41,12 @@ class _MasterScreenState extends State<MasterScreen> {
               title: Text("Movies"),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MoviesScreen()));
+              },
+            ),
+            ListTile(
+              title: Text("Shows"),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ShowsScreen()));
               },
             ),
             ListTile(

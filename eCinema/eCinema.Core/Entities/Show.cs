@@ -9,11 +9,9 @@ namespace eCinema.Core.Entities
         public int ID { get; set; }
 
         [DataType(DataType.Date)]
-        public DateTime Date { get; set; }
+        public DateTime DateTime { get; set; }
 
-        [DataType(DataType.Date)]
-        public DateTime StartTime { get; set; }
-        public Format Format { get; set; }
+        public string Format { get; set; } = null!;
         public double Price { get; set; }
 
         [ForeignKey(nameof(Hall))]

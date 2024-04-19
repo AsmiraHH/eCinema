@@ -12,8 +12,7 @@ namespace eCinema.Service.Validators
     {
         public ShowValidator()
         {
-            RuleFor(a => a.Date).NotNull().WithErrorCode("NotNull");
-            RuleFor(a => a.StartTime).NotNull().WithErrorCode("NotNull");
+            RuleFor(a => a.DateTime).NotNull().WithErrorCode("NotNull");
             RuleFor(a => a.Format).NotNull().WithErrorCode("NotNull");
             RuleFor(a => a.Price).NotNull().WithErrorCode("NotNull");
             RuleFor(a => a.HallId).NotNull().WithErrorCode("NotNull");

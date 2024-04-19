@@ -12,6 +12,6 @@ namespace eCinema.Core.DTOs
         public string? PhotoBase64 { get; set; } = null!;
         public int LanguageId { get; set; }
         public int ProductionId { get; set; }
-        public List<int> GenreIDs { get; set; }
+        public List<int> GenreIDs { get; set; } = null!;
     }
 }

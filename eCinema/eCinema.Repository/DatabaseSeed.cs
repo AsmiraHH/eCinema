@@ -231,9 +231,8 @@ namespace eCinema.Repository
                 new Show
                 {
                     ID = 1,
-                    Date = DateTime.Now,
-                    StartTime = DateTime.Now,
-                    Format = Format.ThreeD,
+                    DateTime = DateTime.Now,
+                    Format = "ThreeD",
                     Price = 25,
                     HallId = 1,
                     MovieId = 1,

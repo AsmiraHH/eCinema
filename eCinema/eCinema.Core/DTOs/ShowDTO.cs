@@ -9,10 +9,9 @@ namespace eCinema.Core.DTOs
     {
         public int ID { get; set; }
 
-        public DateTime Date { get; set; }
+        public DateTime DateTime { get; set; }
 
-        public DateTime StartTime { get; set; }
-        public Format Format { get; set; }
+        public string Format { get; set; } = null!;
         public double Price { get; set; }
 
         public HallDTO Hall { get; set; } = null!;

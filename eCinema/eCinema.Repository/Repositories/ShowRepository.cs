@@ -14,8 +14,14 @@ namespace eCinema.Repository.Repositories
         {
             var items = dbSet.Include(x => x.Hall).ThenInclude(x => x.Cinema).Include(x => x.Movie).AsQueryable();
 
-            if (searchObject.CinemaID != null)
-                items = items.Where(x => x.Hall.CinemaId == searchObject.CinemaID);
+            if (searchObject.Cinema != null)
+                items = items.Where(x => x.Hall.CinemaId == searchObject.Cinema);
+            if (searchObject.Hall != null)
+                items = items.Where(x => x.HallId == searchObject.Hall);
+            if (searchObject.Movie != null)
+                items = items.Where(x => x.Movie.Title.ToLower().Contains(searchObject.Movie.ToLower()));
+            if (searchObject.Format != null)
+                items = items.Where(x => x.Format.ToLower().Contains(searchObject.Format.ToLower()));
 
             var result = await items.ToPagedListAsync(searchObject);
 
@@ -30,7 +36,7 @@ namespace eCinema.Repository.Repositories
         public virtual async Task<List<Show>> GetByMovieIdAsync(int id)
         {
             var entities = await dbSet.Where(x => x.MovieId == id).ToListAsync();
-            return entities; 
+            return entities;
         }
     }
 }
