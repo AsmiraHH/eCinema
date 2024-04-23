@@ -99,6 +99,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
     Map<String, dynamic> newEmployee = Map.from(_formKey.currentState!.value);
     if (isEdit) {
       newEmployee['id'] = selectedEmployee?.id;
+      newEmployee['Role'] = selectedEmployee?.role;
     }
     newEmployee['photoBase64'] = _base64Image;
     newEmployee['BirthDate'] = DateFormat('yyyy-MM-dd').format(_formKey.currentState!.value['BirthDate']);
@@ -165,14 +166,14 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
             child: DataTable(
               showCheckboxColumn: false,
               columns: const [
-                DataColumn(label: Text('First name')),
-                DataColumn(label: Text('Last name')),
+                DataColumn(label: Text('Name')),
                 DataColumn(label: Text('Username')),
                 DataColumn(label: Text('Email')),
                 DataColumn(label: Text('Phone number')),
                 DataColumn(label: Text('Birthdate')),
                 DataColumn(label: Text('Gender')),
                 DataColumn(label: Text('Cinema')),
+                DataColumn(label: Text('Active')),
                 DataColumn(label: Text('Profile photo')),
               ],
               rows: employeesResult?.items.map((Employee employee) {
@@ -182,19 +183,31 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                         selectedEmployee = employee;
                       }),
                       cells: [
-                        DataCell(Text(employee.firstName.toString())),
-                        DataCell(Text(employee.lastName.toString())),
+                        DataCell(Text('${employee.firstName} ${employee.lastName}')),
                         DataCell(Text(employee.username.toString())),
                         DataCell(Text(employee.email.toString())),
                         DataCell(Text(employee.phoneNumber.toString())),
                         DataCell(Text(DateFormat('dd.MM.yyyy').format(DateTime.parse(employee.birthDate.toString())))),
                         DataCell(Text(employee.gender == 0 ? 'Male' : 'Female')),
                         DataCell(Text(employee.cinema!.name.toString())),
+                        DataCell(Container(
+                            margin: const EdgeInsets.only(left: 9),
+                            child: employee.isActive == true
+                                ? const Icon(
+                                    Icons.check_box_outlined,
+                                    color: Colors.green,
+                                    size: 25,
+                                  )
+                                : const Icon(
+                                    Icons.close_outlined,
+                                    color: Colors.red,
+                                    size: 25,
+                                  ))),
                         DataCell(
                           employee.profilePhoto != ""
                               ? SizedBox(width: 40, height: 40, child: fromBase64String(employee.profilePhoto!))
                               : const SizedBox(child: Icon(Icons.photo, size: 40, color: Colors.white)),
-                        )
+                        ),
                       ],
                     );
                   }).toList() ??
@@ -597,7 +610,8 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                               autovalidateMode: AutovalidateMode.onUserInteraction,
                               name: 'Email',
                               initialValue: employeeEdit != null ? employeeEdit.email.toString() : '',
-                              decoration: const InputDecoration(labelText: 'Email', errorMaxLines: 2),
+                              decoration:
+                                  const InputDecoration(labelText: 'Email', errorMaxLines: 2, hintText: 'name@example.com'),
                               validator: FormBuilderValidators.compose([
                                 FormBuilderValidators.required(errorText: 'Email is required'),
                                 FormBuilderValidators.email(errorText: 'Email is not in the correct format')
@@ -608,6 +622,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                               ? SizedBox(
                                   width: 250,
                                   child: FormBuilderTextField(
+                                    obscureText: true,
                                     cursorColor: Colors.grey,
                                     autovalidateMode: AutovalidateMode.onUserInteraction,
                                     name: 'Password',
@@ -633,6 +648,14 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                                   ),
                                 )
                               : const SizedBox.shrink(),
+                          SizedBox(
+                            width: 250,
+                            child: FormBuilderCheckbox(
+                              title: const Text('Active'),
+                              name: 'IsActive',
+                              initialValue: employeeEdit?.isActive,
+                            ),
+                          ),
                         ],
                       ),
                       Column(
@@ -640,16 +663,18 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                           SizedBox(
                             width: 250,
                             child: FormBuilderTextField(
+                              inputFormatters: [phoneNumberFormatter],
                               cursorColor: Colors.grey,
                               autovalidateMode: AutovalidateMode.onUserInteraction,
                               name: 'PhoneNumber',
-                              initialValue: employeeEdit != null ? employeeEdit.phoneNumber.toString() : '',
-                              decoration: const InputDecoration(labelText: 'Phone number', errorMaxLines: 2),
+                              initialValue: employeeEdit?.phoneNumber?.toString(),
+                              decoration: const InputDecoration(
+                                  labelText: 'Phone number', errorMaxLines: 2, hintText: '+387 61 234 5678'),
                               validator: FormBuilderValidators.compose([
                                 FormBuilderValidators.required(errorText: 'Phone number is required'),
-                                FormBuilderValidators.minLength(9, errorText: 'Phone number is too short, minimum is 9 digits'),
-                                FormBuilderValidators.maxLength(12,
-                                    errorText: 'Phone number is too long, maximum is 12 characters')
+                                FormBuilderValidators.minLength(15, errorText: 'Phone number is too short, minimum is 15 digits'),
+                                FormBuilderValidators.maxLength(16,
+                                    errorText: 'Phone number is too long, maximum is 16 characters')
                               ]),
                             ),
                           ),

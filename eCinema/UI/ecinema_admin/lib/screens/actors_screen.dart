@@ -404,7 +404,7 @@ class _ActorsScreenState extends State<ActorsScreen> {
                               autovalidateMode: AutovalidateMode.onUserInteraction,
                               name: 'Email',
                               initialValue: actorEdit != null ? actorEdit.email : '',
-                              decoration: const InputDecoration(labelText: 'Email'),
+                              decoration: const InputDecoration(labelText: 'Email', hintText: 'name@example.com'),
                               validator: FormBuilderValidators.compose([
                                 FormBuilderValidators.required(errorText: 'Email is required'),
                                 FormBuilderValidators.email(errorText: 'Email is not in the correct format')

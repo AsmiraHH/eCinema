@@ -39,6 +39,30 @@ class _MasterScreenState extends State<MasterScreen> {
         child: ListView(
           children: [
             ListTile(
+              title: Text("Cinemas"),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CinemasScreen()));
+              },
+            ),
+            ListTile(
+              title: Text("Halls"),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HallsScreen()));
+              },
+            ),
+            ListTile(
+              title: Text("Users"),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const UsersScreen()));
+              },
+            ),
+            ListTile(
+              title: Text("Employees"),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const EmployeeScreen()));
+              },
+            ),
+            ListTile(
               title: Text("Movies"),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MoviesScreen()));
@@ -57,21 +81,9 @@ class _MasterScreenState extends State<MasterScreen> {
               },
             ),
             ListTile(
-              title: Text("Cinemas"),
+              title: Text("Productions"),
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CinemasScreen()));
-              },
-            ),
-            ListTile(
-              title: Text("Halls"),
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HallsScreen()));
-              },
-            ),
-            ListTile(
-              title: Text("Genres"),
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const GenresScreen()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ProductionsScreen()));
               },
             ),
             ListTile(
@@ -81,27 +93,15 @@ class _MasterScreenState extends State<MasterScreen> {
               },
             ),
             ListTile(
-              title: Text("Employees"),
+              title: Text("Genres"),
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const EmployeeScreen()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const GenresScreen()));
               },
             ),
             ListTile(
-              title: Text("Productions"),
+              title: Text("Countries"),
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ProductionsScreen()));
-              },
-            ),
-            ListTile(
-              title: Text("Users"),
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const UsersScreen()));
-              },
-            ),
-            ListTile(
-              title: Text("Languages"),
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const LanguagesScreen()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CountriesScreen()));
               },
             ),
             ListTile(
@@ -111,11 +111,11 @@ class _MasterScreenState extends State<MasterScreen> {
               },
             ),
             ListTile(
-              title: Text("Countries"),
+              title: Text("Languages"),
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CountriesScreen()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const LanguagesScreen()));
               },
-            )
+            ),
           ],
         ),
       ),

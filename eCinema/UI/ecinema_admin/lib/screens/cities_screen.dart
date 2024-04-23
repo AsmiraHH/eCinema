@@ -412,8 +412,10 @@ class _CitiesScreenState extends State<CitiesScreen> {
                               name: 'ZipCode',
                               initialValue: cityEdit != null ? cityEdit.zipCode : '',
                               decoration: const InputDecoration(labelText: 'ZipCode'),
-                              validator: FormBuilderValidators.compose(
-                                  [FormBuilderValidators.required(errorText: 'ZipCode is required')]),
+                              validator: FormBuilderValidators.compose([
+                                FormBuilderValidators.required(errorText: 'ZipCode is required'),
+                                FormBuilderValidators.numeric(errorText: 'ZipCode has to be a number')
+                              ]),
                             ),
                           ),
                           SizedBox(

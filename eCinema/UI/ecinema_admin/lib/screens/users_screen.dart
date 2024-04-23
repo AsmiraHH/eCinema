@@ -76,6 +76,7 @@ class _UsersScreenState extends State<UsersScreen> {
     Map<String, dynamic> newUser = Map.from(_formKey.currentState!.value);
     if (isEdit) {
       newUser['id'] = selectedUser?.id;
+      newUser['Role'] = selectedUser?.role;
     }
     newUser['photoBase64'] = _base64Image;
     newUser['BirthDate'] = DateFormat('yyyy-MM-dd').format(_formKey.currentState!.value['BirthDate']);
@@ -601,7 +602,8 @@ class _UsersScreenState extends State<UsersScreen> {
                               autovalidateMode: AutovalidateMode.onUserInteraction,
                               name: 'Email',
                               initialValue: userEdit != null ? userEdit.email.toString() : '',
-                              decoration: const InputDecoration(labelText: 'Email', errorMaxLines: 2),
+                              decoration:
+                                  const InputDecoration(labelText: 'Email', errorMaxLines: 2, hintText: 'name@example.com'),
                               validator: FormBuilderValidators.compose([
                                 FormBuilderValidators.required(errorText: 'Email is required'),
                                 FormBuilderValidators.email(errorText: 'Email is not in the correct format')
@@ -612,6 +614,7 @@ class _UsersScreenState extends State<UsersScreen> {
                               ? SizedBox(
                                   width: 250,
                                   child: FormBuilderTextField(
+                                    obscureText: true,
                                     cursorColor: Colors.grey,
                                     autovalidateMode: AutovalidateMode.onUserInteraction,
                                     name: 'Password',
@@ -644,16 +647,18 @@ class _UsersScreenState extends State<UsersScreen> {
                           SizedBox(
                             width: 250,
                             child: FormBuilderTextField(
+                              inputFormatters: [phoneNumberFormatter],
                               cursorColor: Colors.grey,
                               autovalidateMode: AutovalidateMode.onUserInteraction,
                               name: 'PhoneNumber',
                               initialValue: userEdit != null ? userEdit.phoneNumber.toString() : '',
-                              decoration: const InputDecoration(labelText: 'Phone number', errorMaxLines: 2),
+                              decoration: const InputDecoration(
+                                  labelText: 'Phone number', errorMaxLines: 2, hintText: '+387 61 234 5678'),
                               validator: FormBuilderValidators.compose([
                                 FormBuilderValidators.required(errorText: 'Phone number is required'),
-                                FormBuilderValidators.minLength(9, errorText: 'Phone number is too short, minimum is 9 digits'),
-                                FormBuilderValidators.maxLength(12,
-                                    errorText: 'Phone number is too long, maximum is 12 characters')
+                                FormBuilderValidators.minLength(15, errorText: 'Phone number is too short, minimum is 15 digits'),
+                                FormBuilderValidators.maxLength(16,
+                                    errorText: 'Phone number is too long, maximum is 16 characters')
                               ]),
                             ),
                           ),
@@ -695,6 +700,30 @@ class _UsersScreenState extends State<UsersScreen> {
                                   [FormBuilderValidators.required(errorText: 'Gender is required')]),
                             ),
                           ),
+                          SizedBox(
+                            width: 250,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                SizedBox(
+                                  width: 100,
+                                  child: FormBuilderCheckbox(
+                                    title: const Text('Active'),
+                                    name: 'IsActive',
+                                    initialValue: userEdit?.isActive,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 100,
+                                  child: FormBuilderCheckbox(
+                                    title: const Text('Verified'),
+                                    name: 'IsVerified',
+                                    initialValue: userEdit?.isVerified,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
                         ],
                       ),
                     ],

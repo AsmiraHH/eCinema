@@ -32,8 +32,8 @@ namespace eCinema.Service.Services
                 entity.ProfilePhoto = Convert.FromBase64String(upsertDTO.PhotoBase64);
 
             entity.Role = 0;
-            entity.IsActive = true;
-            entity.IsVerified = false;
+            //entity.IsActive = true;
+            //entity.IsVerified = false;
 
             await CurrentRepository.AddAsync(entity);
             await UnitOfWork.SaveChangesAsync();
@@ -57,7 +57,7 @@ namespace eCinema.Service.Services
             if (!string.IsNullOrEmpty(upsertDTO?.PhotoBase64))
                 entity.ProfilePhoto = Convert.FromBase64String(upsertDTO.PhotoBase64);
 
-            entity.Role = 0;
+            //entity.Role = 0;
             //entity.IsActive = true;
             //entity.IsVerified = false;
 

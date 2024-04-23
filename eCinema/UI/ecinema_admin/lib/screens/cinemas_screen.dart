@@ -385,7 +385,7 @@ class _CinemasScreenState extends State<CinemasScreen> {
                               autovalidateMode: AutovalidateMode.onUserInteraction,
                               name: 'Email',
                               initialValue: cinemaEdit != null ? cinemaEdit.email.toString() : '',
-                              decoration: const InputDecoration(labelText: 'Email'),
+                              decoration: const InputDecoration(labelText: 'Email', hintText: 'name@example.com'),
                               validator: FormBuilderValidators.compose([
                                 FormBuilderValidators.required(errorText: 'Email is required'),
                                 FormBuilderValidators.email(errorText: 'Email is not in the correct format')
@@ -399,16 +399,17 @@ class _CinemasScreenState extends State<CinemasScreen> {
                           SizedBox(
                             width: 250,
                             child: FormBuilderTextField(
+                              inputFormatters: [phoneNumberFormatter],
                               cursorColor: Colors.grey,
                               autovalidateMode: AutovalidateMode.onUserInteraction,
                               name: 'PhoneNumber',
                               initialValue: cinemaEdit != null ? cinemaEdit.phoneNumber.toString() : '',
-                              decoration: const InputDecoration(labelText: 'Phone number'),
+                              decoration: const InputDecoration(labelText: 'Phone number', hintText: '+387 36 123 456'),
                               validator: FormBuilderValidators.compose([
                                 FormBuilderValidators.required(errorText: 'Phone number is required'),
-                                FormBuilderValidators.minLength(9, errorText: 'Phone number is too short, minimum is 9 digits'),
-                                FormBuilderValidators.maxLength(12,
-                                    errorText: 'Phone number is too long, maximum is 12 characters')
+                                FormBuilderValidators.minLength(15, errorText: 'Phone number is too short, minimum is 15 digits'),
+                                FormBuilderValidators.maxLength(16,
+                                    errorText: 'Phone number is too long, maximum is 16 characters')
                               ]),
                             ),
                           ),
