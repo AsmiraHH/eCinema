@@ -1,5 +1,4 @@
 ﻿using eCinema.Core.Entities;
-using eCinema.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace eCinema.Core.SearchObjects
 {
-    public class ActorSearchObject : BaseSearchObject
+    public class ReservationSearchObject : BaseSearchObject
     {
-        public string? Name{ get; set; }
-        public Gender? Gender{ get; set; }
+        public string? Movie{ get; set; }
+        public int? Cinema { get; set; }
+        public int? User { get; set; }
     }
 }

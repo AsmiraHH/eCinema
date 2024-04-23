@@ -9,7 +9,9 @@ namespace eCinema.Core.SearchObjects
 {
     public class MovieSearchObject : BaseSearchObject
     {
-        public int? Genre { get; set; }
         public string? Title{ get; set; }
+        public int? Genre { get; set; }
+        public int? Language { get; set; }
+        public int? Production { get; set; }
     }
 }

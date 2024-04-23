@@ -240,8 +240,8 @@ class _CitiesScreenState extends State<CitiesScreen> {
                     borderRadius: BorderRadius.all(Radius.circular(8)), borderSide: BorderSide(color: Colors.white))),
           ),
         ),
-        buildButtons(context),
-        buildFilterDropDowns(context)
+        buildFilterDropDowns(context),
+        buildButtons(context)
       ],
     );
   }

@@ -148,7 +148,7 @@ class _HallsScreenState extends State<HallsScreen> {
               columns: const [
                 DataColumn(label: Text('Name')),
                 DataColumn(label: Text('Number of seats')),
-                DataColumn(label: Text('Country')),
+                DataColumn(label: Text('Cinema')),
               ],
               rows: hallsResult?.items.map((Hall hall) {
                     return DataRow(

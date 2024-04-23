@@ -26,6 +26,7 @@ class _ActorsScreenState extends State<ActorsScreen> {
   PagedResult<Actor>? actorsResult;
   final TextEditingController _searchController = TextEditingController();
   Actor? selectedActor;
+  int? selectedGender;
   @override
   void initState() {
     super.initState();
@@ -34,7 +35,7 @@ class _ActorsScreenState extends State<ActorsScreen> {
 
     _searchController.addListener(() {
       final searchText = _searchController.text;
-      loadActors({'PageNumber': _currentPage, 'PageSize': _pageSize, 'Name': searchText});
+      loadActors({'PageNumber': _currentPage, 'PageSize': _pageSize, 'Name': searchText, 'Gender': selectedGender});
     });
   }
 
@@ -179,9 +180,51 @@ class _ActorsScreenState extends State<ActorsScreen> {
                     borderRadius: BorderRadius.all(Radius.circular(8)), borderSide: BorderSide(color: Colors.white))),
           ),
         ),
+        buildFilterDropDowns(context),
         buildButtons(context)
       ],
     );
+  }
+
+  Container buildFilterDropDowns(BuildContext context) {
+    return Container(
+        decoration:
+            BoxDecoration(color: blueColor, border: Border.all(color: Colors.white), borderRadius: BorderRadius.circular(8)),
+        margin: const EdgeInsets.fromLTRB(40, 40, 10, 0),
+        height: 35,
+        width: 400,
+        child: DropdownButton(
+          items: const [
+            DropdownMenuItem<int>(
+              value: null,
+              child: Text('All'),
+            ),
+            DropdownMenuItem<int>(
+              value: 0,
+              child: Text('Male'),
+            ),
+            DropdownMenuItem<int>(
+              value: 1,
+              child: Text('Female'),
+            ),
+          ],
+          value: selectedGender,
+          onChanged: (int? newValue) {
+            setState(() {
+              selectedGender = newValue;
+              loadActors({
+                'PageNumber': _currentPage,
+                'PageSize': _pageSize,
+                'Name': _searchController.text,
+                'Gender': selectedGender,
+              });
+            });
+          },
+          isExpanded: true,
+          padding: const EdgeInsets.fromLTRB(10, 5, 5, 5),
+          underline: Container(),
+          style: const TextStyle(color: Colors.white),
+        ));
   }
 
   Container buildButtons(BuildContext context) {

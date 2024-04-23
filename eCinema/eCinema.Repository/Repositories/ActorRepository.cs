@@ -20,6 +20,8 @@ namespace eCinema.Repository.Repositories
 
             if (searchObject.Name != null)
                 items = items.Where(x => (x.FirstName + " " + x.LastName).ToLower().Contains(searchObject.Name.ToLower()));
+            if (searchObject.Gender != null)
+                items = items.Where(x => x.Gender == searchObject.Gender);
 
             var result = await items.ToPagedListAsync(searchObject);
 

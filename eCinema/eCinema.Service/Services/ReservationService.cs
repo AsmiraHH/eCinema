@@ -9,7 +9,7 @@ using FluentValidation;
 
 namespace eCinema.Service.Services
 {
-    public class ReservationService : BaseService<Reservation, ReservationDTO, ReservationUpsertDTO, BaseSearchObject, IReservationRepository>, IReservationService
+    public class ReservationService : BaseService<Reservation, ReservationDTO, ReservationUpsertDTO, ReservationSearchObject, IReservationRepository>, IReservationService
     {
         public ReservationService(IMapper mapper, IUnitOfWork unitOfWork, IValidator<ReservationUpsertDTO> validator) : base(mapper, unitOfWork, validator)
         {
