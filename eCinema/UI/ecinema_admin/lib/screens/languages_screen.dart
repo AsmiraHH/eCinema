@@ -18,8 +18,8 @@ class LanguagesScreen extends StatefulWidget {
 }
 
 class _LanguagesScreenState extends State<LanguagesScreen> {
-  final _currentPage = 1;
-  final _pageSize = 10;
+  int _currentPage = 1;
+  final _pageSize = 12;
   final _formKey = GlobalKey<FormBuilderState>();
   late LanguageProvider _languageProvider;
   PagedResult<Language>? languageResult;
@@ -105,7 +105,8 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
     return MasterScreen(
       title: "Languages",
       child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start, children: [buildSearchField(context), buildDataContainer(context)]),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [buildSearchField(context), buildDataContainer(context), buildPagination()]),
     );
   }
 
@@ -123,8 +124,7 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
               showCheckboxColumn: false,
               columns: const [
                 DataColumn(
-                  label: SizedBox(
-                    width: 1500,
+                  label: Flexible(
                     child: Center(
                       child: Text(
                         'Name',
@@ -166,7 +166,7 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
         Container(
           margin: const EdgeInsets.fromLTRB(80, 40, 10, 0),
           height: 35,
-          width: 400,
+          width: MediaQuery.sizeOf(context).width / 4.5,
           child: TextField(
             controller: _searchController,
             decoration: const InputDecoration(
@@ -194,7 +194,7 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
 
   Container buildButtons(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(40, 40, 20, 0),
+      margin: const EdgeInsets.fromLTRB(30, 40, 20, 0),
       child: Row(children: [
         ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -350,5 +350,53 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
                 ],
               )),
         ));
+  }
+
+  Widget buildPagination() {
+    return Container(
+      margin: const EdgeInsets.only(right: 80, bottom: 40),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: blueColor,
+                shape:
+                    RoundedRectangleBorder(side: const BorderSide(color: Colors.white), borderRadius: BorderRadius.circular(15))),
+            onPressed: _currentPage > 1
+                ? () {
+                    setState(() {
+                      _currentPage--;
+                    });
+                    loadLanguages({'PageNumber': _currentPage, 'PageSize': _pageSize, 'Name': _searchController.text});
+                  }
+                : null,
+            child: const Icon(
+              Icons.arrow_left_outlined,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(width: 16),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: blueColor,
+                shape:
+                    RoundedRectangleBorder(side: const BorderSide(color: Colors.white), borderRadius: BorderRadius.circular(15))),
+            onPressed: languageResult?.hasNextPage ?? false
+                ? () {
+                    setState(() {
+                      _currentPage++;
+                    });
+                    loadLanguages({'PageNumber': _currentPage, 'PageSize': _pageSize, 'Name': _searchController.text});
+                  }
+                : null,
+            child: const Icon(
+              Icons.arrow_right_outlined,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

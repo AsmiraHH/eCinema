@@ -23,7 +23,7 @@ namespace eCinema.Core.Helpers
 
             pagedList.PageCount = totalCount > 0 ? (int)Math.Ceiling(pagedList.TotalCount / (double)pagedList.PageSize) : 0;
             pagedList.HasPreviousPage = pagedList.PageNumber > 1;
-            pagedList.HasNextPage = pagedList.PageNumber < pagedList.TotalCount;
+            pagedList.HasNextPage = (pagedList.PageNumber * pagedList.PageSize) < pagedList.TotalCount;
 
             return pagedList;
         }

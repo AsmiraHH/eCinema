@@ -25,8 +25,8 @@ class ShowsScreen extends StatefulWidget {
 }
 
 class _ShowsScreenState extends State<ShowsScreen> {
-  final _currentPage = 1;
-  final _pageSize = 10;
+  int _currentPage = 1;
+  final _pageSize = 12;
   late ShowProvider _showProvider;
   late MovieProvider _movieProvider;
   late CinemaProvider _cinemaProvider;
@@ -191,7 +191,7 @@ class _ShowsScreenState extends State<ShowsScreen> {
       title: "Shows",
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [buildFilterDropDowns(context), buildSearchField(context), buildDataContainer(context)]),
+          children: [buildFilterDropDowns(context), buildSearchField(context), buildDataContainer(context), buildPagination()]),
     );
   }
 
@@ -250,7 +250,7 @@ class _ShowsScreenState extends State<ShowsScreen> {
                 BoxDecoration(color: blueColor, border: Border.all(color: Colors.white), borderRadius: BorderRadius.circular(8)),
             margin: const EdgeInsets.fromLTRB(80, 40, 10, 0),
             height: 35,
-            width: 400,
+            width: MediaQuery.sizeOf(context).width / 4.5,
             child: DropdownButton<int>(
               items: [
                 const DropdownMenuItem<int>(
@@ -289,9 +289,9 @@ class _ShowsScreenState extends State<ShowsScreen> {
         Container(
             decoration:
                 BoxDecoration(color: blueColor, border: Border.all(color: Colors.white), borderRadius: BorderRadius.circular(8)),
-            margin: const EdgeInsets.fromLTRB(40, 40, 10, 0),
+            margin: const EdgeInsets.fromLTRB(30, 40, 10, 0),
             height: 35,
-            width: 400,
+            width: MediaQuery.sizeOf(context).width / 4.5,
             child: DropdownButton<int>(
               items: [
                 const DropdownMenuItem<int>(
@@ -330,9 +330,9 @@ class _ShowsScreenState extends State<ShowsScreen> {
         Container(
             decoration:
                 BoxDecoration(color: blueColor, border: Border.all(color: Colors.white), borderRadius: BorderRadius.circular(8)),
-            margin: const EdgeInsets.fromLTRB(40, 40, 10, 0),
+            margin: const EdgeInsets.fromLTRB(30, 40, 10, 0),
             height: 35,
-            width: 400,
+            width: MediaQuery.sizeOf(context).width / 4.5,
             child: DropdownButton<String>(
               items: [
                 const DropdownMenuItem<String>(
@@ -379,7 +379,7 @@ class _ShowsScreenState extends State<ShowsScreen> {
         Container(
           margin: const EdgeInsets.fromLTRB(80, 10, 10, 0),
           height: 35,
-          width: 400,
+          width: MediaQuery.sizeOf(context).width / 4.5,
           child: TextField(
             controller: _searchController,
             decoration: const InputDecoration(
@@ -407,7 +407,7 @@ class _ShowsScreenState extends State<ShowsScreen> {
 
   Container buildButtons(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(40, 10, 20, 0),
+      margin: const EdgeInsets.fromLTRB(30, 10, 20, 0),
       child: Row(children: [
         ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -644,5 +644,67 @@ class _ShowsScreenState extends State<ShowsScreen> {
                 ],
               )),
         ));
+  }
+
+  Widget buildPagination() {
+    return Container(
+      margin: const EdgeInsets.only(right: 80, bottom: 40),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: blueColor,
+                shape:
+                    RoundedRectangleBorder(side: const BorderSide(color: Colors.white), borderRadius: BorderRadius.circular(15))),
+            onPressed: _currentPage > 1
+                ? () {
+                    setState(() {
+                      _currentPage--;
+                    });
+                    loadShows({
+                      'PageNumber': _currentPage,
+                      'PageSize': _pageSize,
+                      'Movie': _searchController.text,
+                      'Cinema': selectedCinema,
+                      'Hall': selectedHall,
+                      'Format': selectedFormat,
+                    });
+                  }
+                : null,
+            child: const Icon(
+              Icons.arrow_left_outlined,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(width: 16),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: blueColor,
+                shape:
+                    RoundedRectangleBorder(side: const BorderSide(color: Colors.white), borderRadius: BorderRadius.circular(15))),
+            onPressed: showsResult?.hasNextPage ?? false
+                ? () {
+                    setState(() {
+                      _currentPage++;
+                    });
+                    loadShows({
+                      'PageNumber': _currentPage,
+                      'PageSize': _pageSize,
+                      'Movie': _searchController.text,
+                      'Cinema': selectedCinema,
+                      'Hall': selectedHall,
+                      'Format': selectedFormat,
+                    });
+                  }
+                : null,
+            child: const Icon(
+              Icons.arrow_right_outlined,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

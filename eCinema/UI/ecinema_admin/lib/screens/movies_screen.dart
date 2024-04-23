@@ -31,7 +31,7 @@ class MoviesScreen extends StatefulWidget {
 class _MoviesScreenState extends State<MoviesScreen> {
   final _formKey = GlobalKey<FormBuilderState>();
   int _currentPage = 1;
-  final _pageSize = 20;
+  final _pageSize = 12;
 
   late MovieProvider _movieProvider;
   late GenreProvider _genreProvider;
@@ -200,7 +200,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
     return MasterScreen(
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [buildFilterDropDowns(context), buildSearchField(context), buildDataContainer(context)]),
+          children: [buildFilterDropDowns(context), buildSearchField(context), buildDataContainer(context), buildPagination()]),
       title: "Movies",
     );
   }
@@ -266,7 +266,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
                 BoxDecoration(color: blueColor, border: Border.all(color: Colors.white), borderRadius: BorderRadius.circular(8)),
             margin: const EdgeInsets.fromLTRB(80, 40, 10, 0),
             height: 35,
-            width: 400,
+            width: MediaQuery.sizeOf(context).width / 4.5,
             child: DropdownButton<int>(
               items: [
                 const DropdownMenuItem<int>(
@@ -305,9 +305,9 @@ class _MoviesScreenState extends State<MoviesScreen> {
         Container(
             decoration:
                 BoxDecoration(color: blueColor, border: Border.all(color: Colors.white), borderRadius: BorderRadius.circular(8)),
-            margin: const EdgeInsets.fromLTRB(40, 40, 10, 0),
+            margin: const EdgeInsets.fromLTRB(30, 40, 10, 0),
             height: 35,
-            width: 400,
+            width: MediaQuery.sizeOf(context).width / 4.5,
             child: DropdownButton<int>(
               items: [
                 const DropdownMenuItem<int>(
@@ -346,9 +346,9 @@ class _MoviesScreenState extends State<MoviesScreen> {
         Container(
             decoration:
                 BoxDecoration(color: blueColor, border: Border.all(color: Colors.white), borderRadius: BorderRadius.circular(8)),
-            margin: const EdgeInsets.fromLTRB(40, 40, 10, 0),
+            margin: const EdgeInsets.fromLTRB(30, 40, 10, 0),
             height: 35,
-            width: 400,
+            width: MediaQuery.sizeOf(context).width / 4.5,
             child: DropdownButton<int>(
               items: [
                 const DropdownMenuItem<int>(
@@ -395,7 +395,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
         Container(
           margin: const EdgeInsets.fromLTRB(80, 10, 10, 0),
           height: 35,
-          width: 400,
+          width: MediaQuery.sizeOf(context).width / 4.5,
           child: TextField(
             controller: _searchController,
             decoration: InputDecoration(
@@ -423,7 +423,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
 
   Container buildButtons(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(40, 10, 20, 0),
+      margin: const EdgeInsets.fromLTRB(30, 10, 20, 0),
       child: Row(children: [
         ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -433,7 +433,6 @@ class _MoviesScreenState extends State<MoviesScreen> {
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    // return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
                     return AlertDialog(
                       backgroundColor: blueColor,
                       title: const Text('Add movie'),
@@ -459,7 +458,6 @@ class _MoviesScreenState extends State<MoviesScreen> {
                         )
                       ],
                     );
-                    // });
                   });
             },
             child: const Icon(Icons.add)),
@@ -779,5 +777,65 @@ class _MoviesScreenState extends State<MoviesScreen> {
                 ],
               )),
         ));
+  }
+
+  Widget buildPagination() {
+    return Container(
+      margin: EdgeInsets.only(right: 80, bottom: 40),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: blueColor,
+                shape: RoundedRectangleBorder(side: BorderSide(color: Colors.white), borderRadius: BorderRadius.circular(15))),
+            onPressed: _currentPage > 1
+                ? () {
+                    setState(() {
+                      _currentPage--;
+                    });
+                    loadMovies({
+                      'PageNumber': _currentPage,
+                      'PageSize': _pageSize,
+                      'Title': _searchController.text,
+                      'Language': selectedLanguage,
+                      'Production': selectedProduction,
+                      'Genre': selectedGenre,
+                    });
+                  }
+                : null,
+            child: const Icon(
+              Icons.arrow_left_outlined,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(width: 16),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: blueColor,
+                shape: RoundedRectangleBorder(side: BorderSide(color: Colors.white), borderRadius: BorderRadius.circular(15))),
+            onPressed: moviesResult?.hasNextPage ?? false
+                ? () {
+                    setState(() {
+                      _currentPage++;
+                    });
+                    loadMovies({
+                      'PageNumber': _currentPage,
+                      'PageSize': _pageSize,
+                      'Title': _searchController.text,
+                      'Language': selectedLanguage,
+                      'Production': selectedProduction,
+                      'Genre': selectedGenre,
+                    });
+                  }
+                : null,
+            child: const Icon(
+              Icons.arrow_right_outlined,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

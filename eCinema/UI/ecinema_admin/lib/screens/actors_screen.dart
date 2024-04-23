@@ -19,8 +19,8 @@ class ActorsScreen extends StatefulWidget {
 }
 
 class _ActorsScreenState extends State<ActorsScreen> {
-  final _currentPage = 1;
-  final _pageSize = 10;
+  int _currentPage = 1;
+  final _pageSize = 12;
   late ActorProvider _actorProvider;
   final _formKey = GlobalKey<FormBuilderState>();
   PagedResult<Actor>? actorsResult;
@@ -108,7 +108,8 @@ class _ActorsScreenState extends State<ActorsScreen> {
     return MasterScreen(
       title: "Actors",
       child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start, children: [buildSearchField(context), buildDataContainer(context)]),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [buildSearchField(context), buildDataContainer(context), buildPagination()]),
     );
   }
 
@@ -159,7 +160,7 @@ class _ActorsScreenState extends State<ActorsScreen> {
         Container(
           margin: const EdgeInsets.fromLTRB(80, 40, 10, 0),
           height: 35,
-          width: 400,
+          width: MediaQuery.sizeOf(context).width / 4.5,
           child: TextField(
             controller: _searchController,
             decoration: const InputDecoration(
@@ -190,9 +191,9 @@ class _ActorsScreenState extends State<ActorsScreen> {
     return Container(
         decoration:
             BoxDecoration(color: blueColor, border: Border.all(color: Colors.white), borderRadius: BorderRadius.circular(8)),
-        margin: const EdgeInsets.fromLTRB(40, 40, 10, 0),
+        margin: const EdgeInsets.fromLTRB(30, 40, 10, 0),
         height: 35,
-        width: 400,
+        width: MediaQuery.sizeOf(context).width / 4.5,
         child: DropdownButton(
           items: const [
             DropdownMenuItem<int>(
@@ -229,7 +230,7 @@ class _ActorsScreenState extends State<ActorsScreen> {
 
   Container buildButtons(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(40, 40, 20, 0),
+      margin: const EdgeInsets.fromLTRB(30, 40, 20, 0),
       child: Row(children: [
         ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -457,5 +458,63 @@ class _ActorsScreenState extends State<ActorsScreen> {
                 ],
               )),
         ));
+  }
+
+  Widget buildPagination() {
+    return Container(
+      margin: const EdgeInsets.only(right: 80, bottom: 40),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: blueColor,
+                shape:
+                    RoundedRectangleBorder(side: const BorderSide(color: Colors.white), borderRadius: BorderRadius.circular(15))),
+            onPressed: _currentPage > 1
+                ? () {
+                    setState(() {
+                      _currentPage--;
+                    });
+                    loadActors({
+                      'PageNumber': _currentPage,
+                      'PageSize': _pageSize,
+                      'Name': _searchController.text,
+                      'Gender': selectedGender
+                    });
+                  }
+                : null,
+            child: const Icon(
+              Icons.arrow_left_outlined,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(width: 16),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: blueColor,
+                shape:
+                    RoundedRectangleBorder(side: const BorderSide(color: Colors.white), borderRadius: BorderRadius.circular(15))),
+            onPressed: actorsResult?.hasNextPage ?? false
+                ? () {
+                    setState(() {
+                      _currentPage++;
+                    });
+                    loadActors({
+                      'PageNumber': _currentPage,
+                      'PageSize': _pageSize,
+                      'Name': _searchController.text,
+                      'Gender': selectedGender
+                    });
+                  }
+                : null,
+            child: const Icon(
+              Icons.arrow_right_outlined,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -18,8 +18,8 @@ class GenresScreen extends StatefulWidget {
 }
 
 class _GenresScreenState extends State<GenresScreen> {
-  final _currentPage = 1;
-  final _pageSize = 10;
+  int _currentPage = 1;
+  final _pageSize = 12;
   late GenreProvider _genreProvider;
   PagedResult<Genre>? genresResult;
   final TextEditingController _searchController = TextEditingController();
@@ -104,7 +104,8 @@ class _GenresScreenState extends State<GenresScreen> {
     return MasterScreen(
       title: "Genres",
       child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start, children: [buildSearchField(context), buildDataContainer(context)]),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [buildSearchField(context), buildDataContainer(context), buildPagination()]),
     );
   }
 
@@ -122,8 +123,7 @@ class _GenresScreenState extends State<GenresScreen> {
               showCheckboxColumn: false,
               columns: const [
                 DataColumn(
-                  label: SizedBox(
-                    width: 1500,
+                  label: Flexible(
                     child: Center(
                       child: Text(
                         'Name',
@@ -165,7 +165,7 @@ class _GenresScreenState extends State<GenresScreen> {
         Container(
           margin: const EdgeInsets.fromLTRB(80, 40, 10, 0),
           height: 35,
-          width: 400,
+          width: MediaQuery.sizeOf(context).width / 4.5,
           child: TextField(
             controller: _searchController,
             decoration: const InputDecoration(
@@ -193,7 +193,7 @@ class _GenresScreenState extends State<GenresScreen> {
 
   Container buildButtons(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(40, 40, 20, 0),
+      margin: const EdgeInsets.fromLTRB(30, 40, 20, 0),
       child: Row(children: [
         ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -349,5 +349,53 @@ class _GenresScreenState extends State<GenresScreen> {
                 ],
               )),
         ));
+  }
+
+  Widget buildPagination() {
+    return Container(
+      margin: const EdgeInsets.only(right: 80, bottom: 40),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: blueColor,
+                shape:
+                    RoundedRectangleBorder(side: const BorderSide(color: Colors.white), borderRadius: BorderRadius.circular(15))),
+            onPressed: _currentPage > 1
+                ? () {
+                    setState(() {
+                      _currentPage--;
+                    });
+                    loadGenres({'PageNumber': _currentPage, 'PageSize': _pageSize, 'Name': _searchController.text});
+                  }
+                : null,
+            child: const Icon(
+              Icons.arrow_left_outlined,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(width: 16),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: blueColor,
+                shape:
+                    RoundedRectangleBorder(side: const BorderSide(color: Colors.white), borderRadius: BorderRadius.circular(15))),
+            onPressed: genresResult?.hasNextPage ?? false
+                ? () {
+                    setState(() {
+                      _currentPage++;
+                    });
+                    loadGenres({'PageNumber': _currentPage, 'PageSize': _pageSize, 'Name': _searchController.text});
+                  }
+                : null,
+            child: const Icon(
+              Icons.arrow_right_outlined,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

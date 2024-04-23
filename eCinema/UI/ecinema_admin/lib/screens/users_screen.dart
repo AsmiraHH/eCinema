@@ -24,8 +24,8 @@ class UsersScreen extends StatefulWidget {
 }
 
 class _UsersScreenState extends State<UsersScreen> {
-  final _currentPage = 1;
-  final _pageSize = 10;
+  int _currentPage = 1;
+  final _pageSize = 12;
   late UserProvider _userProvider;
   PagedResult<User>? usersResult;
   User? selectedUser;
@@ -126,7 +126,7 @@ class _UsersScreenState extends State<UsersScreen> {
       title: "Users",
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [buildFilterDropDowns(context), buildSearchField(context), buildDataContainer(context)]),
+          children: [buildFilterDropDowns(context), buildSearchField(context), buildDataContainer(context), buildPagination()]),
     );
   }
 
@@ -217,7 +217,7 @@ class _UsersScreenState extends State<UsersScreen> {
                 BoxDecoration(color: blueColor, border: Border.all(color: Colors.white), borderRadius: BorderRadius.circular(8)),
             margin: const EdgeInsets.fromLTRB(80, 40, 10, 0),
             height: 35,
-            width: 400,
+            width: MediaQuery.sizeOf(context).width / 4.5,
             child: DropdownButton(
               items: const [
                 DropdownMenuItem<int>(
@@ -255,9 +255,9 @@ class _UsersScreenState extends State<UsersScreen> {
         Container(
             decoration:
                 BoxDecoration(color: blueColor, border: Border.all(color: Colors.white), borderRadius: BorderRadius.circular(8)),
-            margin: const EdgeInsets.fromLTRB(40, 40, 10, 0),
+            margin: const EdgeInsets.fromLTRB(30, 40, 10, 0),
             height: 35,
-            width: 400,
+            width: MediaQuery.sizeOf(context).width / 4.5,
             child: DropdownButton(
               items: const [
                 DropdownMenuItem<int>(
@@ -299,9 +299,9 @@ class _UsersScreenState extends State<UsersScreen> {
         Container(
             decoration:
                 BoxDecoration(color: blueColor, border: Border.all(color: Colors.white), borderRadius: BorderRadius.circular(8)),
-            margin: const EdgeInsets.fromLTRB(40, 40, 10, 0),
+            margin: const EdgeInsets.fromLTRB(30, 40, 10, 0),
             height: 35,
-            width: 400,
+            width: MediaQuery.sizeOf(context).width / 4.5,
             child: DropdownButton(
               items: const [
                 DropdownMenuItem<int>(
@@ -351,7 +351,7 @@ class _UsersScreenState extends State<UsersScreen> {
         Container(
           margin: const EdgeInsets.fromLTRB(80, 10, 10, 0),
           height: 35,
-          width: 400,
+          width: MediaQuery.sizeOf(context).width / 4.5,
           child: TextField(
             controller: _searchController,
             decoration: const InputDecoration(
@@ -379,7 +379,7 @@ class _UsersScreenState extends State<UsersScreen> {
 
   Container buildButtons(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(40, 10, 20, 0),
+      margin: const EdgeInsets.fromLTRB(30, 10, 20, 0),
       child: Row(children: [
         ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -731,5 +731,67 @@ class _UsersScreenState extends State<UsersScreen> {
                 ],
               )),
         ));
+  }
+
+  Widget buildPagination() {
+    return Container(
+      margin: const EdgeInsets.only(right: 80, bottom: 40),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: blueColor,
+                shape:
+                    RoundedRectangleBorder(side: const BorderSide(color: Colors.white), borderRadius: BorderRadius.circular(15))),
+            onPressed: _currentPage > 1
+                ? () {
+                    setState(() {
+                      _currentPage--;
+                    });
+                    loadUsers({
+                      'PageNumber': _currentPage,
+                      'PageSize': _pageSize,
+                      'Name': _searchController.text,
+                      'Gender': selectedGender,
+                      'isActive': isActive,
+                      'isVerified': isVerified,
+                    });
+                  }
+                : null,
+            child: const Icon(
+              Icons.arrow_left_outlined,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(width: 16),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: blueColor,
+                shape:
+                    RoundedRectangleBorder(side: const BorderSide(color: Colors.white), borderRadius: BorderRadius.circular(15))),
+            onPressed: usersResult?.hasNextPage ?? false
+                ? () {
+                    setState(() {
+                      _currentPage++;
+                    });
+                    loadUsers({
+                      'PageNumber': _currentPage,
+                      'PageSize': _pageSize,
+                      'Name': _searchController.text,
+                      'Gender': selectedGender,
+                      'isActive': isActive,
+                      'isVerified': isVerified,
+                    });
+                  }
+                : null,
+            child: const Icon(
+              Icons.arrow_right_outlined,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

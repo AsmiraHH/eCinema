@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:ffi';
+
 import 'package:ecinema_admin/helpers/constants.dart';
 import 'package:ecinema_admin/models/country.dart';
 import 'package:ecinema_admin/models/paged_result.dart';
@@ -20,8 +22,8 @@ class ProductionsScreen extends StatefulWidget {
 }
 
 class _ProductionsScreenState extends State<ProductionsScreen> {
-  final _currentPage = 1;
-  final _pageSize = 10;
+  int _currentPage = 1;
+  final _pageSize = 12;
   final _formKey = GlobalKey<FormBuilderState>();
   late ProductionProvider _productionProvider;
   late CountryProvider _countryProvider;
@@ -129,7 +131,8 @@ class _ProductionsScreenState extends State<ProductionsScreen> {
     return MasterScreen(
       title: "Productions",
       child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start, children: [buildSearchField(context), buildDataContainer(context)]),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [buildSearchField(context), buildDataContainer(context), buildPagination()]),
     );
   }
 
@@ -173,9 +176,9 @@ class _ProductionsScreenState extends State<ProductionsScreen> {
     return Container(
         decoration:
             BoxDecoration(color: blueColor, border: Border.all(color: Colors.white), borderRadius: BorderRadius.circular(8)),
-        margin: const EdgeInsets.fromLTRB(40, 40, 10, 0),
+        margin: const EdgeInsets.fromLTRB(30, 40, 10, 0),
         height: 35,
-        width: 400,
+        width: MediaQuery.sizeOf(context).width / 4.5,
         child: DropdownButton<int>(
           items: [
             const DropdownMenuItem<int>(
@@ -218,7 +221,7 @@ class _ProductionsScreenState extends State<ProductionsScreen> {
         Container(
           margin: const EdgeInsets.fromLTRB(80, 40, 10, 0),
           height: 35,
-          width: 400,
+          width: MediaQuery.sizeOf(context).width / 4.5,
           child: TextField(
             controller: _searchController,
             decoration: const InputDecoration(
@@ -247,7 +250,7 @@ class _ProductionsScreenState extends State<ProductionsScreen> {
 
   Container buildButtons(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(40, 40, 20, 0),
+      margin: const EdgeInsets.fromLTRB(30, 40, 20, 0),
       child: Row(children: [
         ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -430,5 +433,53 @@ class _ProductionsScreenState extends State<ProductionsScreen> {
                 ],
               )),
         ));
+  }
+
+  Widget buildPagination() {
+    return Container(
+      margin: const EdgeInsets.only(right: 80, bottom: 40),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: blueColor,
+                shape:
+                    RoundedRectangleBorder(side: const BorderSide(color: Colors.white), borderRadius: BorderRadius.circular(15))),
+            onPressed: _currentPage > 1
+                ? () {
+                    setState(() {
+                      _currentPage--;
+                    });
+                    loadProductions({'PageNumber': _currentPage, 'PageSize': _pageSize, 'Name': _searchController.text});
+                  }
+                : null,
+            child: const Icon(
+              Icons.arrow_left_outlined,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(width: 16),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: blueColor,
+                shape:
+                    RoundedRectangleBorder(side: const BorderSide(color: Colors.white), borderRadius: BorderRadius.circular(15))),
+            onPressed: productionsResult?.hasNextPage ?? false
+                ? () {
+                    setState(() {
+                      _currentPage++;
+                    });
+                    loadProductions({'PageNumber': _currentPage, 'PageSize': _pageSize, 'Name': _searchController.text});
+                  }
+                : null,
+            child: const Icon(
+              Icons.arrow_right_outlined,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
