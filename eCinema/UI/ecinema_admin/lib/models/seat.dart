@@ -10,8 +10,10 @@ class Seat {
   int? column;
   int? hallId;
   Hall? hall;
+  bool? isDisabled;
+  bool? isSelected = false;
 
-  Seat(this.id, this.row, this.column, this.hallId, this.hall);
+  Seat(this.id, this.row, this.column, this.hallId, this.hall, this.isDisabled, this.isSelected);
 
   factory Seat.fromJson(Map<String, dynamic> json) => _$SeatFromJson(json);
 

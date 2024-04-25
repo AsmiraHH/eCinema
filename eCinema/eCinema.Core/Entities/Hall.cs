@@ -8,7 +8,8 @@ namespace eCinema.Core.Entities
         public int ID { get; set; }
         public string Name { get; set; } = null!;
         public int NumberOfSeats { get; set; }
-        //public List<Format> Formats { get; set; } = null!;
+        public int NumberOfRows { get; set; }
+        public int MaxNumberOfSeatsPerRow { get; set; }
 
         [ForeignKey(nameof(Cinema))]
         public int CinemaId { get; set; }

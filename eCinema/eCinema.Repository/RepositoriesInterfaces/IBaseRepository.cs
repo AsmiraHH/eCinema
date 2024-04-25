@@ -10,6 +10,8 @@ namespace eCinema.Repository.RepositoriesInterfaces
         Task<List<TEntity>?> GetAllAsync();
         Task AddAsync(TEntity entity);
         void Update(TEntity entity);
+        void UpdateRange(List<TEntity> entities);
+
         void Delete(TEntity entity);
         Task<TEntity?> GetByIdAsync(TPrimaryKey id);
         Task<PagedList<TEntity>> GetPagedAsync(TSearchObject searchObject);

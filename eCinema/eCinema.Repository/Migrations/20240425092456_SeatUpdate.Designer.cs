@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eCinema.Repository;
 
@@ -11,9 +12,11 @@ using eCinema.Repository;
 namespace eCinema.Repository.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240425092456_SeatUpdate")]
+    partial class SeatUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,7 +59,7 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            BirthDate = new DateTime(2024, 4, 25, 19, 22, 16, 416, DateTimeKind.Local).AddTicks(9944),
+                            BirthDate = new DateTime(2024, 4, 25, 11, 24, 56, 19, DateTimeKind.Local).AddTicks(5240),
                             Email = "jennifer.lopez@gmail.com",
                             FirstName = "Jennifer",
                             Gender = 1,
@@ -319,7 +322,7 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            BirthDate = new DateTime(2024, 4, 25, 19, 22, 16, 416, DateTimeKind.Local).AddTicks(9994),
+                            BirthDate = new DateTime(2024, 4, 25, 11, 24, 56, 19, DateTimeKind.Local).AddTicks(5303),
                             CinemaId = 1,
                             Email = "almedina.golos@eCinema.com",
                             FirstName = "Almedina",
@@ -404,15 +407,9 @@ namespace eCinema.Repository.Migrations
                     b.Property<int>("CinemaId")
                         .HasColumnType("int");
 
-                    b.Property<int>("MaxNumberOfSeatsPerRow")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("NumberOfRows")
-                        .HasColumnType("int");
 
                     b.Property<int>("NumberOfSeats")
                         .HasColumnType("int");
@@ -428,9 +425,7 @@ namespace eCinema.Repository.Migrations
                         {
                             ID = 1,
                             CinemaId = 1,
-                            MaxNumberOfSeatsPerRow = 0,
                             Name = "A1",
-                            NumberOfRows = 0,
                             NumberOfSeats = 25
                         });
                 });
@@ -733,7 +728,7 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            DateTime = new DateTime(2024, 4, 25, 19, 22, 16, 417, DateTimeKind.Local).AddTicks(69),
+                            DateTime = new DateTime(2024, 4, 25, 11, 24, 56, 19, DateTimeKind.Local).AddTicks(5412),
                             Format = "ThreeD",
                             HallId = 1,
                             MovieId = 1,

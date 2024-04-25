@@ -7,6 +7,7 @@ namespace eCinema.Core.Entities
         public int ID { get; set; }
         public string Row { get; set; } = null!;
         public int Column { get; set; }
+        public bool isDisabled { get; set; }
                 
         [ForeignKey(nameof(Hall))]
         public int HallId { get; set; }

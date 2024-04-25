@@ -10,6 +10,8 @@ Hall _$HallFromJson(Map<String, dynamic> json) => Hall(
       json['id'] as int?,
       json['name'] as String?,
       json['numberOfSeats'] as int?,
+      json['numberOfRows'] as int?,
+      json['maxNumberOfSeatsPerRow'] as int?,
       (json['formats'] as List<dynamic>?)?.map((e) => e as int).toList(),
       json['cinemaId'] as int?,
       json['cinema'] == null
@@ -21,6 +23,8 @@ Map<String, dynamic> _$HallToJson(Hall instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'numberOfSeats': instance.numberOfSeats,
+      'numberOfRows': instance.numberOfRows,
+      'maxNumberOfSeatsPerRow': instance.maxNumberOfSeatsPerRow,
       'formats': instance.formats,
       'cinemaId': instance.cinemaId,
       'cinema': instance.cinema,

@@ -14,6 +14,8 @@ namespace eCinema.Service.Validators
         {
             RuleFor(a => a.Name).NotEmpty().WithErrorCode("NotEmpty");
             RuleFor(a => a.NumberOfSeats).NotNull().WithErrorCode("NotNull");
+            RuleFor(a => a.NumberOfRows).NotNull().WithErrorCode("NotNull");
+            RuleFor(a => a.MaxNumberOfSeatsPerRow).NotNull().WithErrorCode("NotNull");
             RuleFor(a => a.CinemaId).NotNull().WithErrorCode("NotNull");
         }
     }

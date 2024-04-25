@@ -419,6 +419,9 @@ class _ActorsScreenState extends State<ActorsScreen> {
                           SizedBox(
                             width: 250,
                             child: FormBuilderDateTimePicker(
+                              firstDate: DateTime(1950, 1, 1),
+                              lastDate: DateTime(2022, 12, 31),
+                              initialDate: DateTime(2022, 12, 31),
                               format: DateFormat("yyyy-MM-dd"),
                               inputType: InputType.date,
                               cursorColor: Colors.grey,

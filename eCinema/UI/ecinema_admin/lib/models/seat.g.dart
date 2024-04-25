@@ -14,6 +14,8 @@ Seat _$SeatFromJson(Map<String, dynamic> json) => Seat(
       json['hall'] == null
           ? null
           : Hall.fromJson(json['hall'] as Map<String, dynamic>),
+      json['isDisabled'] as bool?,
+      json['isSelected'] as bool?,
     );
 
 Map<String, dynamic> _$SeatToJson(Seat instance) => <String, dynamic>{
@@ -22,4 +24,6 @@ Map<String, dynamic> _$SeatToJson(Seat instance) => <String, dynamic>{
       'column': instance.column,
       'hallId': instance.hallId,
       'hall': instance.hall,
+      'isDisabled': instance.isDisabled,
+      'isSelected': instance.isSelected,
     };

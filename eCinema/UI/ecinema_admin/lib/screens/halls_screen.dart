@@ -4,9 +4,12 @@ import 'package:ecinema_admin/helpers/constants.dart';
 import 'package:ecinema_admin/models/cinema.dart';
 import 'package:ecinema_admin/models/hall.dart';
 import 'package:ecinema_admin/models/paged_result.dart';
+import 'package:ecinema_admin/models/seat.dart';
 import 'package:ecinema_admin/providers/cinema_provider.dart';
 import 'package:ecinema_admin/providers/hall_provider.dart';
+import 'package:ecinema_admin/providers/seat_provider.dart';
 import 'package:ecinema_admin/widgets/master_screen.dart';
+import 'package:ecinema_admin/widgets/seats_map.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -23,19 +26,25 @@ class _HallsScreenState extends State<HallsScreen> {
   int _currentPage = 1;
   final _pageSize = 12;
   final _formKey = GlobalKey<FormBuilderState>();
+  final _formSeatsKey = GlobalKey<FormBuilderState>();
   late HallProvider _hallProvider;
   late CinemaProvider _cinemaProvider;
+  late SeatProvider _seatProvider;
   PagedResult<Hall>? hallsResult;
   List<Cinema>? cinemasResult;
+  List<Seat>? seatsResult;
+  List<Seat>? selectedSeats = <Seat>[];
   Hall? selectedHall;
   final TextEditingController _searchController = TextEditingController();
   int? selectedCinema;
+  Widget? _seatsGridView;
 
   @override
   void initState() {
     super.initState();
     _hallProvider = context.read<HallProvider>();
     _cinemaProvider = context.read<CinemaProvider>();
+    _seatProvider = context.read<SeatProvider>();
     loadHalls({'PageNumber': _currentPage, 'PageSize': _pageSize});
     loadCinemas();
 
@@ -50,6 +59,23 @@ class _HallsScreenState extends State<HallsScreen> {
       var data = await _hallProvider.getPaged(request);
       setState(() {
         hallsResult = data;
+      });
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: const Text("Error"),
+                content: Text(e.toString()),
+                actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text("OK"))],
+              ));
+    }
+  }
+
+  Future<void> loadSeats() async {
+    try {
+      var data = await _seatProvider.getByHallId(selectedHall?.id);
+      setState(() {
+        seatsResult = data;
       });
     } catch (e) {
       showDialog(
@@ -113,6 +139,40 @@ class _HallsScreenState extends State<HallsScreen> {
         selectedHall = null;
         loadHalls({'PageNumber': _currentPage, 'PageSize': _pageSize});
       }
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: const Text("Error"),
+                content: Text(e.toString()),
+                actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text("OK"))],
+              ));
+    }
+  }
+
+  Future<void> _saveSeats(bool isEdit) async {
+    Map<String, dynamic> newSeats = Map.from(_formSeatsKey.currentState!.value);
+    newSeats['HallId'] = selectedHall?.id;
+
+    try {
+      await _seatProvider.insert(newSeats);
+      await loadSeats();
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: const Text("Error"),
+                content: Text(e.toString()),
+                actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text("OK"))],
+              ));
+    }
+  }
+
+  Future<void> _disableSeats() async {
+    try {
+      await _seatProvider.disable(selectedSeats);
+      await loadSeats();
+      selectedSeats = [];
     } catch (e) {
       showDialog(
           context: context,
@@ -355,6 +415,91 @@ class _HallsScreenState extends State<HallsScreen> {
                               actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text("OK"))],
                             ));
                   }
+                : () async {
+                    await loadSeats();
+                    if (seatsResult != null && seatsResult!.isNotEmpty) {
+                      setState(() {
+                        _seatsGridView = SeatsMap(
+                            numColumns: selectedHall!.maxNumberOfSeatsPerRow,
+                            seatsResult: seatsResult,
+                            selectedSeats: selectedSeats);
+                      });
+                    }
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+                            return AlertDialog(
+                              backgroundColor: blueColor,
+                              title: const Text('Add seats'),
+                              content: buildAddSeatsModal(),
+                              actions: <Widget>[
+                                MaterialButton(
+                                  onPressed: () {
+                                    _seatsGridView = null;
+                                    selectedSeats = [];
+                                    Navigator.of(context).pop();
+                                  },
+                                  padding: const EdgeInsets.all(15),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                  child: const Text('Close'),
+                                ),
+                                MaterialButton(
+                                  onPressed: _seatsGridView != null
+                                      ? () async {
+                                          await _disableSeats();
+                                          setState(() {
+                                            _seatsGridView = SeatsMap(
+                                                numColumns: selectedHall!.maxNumberOfSeatsPerRow,
+                                                seatsResult: seatsResult,
+                                                selectedSeats: selectedSeats);
+                                          });
+                                        }
+                                      : null,
+                                  padding: const EdgeInsets.all(15),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                  child: const Text('Disable'),
+                                ),
+                                MaterialButton(
+                                  onPressed: _seatsGridView == null
+                                      ? () async {
+                                          if (_formSeatsKey.currentState!.saveAndValidate()) {
+                                            await _saveSeats(true);
+                                            setState(() {
+                                              _seatsGridView = SeatsMap(
+                                                  numColumns: selectedHall!.maxNumberOfSeatsPerRow,
+                                                  seatsResult: seatsResult,
+                                                  selectedSeats: selectedSeats);
+                                            });
+                                          }
+                                        }
+                                      : null,
+                                  padding: const EdgeInsets.all(15),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                  child: const Text('Save'),
+                                )
+                              ],
+                            );
+                          });
+                        });
+                  },
+            child: const Icon(Icons.airline_seat_recline_normal_rounded)),
+        const SizedBox(width: 5),
+        ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: blueColor,
+                shape:
+                    RoundedRectangleBorder(side: const BorderSide(color: Colors.white), borderRadius: BorderRadius.circular(15))),
+            onPressed: selectedHall == null
+                ? () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                              title: const Text("Warning"),
+                              content: const Text("You have to select at least one hall."),
+                              actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text("OK"))],
+                            ));
+                  }
                 : () {
                     showDialog(
                         context: context,
@@ -372,14 +517,13 @@ class _HallsScreenState extends State<HallsScreen> {
                               ],
                             ));
                   },
-            child: const Icon(Icons.delete_forever_rounded))
+            child: const Icon(Icons.delete_forever_rounded)),
       ]),
     );
   }
 
   Widget buildAddHallModal({bool isEdit = false, Hall? hallEdit}) {
     return SizedBox(
-        height: 310,
         width: 600,
         child: Padding(
           padding: const EdgeInsets.all(35.0),
@@ -393,6 +537,7 @@ class _HallsScreenState extends State<HallsScreen> {
                     runSpacing: 10,
                     children: [
                       Column(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           SizedBox(
                             width: 330,
@@ -422,6 +567,34 @@ class _HallsScreenState extends State<HallsScreen> {
                           ),
                           SizedBox(
                             width: 330,
+                            child: FormBuilderTextField(
+                              cursorColor: Colors.grey,
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                              name: 'NumberOfRows',
+                              initialValue: hallEdit?.numberOfRows?.toString(),
+                              decoration: const InputDecoration(labelText: 'Number of rows'),
+                              validator: FormBuilderValidators.compose([
+                                FormBuilderValidators.required(errorText: 'Number of rows is required'),
+                                FormBuilderValidators.numeric(errorText: 'Number of rows has to be a number')
+                              ]),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 330,
+                            child: FormBuilderTextField(
+                              cursorColor: Colors.grey,
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                              name: 'MaxNumberOfSeatsPerRow',
+                              initialValue: hallEdit?.numberOfRows?.toString(),
+                              decoration: const InputDecoration(labelText: 'Maximum number of seats per row'),
+                              validator: FormBuilderValidators.compose([
+                                FormBuilderValidators.required(errorText: 'Maximum number of seats per row is required'),
+                                FormBuilderValidators.numeric(errorText: 'Number of rows has to be a number')
+                              ]),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 330,
                             child: FormBuilderDropdown<int>(
                               items: cinemasResult
                                       ?.map((e) => DropdownMenuItem(
@@ -442,6 +615,52 @@ class _HallsScreenState extends State<HallsScreen> {
                           ),
                         ],
                       ),
+                    ],
+                  )
+                ],
+              )),
+        ));
+  }
+
+  Widget buildAddSeatsModal() {
+    return SizedBox(
+        width: 600,
+        child: Padding(
+          padding: const EdgeInsets.all(35.0),
+          child: FormBuilder(
+              key: _formSeatsKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Wrap(
+                    runAlignment: WrapAlignment.spaceEvenly,
+                    spacing: 40,
+                    runSpacing: 10,
+                    children: [
+                      _seatsGridView == null
+                          ? Column(
+                              children: [
+                                SizedBox(
+                                  width: 330,
+                                  child: FormBuilderTextField(
+                                    enabled: false,
+                                    name: 'numRows',
+                                    initialValue: selectedHall?.numberOfRows?.toString(),
+                                    decoration: const InputDecoration(labelText: 'Number of rows'),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 330,
+                                  child: FormBuilderTextField(
+                                    enabled: false,
+                                    name: 'numColumns',
+                                    initialValue: selectedHall?.maxNumberOfSeatsPerRow?.toString(),
+                                    decoration: const InputDecoration(labelText: 'Maximum number of seats per row'),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : _seatsGridView ?? const SizedBox(),
                     ],
                   )
                 ],

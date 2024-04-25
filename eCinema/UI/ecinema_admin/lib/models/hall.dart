@@ -8,11 +8,14 @@ class Hall {
   int? id;
   String? name;
   int? numberOfSeats;
+  int? numberOfRows;
+  int? maxNumberOfSeatsPerRow;
   List<int>? formats;
   int? cinemaId;
   Cinema? cinema;
 
-  Hall(this.id, this.name, this.numberOfSeats, this.formats, this.cinemaId, this.cinema);
+  Hall(this.id, this.name, this.numberOfSeats, this.numberOfRows, this.maxNumberOfSeatsPerRow, this.formats, this.cinemaId,
+      this.cinema);
 
   factory Hall.fromJson(Map<String, dynamic> json) => _$HallFromJson(json);
 

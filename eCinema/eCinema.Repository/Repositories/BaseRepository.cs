@@ -28,6 +28,10 @@ namespace eCinema.Repository.Repositories
         {
             dbSet.Update(entity);
         }
+        public void UpdateRange(List<TEntity> entities)
+        {
+            dbSet.UpdateRange(entities);
+        }
 
         public void Delete(TEntity entity)
         {

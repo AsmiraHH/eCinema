@@ -10,5 +10,8 @@ namespace eCinema.Repository.RepositoriesInterfaces
 {
     public interface ISeatRepository : IBaseRepository<Seat, int, BaseSearchObject>
     {
+        Task AddRangeAsync(List<Seat> entities);
+        Task<List<Seat>?> GetByHallIdAsync(int hallId);
+
     }
 }
