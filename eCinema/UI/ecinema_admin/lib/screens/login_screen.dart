@@ -25,62 +25,78 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color.fromARGB(255, 16, 24, 53),
-      body: Center(
-        child: Container(
-          constraints: BoxConstraints(maxHeight: 300, maxWidth: 400),
-          child: Card(
-            color: Colors.white.withOpacity(0.5),
-            child: Padding(
-              padding: EdgeInsets.all(25),
-              child: Column(
-                children: [
-                  TextField(
-                    controller: _usernameController,
-                    cursorColor: Colors.white,
-                    decoration: InputDecoration(
-                        labelText: "Username",
-                        prefixIcon: Icon(Icons.person),
-                        labelStyle: TextStyle(color: Colors.white),
-                        prefixIconColor: Colors.white),
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: Image.asset(
+            "assets/images/cinemaPic.jpeg",
+            fit: BoxFit.cover,
+          ),
+        ),
+        Scaffold(
+          backgroundColor: Colors.black.withOpacity(0.5),
+          body: Center(
+            child: Container(
+              constraints: BoxConstraints(maxHeight: 350, maxWidth: 400),
+              child: Card(
+                color: Colors.white.withOpacity(0.6),
+                child: Padding(
+                  padding: EdgeInsets.all(25),
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.person_pin,
+                        size: 70,
+                      ),
+                      TextField(
+                        controller: _usernameController,
+                        cursorColor: Colors.white,
+                        decoration: InputDecoration(
+                          labelText: "Username",
+                          prefixIcon: Icon(Icons.person),
+                          labelStyle: TextStyle(color: Colors.white),
+                          prefixIconColor: Colors.white,
+                        ),
+                      ),
+                      SizedBox(height: 15),
+                      TextField(
+                          controller: _passwordController,
+                          cursorColor: Colors.white,
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            labelText: "Password",
+                            prefixIcon: Icon(Icons.password),
+                            labelStyle: TextStyle(color: Colors.white),
+                            prefixIconColor: Colors.white,
+                          )),
+                      SizedBox(height: 35),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            String username = _usernameController.text;
+                            String password = _passwordController.text;
+                            login(username, password);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size.fromHeight(45),
+                            backgroundColor: Color.fromARGB(255, 16, 24, 53),
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5), // Set the desired border radius here
+                            ),
+                          ),
+                          child: Text("LOGIN"),
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  TextField(
-                    controller: _passwordController,
-                    cursorColor: Colors.white,
-                    decoration: InputDecoration(
-                        labelText: "Password",
-                        prefixIcon: Icon(Icons.password),
-                        labelStyle: TextStyle(color: Colors.white),
-                        prefixIconColor: Colors.white),
-                  ),
-                  SizedBox(
-                    height: 35,
-                  ),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        String username = _usernameController.text;
-                        String password = _passwordController.text;
-                        login(username, password);
-                      },
-                      style: ElevatedButton.styleFrom(
-                          minimumSize: const Size.fromHeight(45),
-                          backgroundColor: Color.fromARGB(255, 16, 24, 53),
-                          foregroundColor: Colors.white),
-                      child: Text("LOGIN"),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
           ),
         ),
-      ),
+      ],
     );
   }
 
