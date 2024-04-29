@@ -1,4 +1,5 @@
-﻿using eCinema.Core.Entities;
+﻿using eCinema.Core.DTOs;
+using eCinema.Core.Entities;
 using eCinema.Core.Helpers;
 using eCinema.Core.SearchObjects;
 using eCinema.Repository.RepositoriesInterfaces;
@@ -24,6 +25,22 @@ namespace eCinema.Repository.Repositories
             var result = await items.ToPagedListAsync(searchObject);
 
             return result;
+        }
+        public virtual async Task<List<Reservation>> GetForReportAsync(ReportDTO dto)
+        {
+            var items = dbSet.Include(x => x.User).Include(x => x.Seat).Include(x => x.Show).ThenInclude(x => x.Movie)
+                             .Include(x => x.Show).ThenInclude(x => x.Hall).ThenInclude(x => x.Cinema).OrderByDescending(x => x.ID).AsQueryable();
+
+            if (dto.Cinema != null)
+                items = items.Where(x => x.Show.Hall.Cinema.ID == dto.Cinema);
+            if (dto.Month != null && dto.Month != 0)
+                items = items.Where(x => x.Show.DateTime.Month == dto.Month);
+            if (dto.Genre != null)
+                items = items.Where(x => x.Show.Movie.Genres.Any(y => y.GenreId == dto.Genre));
+            if (dto.User != null)
+                items = items.Where(x => x.User.ID == dto.User);
+
+            return await items.ToListAsync();
         }
         public virtual async Task<IEnumerable<Reservation>> GetByUserID(int userID)
         {

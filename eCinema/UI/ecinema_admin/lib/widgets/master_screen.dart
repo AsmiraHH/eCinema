@@ -12,6 +12,7 @@ import 'package:ecinema_admin/screens/languages_screen.dart';
 import 'package:ecinema_admin/screens/login_screen.dart';
 import 'package:ecinema_admin/screens/movies_screen.dart';
 import 'package:ecinema_admin/screens/productions_screen.dart';
+import 'package:ecinema_admin/screens/report_screen.dart';
 import 'package:ecinema_admin/screens/reservations_screen.dart';
 import 'package:ecinema_admin/screens/shows_screen.dart';
 import 'package:ecinema_admin/screens/users_screen.dart';
@@ -140,6 +141,13 @@ class _MasterScreenState extends State<MasterScreen> {
                       leading: Icon(Icons.language),
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(builder: (context) => const LanguagesScreen()));
+                      },
+                    ),
+                    ListTile(
+                      title: Text("Reports"),
+                      leading: Icon(Icons.edit_document),
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ReportScreen()));
                       },
                     ),
                   ],

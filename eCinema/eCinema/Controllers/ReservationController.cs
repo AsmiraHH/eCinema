@@ -23,5 +23,19 @@ namespace eCinema.Controllers
                 return BadRequest();
             }
         }
+        [HttpGet]
+        public virtual async Task<IActionResult> GetForReport([FromQuery] ReportDTO reportDTO)
+        {
+            try
+            {
+                var dto = await service.GetForReportAsync(reportDTO);
+                return Ok(dto);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, $"Error while getting report object");
+                return BadRequest();
+            }
+        }
     }
 }
