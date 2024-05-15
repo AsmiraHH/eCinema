@@ -38,6 +38,19 @@ namespace eCinema.Controllers
                 return BadRequest();
             }
         }
-        
+        [HttpGet("{username}/{password}")]
+        public virtual async Task<IActionResult> Login(string username, string password)
+        {
+            try
+            {
+                var dto = await service.Login(username, password);
+                return Ok(dto);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, $"Error while login with username {username} and password {password}", username, password);
+                return BadRequest();
+            }
+        }
     }
 }
