@@ -16,3 +16,12 @@ Image fromBase64String(String image) {
     fit: BoxFit.contain,
   );
 }
+
+Image fromBase64StringCover(String image) {
+  return Image.memory(
+    base64Decode(image),
+    fit: BoxFit.cover,
+    color: Colors.black.withOpacity(0.5),
+    colorBlendMode: BlendMode.dstATop,
+  );
+}

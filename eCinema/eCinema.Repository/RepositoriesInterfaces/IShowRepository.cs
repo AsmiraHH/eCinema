@@ -12,5 +12,7 @@ namespace eCinema.Repository.RepositoriesInterfaces
     {
         Task DeleteByMovieIdAsync(int id);
         Task<List<Show>> GetByMovieIdAsync(int id);
+        Task<List<Show>> GetLastAddedAsync();
+        Task<List<Show>> GetMostWatchedAsync();
     }
 }

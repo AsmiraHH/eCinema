@@ -11,5 +11,7 @@ namespace eCinema.Service.ServiceInterfaces
     public interface IShowService : IBaseService<int, ShowDTO, ShowUpsertDTO, ShowSearchObject>
     {
         Task DeleteByMovieIdAsync(int id);
+        Task<List<ShowDTO>?> GetLastAddedAsync();
+        Task<List<ShowDTO>?> GetMostWatchedAsync();
     }
 }

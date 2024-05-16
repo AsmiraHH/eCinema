@@ -38,5 +38,17 @@ namespace eCinema.Repository.Repositories
             var entities = await dbSet.Where(x => x.MovieId == id).ToListAsync();
             return entities;
         }
+
+        public virtual async Task<List<Show>> GetLastAddedAsync()
+        {
+            var entities = await dbSet.Include(x => x.Movie).ThenInclude(x => x.Genres).ThenInclude(x => x.Genre).OrderByDescending(x => x.ID).Take(3).ToListAsync();
+            return entities;
+        }
+
+        public virtual async Task<List<Show>> GetMostWatchedAsync()
+        {
+            var entities = await dbSet.Include(x => x.Movie).ThenInclude(x=>x.Genres).ThenInclude(x => x.Genre).OrderByDescending(x => x.Reservations.Count).Take(3).ToListAsync();
+            return entities;
+        }
     }
 }
