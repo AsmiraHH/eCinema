@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:ecinema_mobile/models/paged_result.dart';
 import 'package:ecinema_mobile/utils/util.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -48,28 +49,28 @@ abstract class BaseProvider<T> with ChangeNotifier {
     }
   }
 
-  // Future<PagedResult<T>> getPaged(dynamic params) async {
-  //   var queryString = getQueryString(params);
-  //   var url = "$_baseUrl$_endpoint/GetPaged?$queryString";
-  //   var uri = Uri.parse(url);
-  //   var headers = createHeaders();
+  Future<PagedResult<T>> getPaged(dynamic params) async {
+    var queryString = getQueryString(params);
+    var url = "$_baseUrl$_endpoint/GetPaged?$queryString";
+    var uri = Uri.parse(url);
+    var headers = createHeaders();
 
-  //   var req = await http.get(uri, headers: headers);
-  //   if (isValidResponse(req)) {
-  //     var result = PagedResult<T>();
-  //     var data = jsonDecode(req.body);
-  //     result.pageCount = data['pageCount'];
-  //     result.totalCount = data['totalCount'];
-  //     result.hasNextPage = data['hasNextPage'];
-  //     result.hasPreviousPage = data['hasPreviousPage'];
-  //     for (var item in data['listOfItems']) {
-  //       result.items.add(fromJson(item));
-  //     }
-  //     return result;
-  //   } else {
-  //     throw Exception("Error");
-  //   }
-  // }
+    var req = await http.get(uri, headers: headers);
+    if (isValidResponse(req)) {
+      var result = PagedResult<T>();
+      var data = jsonDecode(req.body);
+      result.pageCount = data['pageCount'];
+      result.totalCount = data['totalCount'];
+      result.hasNextPage = data['hasNextPage'];
+      result.hasPreviousPage = data['hasPreviousPage'];
+      for (var item in data['listOfItems']) {
+        result.items.add(fromJson(item));
+      }
+      return result;
+    } else {
+      throw Exception("Error");
+    }
+  }
 
   Future<T> insert(dynamic object) async {
     var url = "$_baseUrl$_endpoint/Post";

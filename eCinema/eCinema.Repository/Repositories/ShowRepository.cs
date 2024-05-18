@@ -12,13 +12,15 @@ namespace eCinema.Repository.Repositories
 
         public override async Task<PagedList<Show>> GetPagedAsync(ShowSearchObject searchObject)
         {
-            var items = dbSet.Include(x => x.Hall).ThenInclude(x => x.Cinema).Include(x => x.Movie).AsQueryable();
+            var items = dbSet.Include(x => x.Hall).ThenInclude(x => x.Cinema).Include(x => x.Movie).ThenInclude(x=>x.Genres).ThenInclude(x=>x.Genre).AsQueryable();
 
-            if (searchObject.Cinema != null)
+            if (searchObject.Cinema != null && searchObject.Cinema != 0)
                 items = items.Where(x => x.Hall.CinemaId == searchObject.Cinema);
-            if (searchObject.Hall != null)
+            if (searchObject.Hall != null && searchObject.Hall != 0)
                 items = items.Where(x => x.HallId == searchObject.Hall);
-            if (searchObject.Movie != null)
+            if (searchObject.Genre != null && searchObject.Genre != 0)
+                items = items.Where(x => x.Movie.Genres.Any(y => y.GenreId == searchObject.Genre));
+            if (searchObject.Movie != null )
                 items = items.Where(x => x.Movie.Title.ToLower().Contains(searchObject.Movie.ToLower()));
             if (searchObject.Format != null)
                 items = items.Where(x => x.Format.ToLower().Contains(searchObject.Format.ToLower()));
@@ -41,13 +43,13 @@ namespace eCinema.Repository.Repositories
 
         public virtual async Task<List<Show>> GetLastAddedAsync()
         {
-            var entities = await dbSet.Include(x => x.Movie).ThenInclude(x => x.Genres).ThenInclude(x => x.Genre).OrderByDescending(x => x.ID).Take(3).ToListAsync();
+            var entities = await dbSet.Include(x => x.Movie).ThenInclude(x => x.Genres).ThenInclude(x => x.Genre).OrderByDescending(x => x.ID).Take(6).ToListAsync();
             return entities;
         }
 
         public virtual async Task<List<Show>> GetMostWatchedAsync()
         {
-            var entities = await dbSet.Include(x => x.Movie).ThenInclude(x=>x.Genres).ThenInclude(x => x.Genre).OrderByDescending(x => x.Reservations.Count).Take(3).ToListAsync();
+            var entities = await dbSet.Include(x => x.Movie).ThenInclude(x=>x.Genres).ThenInclude(x => x.Genre).OrderByDescending(x => x.Reservations.Count).Take(6).ToListAsync();
             return entities;
         }
     }

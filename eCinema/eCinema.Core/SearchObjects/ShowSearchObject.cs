@@ -6,5 +6,6 @@
         public int? Hall { get; set; }
         public string? Format { get; set; }
         public string? Movie { get; set; }
+        public int? Genre { get; set; }
     }
 }
