@@ -56,10 +56,7 @@ class MyApp extends StatelessWidget {
           titleLarge: TextStyle(color: Colors.white),
           titleMedium: TextStyle(color: Colors.white),
           titleSmall: TextStyle(color: Colors.white),
-        ).apply(
-            bodyColor: Colors.white,
-            displayColor: Colors.white,
-            decorationColor: Colors.white),
+        ).apply(bodyColor: Colors.white, displayColor: Colors.white, decorationColor: Colors.white),
       ),
       home: const LoginScreen(),
     );
@@ -70,7 +67,6 @@ class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
   }
 }

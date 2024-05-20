@@ -9,7 +9,7 @@ namespace eCinema.Controllers
 {
     [ApiController]
     [Route("[controller]/[action]")]
-    [Authorize(Roles = "Administrator,User")]
+    //[Authorize(Roles = "Administrator,User")]
     public abstract class BaseController<TDTO, TUpsertDTO, TSearchObject, TService> : Controller
         where TDTO : class
         where TUpsertDTO : class
@@ -67,7 +67,6 @@ namespace eCinema.Controllers
                 return BadRequest();
             }
         }
-
         [HttpPost]
         public virtual async Task<IActionResult> Post([FromBody] TUpsertDTO upsertDTO)
         {

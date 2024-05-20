@@ -8,8 +8,7 @@ class UserProvider extends BaseProvider<User> {
   UserProvider() : super("User");
 
   Future<User> login() async {
-    var url =
-        "$baseUrl$endpoint/Login/${Authorization.username}/${Authorization.password}";
+    var url = "$baseUrl$endpoint/Login/${Authorization.username}/${Authorization.password}";
     var uri = Uri.parse(url);
 
     var headers = createHeaders();
@@ -17,6 +16,23 @@ class UserProvider extends BaseProvider<User> {
     if (isValidResponse(req)) {
       var data = jsonDecode(req.body);
       return User.fromJson(data);
+    } else {
+      throw Exception('Error...');
+    }
+  }
+
+  @override
+  Future<User> insert(dynamic object) async {
+    var url = "$baseUrl$endpoint/Post";
+    var uri = Uri.parse(url);
+    var headers = {'Content-Type': 'application/json'};
+
+    var obj = jsonEncode(object);
+    var response = await http.post(uri, headers: headers, body: obj);
+
+    if (isValidResponse(response)) {
+      var data = jsonDecode(response.body);
+      return fromJson(data);
     } else {
       throw Exception('Error...');
     }

@@ -2,6 +2,7 @@
 
 import 'package:ecinema_mobile/providers/user_provider.dart';
 import 'package:ecinema_mobile/screens/home_page.dart';
+import 'package:ecinema_mobile/screens/registration_screen.dart';
 import 'package:ecinema_mobile/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   late UserProvider _userProvider;
+  bool _obscurePassword = true;
   @override
   void initState() {
     super.initState();
@@ -37,12 +39,13 @@ class _LoginScreenState extends State<LoginScreen> {
           backgroundColor: Colors.black.withOpacity(0.5),
           body: Center(
             child: Container(
-              constraints: BoxConstraints(maxHeight: 340, maxWidth: 350),
+              constraints: BoxConstraints(maxWidth: 350),
               child: Card(
                 color: Colors.white.withOpacity(0.6),
                 child: Padding(
                   padding: EdgeInsets.all(25),
                   child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
                         Icons.person_pin,
@@ -62,12 +65,22 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextField(
                           controller: _passwordController,
                           cursorColor: Colors.white,
-                          obscureText: true,
+                          obscureText: _obscurePassword,
                           decoration: InputDecoration(
                             labelText: "Password",
                             prefixIcon: Icon(Icons.password),
                             labelStyle: TextStyle(color: Colors.white),
                             prefixIconColor: Colors.white,
+                            suffixIcon: IconButton(
+                                color: Colors.white,
+                                onPressed: () {
+                                  setState(() {
+                                    _obscurePassword = !_obscurePassword;
+                                  });
+                                },
+                                icon: _obscurePassword
+                                    ? const Icon(Icons.visibility_outlined)
+                                    : const Icon(Icons.visibility_off_outlined)),
                           )),
                       SizedBox(height: 25),
                       SizedBox(
@@ -89,6 +102,19 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Text("LOGIN"),
                         ),
                       ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text("Don't have an account?"),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context)
+                                  .pushReplacement(MaterialPageRoute(builder: (builder) => const RegistrationScreen()));
+                            },
+                            child: const Text("Sign Up"),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -107,19 +133,14 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       var data = await _userProvider.login();
       Authorization.userId = data.id;
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (builder) => const HomePage()));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (builder) => const HomePage()));
     } catch (e) {
       showDialog(
           context: context,
           builder: (BuildContext context) => AlertDialog(
                 title: Text("Error"),
                 content: Text(e.toString()),
-                actions: [
-                  TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: Text("OK"))
-                ],
+                actions: [TextButton(onPressed: () => Navigator.pop(context), child: Text("OK"))],
               ));
     }
   }
