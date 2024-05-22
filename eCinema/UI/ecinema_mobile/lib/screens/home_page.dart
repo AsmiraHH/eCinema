@@ -22,8 +22,8 @@ class _HomePageState extends State<HomePage> {
   List<Show> mostWatchedShows = <Show>[];
   late ShowProvider _showProvider;
   late CinemaProvider _cinemaProvider;
-  List<Cinema>? cinemasResult;
-  int? selectedCinema = 0;
+  List<Cinema> cinemasResult = <Cinema>[];
+  int selectedCinema = 1;
   bool loading = false;
   final TextEditingController _searchController = TextEditingController();
 
@@ -32,14 +32,14 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _showProvider = context.read<ShowProvider>();
     _cinemaProvider = context.read<CinemaProvider>();
-    // loadCinemas();
+    loadCinemas();
     loadLastAddedShows();
     loadMostWatchedShows();
   }
 
   Future<void> loadLastAddedShows() async {
     try {
-      var data = await _showProvider.getLastAdded();
+      var data = await _showProvider.getLastAdded(selectedCinema);
       setState(() {
         lastAddedShows = data;
       });
@@ -49,18 +49,14 @@ class _HomePageState extends State<HomePage> {
           builder: (BuildContext context) => AlertDialog(
                 title: const Text("Error"),
                 content: Text(e.toString()),
-                actions: [
-                  TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text("OK"))
-                ],
+                actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text("OK"))],
               ));
     }
   }
 
   Future<void> loadMostWatchedShows() async {
     try {
-      var data = await _showProvider.getMostWatched();
+      var data = await _showProvider.getMostWatched(selectedCinema);
       setState(() {
         mostWatchedShows = data;
       });
@@ -70,11 +66,7 @@ class _HomePageState extends State<HomePage> {
           builder: (BuildContext context) => AlertDialog(
                 title: const Text("Error"),
                 content: Text(e.toString()),
-                actions: [
-                  TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text("OK"))
-                ],
+                actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text("OK"))],
               ));
     }
   }
@@ -91,11 +83,7 @@ class _HomePageState extends State<HomePage> {
           builder: (BuildContext context) => AlertDialog(
                 title: const Text("Error"),
                 content: Text(e.toString()),
-                actions: [
-                  TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text("OK"))
-                ],
+                actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text("OK"))],
               ));
     }
   }
@@ -103,7 +91,46 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Home')),
+      appBar: AppBar(
+        actions: [
+          Container(
+            margin: const EdgeInsets.only(right: 10),
+            child: DropdownButton<int>(
+              items: [
+                ...cinemasResult.map((e) => DropdownMenuItem(
+                      value: e.id,
+                      child: Text(
+                        e.name!,
+                      ),
+                    ))
+              ],
+              value: selectedCinema,
+              onChanged: (int? newValue) {
+                setState(() {
+                  selectedCinema = newValue ?? 1;
+                  lastAddedShows = [];
+                  mostWatchedShows = [];
+                  loadLastAddedShows();
+                  loadMostWatchedShows();
+                });
+              },
+              isExpanded: false,
+              underline: Container(),
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                shadows: [
+                  Shadow(
+                    offset: const Offset(2.0, 2.0),
+                    blurRadius: 3.0,
+                    color: Colors.black.withOpacity(0.8),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
       body: Container(
         margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
         child: SingleChildScrollView(
@@ -120,9 +147,7 @@ class _HomePageState extends State<HomePage> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => MoviesScreen(
-                                  movieName: _searchController.text)),
+                          MaterialPageRoute(builder: (context) => MoviesScreen(movieName: _searchController.text)),
                         );
                       },
                       child: const Icon(
@@ -136,8 +161,7 @@ class _HomePageState extends State<HomePage> {
                   onSubmitted: (String value) {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => MoviesScreen(movieName: value)),
+                      MaterialPageRoute(builder: (context) => MoviesScreen(movieName: value)),
                     );
                   },
                 ),
@@ -194,8 +218,7 @@ Widget buildShows(List<Show> shows) {
 Widget buildShow(BuildContext context, Show show) {
   return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (builder) => MovieDetailsScreen(show: show)));
+        Navigator.of(context).push(MaterialPageRoute(builder: (builder) => MovieDetailsScreen(show: show)));
       },
       child: Expanded(
           child: ClipRRect(

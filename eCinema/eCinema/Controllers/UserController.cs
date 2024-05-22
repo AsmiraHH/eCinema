@@ -1,6 +1,8 @@
 ﻿using eCinema.Core.DTOs;
+using eCinema.Core.Exceptions;
 using eCinema.Core.SearchObjects;
 using eCinema.Service.ServiceInterfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -11,12 +13,18 @@ namespace eCinema.Controllers
         public UserController(IUserService service, ILogger<UserController> logger) : base(service, logger) { }
 
         [HttpPut]
+        [Authorize(Roles = "User,Administrator")]
         public async Task<IActionResult> ChangePassword([FromBody] UserNewPasswordDTO dto)
         {
             try
             {
                 await service.ChangePassword(dto);
                 return Ok();
+            }
+            catch (UserWrongCredentialsException e)
+            {
+                logger.LogError(e, $"Error while changing password for object with ID {dto.ID}", dto.ID);
+                return Unauthorized(new { message = e.Message });
             }
             catch (Exception e)
             {
@@ -25,6 +33,7 @@ namespace eCinema.Controllers
             }
         }
         [HttpGet("{username}")]
+        [Authorize(Roles = "User,Administrator")]
         public virtual async Task<IActionResult> GetRoles(string username)
         {
             try
@@ -39,6 +48,7 @@ namespace eCinema.Controllers
             }
         }
         [HttpGet("{username}/{password}")]
+        [Authorize(Roles = "User,Administrator")]
         public virtual async Task<IActionResult> Login(string username, string password)
         {
             try

@@ -14,8 +14,7 @@ abstract class BaseProvider<T> with ChangeNotifier {
   String get endpoint => _endpoint;
 
   BaseProvider(String endpoint) {
-    _baseUrl = const String.fromEnvironment("baseUrl",
-        defaultValue: "https://10.0.2.2:7019/");
+    _baseUrl = const String.fromEnvironment("baseUrl", defaultValue: "https://10.0.2.2:7019/");
 
     _endpoint = endpoint;
   }
@@ -69,6 +68,21 @@ abstract class BaseProvider<T> with ChangeNotifier {
       return result;
     } else {
       throw Exception("Error");
+    }
+  }
+
+  Future<T> getById(int? id) async {
+    var url = "$_baseUrl$_endpoint/Get/$id";
+    var uri = Uri.parse(url);
+    var headers = createHeaders();
+
+    var response = await http.get(uri, headers: headers);
+
+    if (isValidResponse(response)) {
+      var data = json.decode(response.body);
+      return fromJson(data);
+    } else {
+      throw Exception('Error...');
     }
   }
 
@@ -161,7 +175,9 @@ abstract class BaseProvider<T> with ChangeNotifier {
   bool isValidResponse(Response response) {
     if (response.statusCode <= 299) {
       return true;
-    } else if (response.statusCode == 401) {
+    } else if (response.statusCode == 401 ||
+        response.body.contains('UserWrongCredentialsException') ||
+        response.body.contains('UserNotFoundException')) {
       throw Exception("Wrong credentials.");
     } else if (response.statusCode == 403) {
       throw Exception("Unauthorized access.");

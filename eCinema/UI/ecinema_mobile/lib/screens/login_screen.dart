@@ -1,13 +1,16 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
 import 'package:ecinema_mobile/providers/user_provider.dart';
-import 'package:ecinema_mobile/screens/home_page.dart';
 import 'package:ecinema_mobile/screens/registration_screen.dart';
+import 'package:ecinema_mobile/utils/error_dialog.dart';
+import 'package:ecinema_mobile/utils/error_snackbar.dart';
 import 'package:ecinema_mobile/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
+  static const String routeName = '/login';
+
   const LoginScreen({super.key});
 
   @override
@@ -23,6 +26,24 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     _userProvider = context.read<UserProvider>();
+  }
+
+  Future<void> login(String username, String password) async {
+    Authorization.username = username;
+    Authorization.password = password;
+
+    try {
+      var data = await _userProvider.login();
+      Authorization.userId = data.id;
+      Authorization.user = data;
+      Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+    } catch (e) {
+      if (e.toString().contains('Wrong credentials')) {
+        showErrorSnackBar(context, 'Wrong credentials.');
+      } else {
+        showErrorDialog(context, e.toString().substring(11));
+      }
+    }
   }
 
   @override
@@ -124,24 +145,5 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ],
     );
-  }
-
-  Future<void> login(String username, String password) async {
-    Authorization.username = username;
-    Authorization.password = password;
-
-    try {
-      var data = await _userProvider.login();
-      Authorization.userId = data.id;
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (builder) => const HomePage()));
-    } catch (e) {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-                title: Text("Error"),
-                content: Text(e.toString()),
-                actions: [TextButton(onPressed: () => Navigator.pop(context), child: Text("OK"))],
-              ));
-    }
   }
 }

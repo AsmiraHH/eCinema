@@ -1,11 +1,13 @@
 import 'dart:convert';
 
+import 'package:ecinema_mobile/models/user.dart';
 import 'package:flutter/material.dart';
 
 class Authorization {
   static String? username;
   static String? password;
   static int? userId;
+  static User? user;
 }
 
 Image fromBase64String(String image) {
@@ -13,7 +15,7 @@ Image fromBase64String(String image) {
     base64Decode(image),
     width: 150,
     height: 200,
-    fit: BoxFit.contain,
+    fit: BoxFit.cover,
   );
 }
 

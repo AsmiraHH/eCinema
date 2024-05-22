@@ -9,12 +9,12 @@ namespace eCinema.Controllers
     {
         public ShowController(IShowService service, ILogger<ShowController> logger) : base(service, logger) { }
 
-        [HttpGet]
-        public virtual async Task<IActionResult> GetLastAdded()
+        [HttpGet("{cinemaId}")]
+        public virtual async Task<IActionResult> GetLastAdded(int cinemaId)
         {
             try
             {
-                var dto = await service.GetLastAddedAsync();
+                var dto = await service.GetLastAddedAsync(cinemaId);
                 return Ok(dto);
             }
             catch (Exception e)
@@ -23,12 +23,12 @@ namespace eCinema.Controllers
                 return BadRequest();
             }
         }
-        [HttpGet]
-        public virtual async Task<IActionResult> GetMostWatched()
+        [HttpGet("{cinemaId}")]
+        public virtual async Task<IActionResult> GetMostWatched(int cinemaId)
         {
             try
             {
-                var dto = await service.GetMostWatchedAsync();
+                var dto = await service.GetMostWatchedAsync(cinemaId);
                 return Ok(dto);
             }
             catch (Exception e)

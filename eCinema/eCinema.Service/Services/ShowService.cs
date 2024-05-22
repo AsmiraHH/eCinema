@@ -41,14 +41,14 @@ namespace eCinema.Service.Services
             await CurrentRepository.DeleteByIdAsync(id);
             await UnitOfWork.SaveChangesAsync();
         }
-        public async Task<List<ShowDTO>?> GetLastAddedAsync()
+        public async Task<List<ShowDTO>?> GetLastAddedAsync(int cinemaId)
         {
-            var entities = await CurrentRepository.GetLastAddedAsync();
+            var entities = await CurrentRepository.GetLastAddedAsync(cinemaId);
             return Mapper.Map<List<ShowDTO>>(entities);
         }
-        public async Task<List<ShowDTO>?> GetMostWatchedAsync()
+        public async Task<List<ShowDTO>?> GetMostWatchedAsync(int cinemaId)
         {
-            var entities = await CurrentRepository.GetMostWatchedAsync();
+            var entities = await CurrentRepository.GetMostWatchedAsync(cinemaId);
             return Mapper.Map<List<ShowDTO>>(entities);
         }
     }

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 class MovieDetailsScreen extends StatefulWidget {
   final Show show;
+  static const String routeName = '/movieDetail';
   const MovieDetailsScreen({super.key, required this.show});
 
   @override
@@ -54,9 +55,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                 bottom: 10,
                 left: 10,
                 child: Text(
-                  widget.show.movie!.genres!
-                      .map((genre) => genre.genre!.name.toString())
-                      .join(', '),
+                  widget.show.movie!.genres!.map((genre) => genre.genre!.name.toString()).join(', '),
                   style: TextStyle(
                     fontSize: 15,
                     color: Colors.grey[400],

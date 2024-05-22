@@ -7,8 +7,8 @@ import 'package:http/http.dart' as http;
 class ShowProvider extends BaseProvider<Show> {
   ShowProvider() : super("Show");
 
-  Future<List<Show>> getLastAdded() async {
-    var url = "$baseUrl$endpoint/GetLastAdded";
+  Future<List<Show>> getLastAdded(int selectedCinema) async {
+    var url = "$baseUrl$endpoint/GetLastAdded/$selectedCinema";
     var uri = Uri.parse(url);
     var headers = createHeaders();
 
@@ -25,8 +25,8 @@ class ShowProvider extends BaseProvider<Show> {
     }
   }
 
-  Future<List<Show>> getMostWatched() async {
-    var url = "$baseUrl$endpoint/GetMostWatched";
+  Future<List<Show>> getMostWatched(int selectedCinema) async {
+    var url = "$baseUrl$endpoint/GetMostWatched/$selectedCinema";
     var uri = Uri.parse(url);
     var headers = createHeaders();
 

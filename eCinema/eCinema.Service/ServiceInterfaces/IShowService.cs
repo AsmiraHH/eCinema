@@ -1,4 +1,5 @@
 ﻿using eCinema.Core.DTOs;
+using eCinema.Core.Entities;
 using eCinema.Core.SearchObjects;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace eCinema.Service.ServiceInterfaces
     public interface IShowService : IBaseService<int, ShowDTO, ShowUpsertDTO, ShowSearchObject>
     {
         Task DeleteByMovieIdAsync(int id);
-        Task<List<ShowDTO>?> GetLastAddedAsync();
-        Task<List<ShowDTO>?> GetMostWatchedAsync();
+        Task<List<ShowDTO>?> GetLastAddedAsync(int cinemaId);
+        Task<List<ShowDTO>?> GetMostWatchedAsync(int cinemaId);
     }
 }

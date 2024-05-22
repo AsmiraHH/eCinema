@@ -3,6 +3,7 @@
 import 'package:ecinema_mobile/helpers/constants.dart';
 import 'package:ecinema_mobile/providers/user_provider.dart';
 import 'package:ecinema_mobile/screens/login_screen.dart';
+import 'package:ecinema_mobile/utils/success_snackBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -37,16 +38,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       await _userProvider.insert(newUser);
 
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              backgroundColor: blueColor,
-              content: Center(
-                child: Text('Registration successful.',
-                    style: TextStyle(
-                      color: Colors.white,
-                    )),
-              )),
-        );
+        showSuccessSnackBar(context, 'Registration successful.');
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (builder) => const LoginScreen()));
       }
     } catch (e) {
@@ -239,7 +231,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 },
                                 style: ElevatedButton.styleFrom(
                                   minimumSize: const Size.fromHeight(35),
-                                  backgroundColor: Color.fromARGB(255, 16, 24, 53),
+                                  backgroundColor: const Color.fromARGB(255, 16, 24, 53),
                                   foregroundColor: Colors.white,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(5),

@@ -10,6 +10,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       (json['id'] as num?)?.toInt(),
       json['firstName'] as String?,
       json['lastName'] as String?,
+      json['username'] as String?,
       json['email'] as String?,
       json['phoneNumber'] as String?,
       json['birthDate'] as String?,
@@ -17,17 +18,20 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       (json['role'] as num?)?.toInt(),
       json['profilePhoto'] as String?,
       json['isVerified'] as bool?,
+      json['isActive'] as bool?,
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'id': instance.id,
       'firstName': instance.firstName,
       'lastName': instance.lastName,
+      'username': instance.username,
       'email': instance.email,
       'phoneNumber': instance.phoneNumber,
       'birthDate': instance.birthDate,
       'gender': instance.gender,
       'role': instance.role,
       'isVerified': instance.isVerified,
+      'isActive': instance.isActive,
       'profilePhoto': instance.profilePhoto,
     };

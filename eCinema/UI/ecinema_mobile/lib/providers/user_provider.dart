@@ -38,6 +38,28 @@ class UserProvider extends BaseProvider<User> {
     }
   }
 
+  Future changePassword(dynamic object) async {
+    var url = "$baseUrl$endpoint/ChangePassword";
+    var uri = Uri.parse(url);
+    var obj = jsonEncode(object);
+
+    var headers = createHeaders();
+    var response = await http.put(uri, headers: headers, body: obj);
+
+    if (isValidResponse(response)) {
+      return 'Ok';
+    } else {
+      throw Exception('Error...');
+    }
+  }
+
+  void logout() {
+    Authorization.userId = null;
+    Authorization.user = null;
+    Authorization.username = null;
+    Authorization.password = null;
+  }
+
   @override
   User fromJson(data) {
     return User.fromJson(data);

@@ -30,7 +30,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
   late GenreProvider _genreProvider;
   List<Cinema> cinemasResult = [];
   List<Genre> genresResult = [];
-  int? selectedCinema = 0;
+  int? selectedCinema = 1;
   int? selectedGenre = 0;
   bool loading = false;
   final TextEditingController _searchController = TextEditingController();
@@ -46,6 +46,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
     loadShows({
       'PageNumber': _currentPage,
       'PageSize': _pageSize,
+      'Cinema': selectedCinema,
       'Movie': widget.movieName ?? "",
     });
   }
@@ -62,11 +63,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
           builder: (BuildContext context) => AlertDialog(
                 title: const Text("Error"),
                 content: Text(e.toString()),
-                actions: [
-                  TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text("OK"))
-                ],
+                actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text("OK"))],
               ));
     }
   }
@@ -83,11 +80,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
           builder: (BuildContext context) => AlertDialog(
                 title: const Text("Error"),
                 content: Text(e.toString()),
-                actions: [
-                  TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text("OK"))
-                ],
+                actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text("OK"))],
               ));
     }
   }
@@ -104,11 +97,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
           builder: (BuildContext context) => AlertDialog(
                 title: const Text("Error"),
                 content: Text(e.toString()),
-                actions: [
-                  TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text("OK"))
-                ],
+                actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text("OK"))],
               ));
     }
   }
@@ -116,7 +105,50 @@ class _MoviesScreenState extends State<MoviesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Movies')),
+      appBar: AppBar(
+        actions: [
+          Container(
+            margin: const EdgeInsets.only(right: 10),
+            child: DropdownButton<int>(
+              items: [
+                ...cinemasResult.map((e) => DropdownMenuItem(
+                      value: e.id,
+                      child: Text(
+                        e.name!,
+                      ),
+                    ))
+              ],
+              value: selectedCinema,
+              onChanged: (int? newValue) {
+                setState(() {
+                  selectedCinema = newValue ?? 1;
+                  showsResult = PagedResult<Show>();
+                  loadShows({
+                    'PageNumber': _currentPage,
+                    'PageSize': _pageSize,
+                    'Movie': _searchController.text,
+                    'Cinema': selectedCinema,
+                    'Genre': selectedGenre,
+                  });
+                });
+              },
+              isExpanded: false,
+              underline: Container(),
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                shadows: [
+                  Shadow(
+                    offset: const Offset(2.0, 2.0),
+                    blurRadius: 3.0,
+                    color: Colors.black.withOpacity(0.8),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
       body: Container(
         margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
         child: Column(
@@ -151,8 +183,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
                             ),
                           ),
                           hintText: 'Search ...',
-                          hintStyle:
-                              const TextStyle(color: Colors.grey, fontSize: 15),
+                          hintStyle: const TextStyle(color: Colors.grey, fontSize: 15),
                         ),
                         onSubmitted: (String value) {
                           showsResult = PagedResult<Show>();
@@ -166,78 +197,34 @@ class _MoviesScreenState extends State<MoviesScreen> {
                         },
                       ),
                     ),
-                    const Text(
-                      'Cinema',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Container(
-                      margin: const EdgeInsets.only(left: 10),
-                      child: DropdownButton<int>(
-                        items: [
-                          const DropdownMenuItem<int>(
-                            value: 0,
-                            child: Text('All'),
-                          ),
-                          ...cinemasResult.map((e) => DropdownMenuItem(
-                                value: e.id,
-                                child: Text(
-                                  e.name!,
-                                ),
-                              ))
-                        ],
-                        value: selectedCinema,
-                        onChanged: (int? newValue) {
-                          setState(() {
-                            selectedCinema = newValue;
-                            showsResult = PagedResult<Show>();
-                            loadShows({
-                              'PageNumber': _currentPage,
-                              'PageSize': _pageSize,
-                              'Movie': _searchController.text,
-                              'Cinema': selectedCinema,
-                              'Genre': selectedGenre,
-                            });
-                          });
-                        },
-                        isExpanded: true,
-                        underline: Container(),
-                        style: const TextStyle(color: Colors.grey),
-                        // dropdownColor: Colors.black,
-                      ),
-                    ),
-                    // Expanded(
-                    //   child: Container(
-                    //     margin: const EdgeInsets.only(left: 30, top: 10),
-                    //     height: 40,
-                    //     child: TextField(
-                    //       controller: _searchController,
-                    //       decoration: InputDecoration(
-                    //         suffixIcon: GestureDetector(
-                    //           onTap: () {
-                    //             showsResult = PagedResult<Show>();
-                    //             loadShows({
-                    //               'PageNumber': _currentPage,
-                    //               'PageSize': _pageSize,
-                    //               'Movie': _searchController.text,
-                    //               'Cinema': selectedCinema,
-                    //               'Genre': selectedGenre,
-                    //             });
-                    //           },
-                    //           child: const Icon(
-                    //             Icons.search,
-                    //             color: Colors.grey,
-                    //           ),
-                    //         ),
-                    //         hintText: 'Search ...',
-                    //         hintStyle: const TextStyle(
-                    //             color: Colors.grey, fontSize: 15),
+                    // const Text(
+                    //   'Cinema',
+                    //   style: TextStyle(
+                    //     color: Colors.white,
+                    //     fontSize: 16,
+                    //     fontWeight: FontWeight.bold,
+                    //   ),
+                    // ),
+                    // const SizedBox(height: 10),
+                    // Container(
+                    //   margin: const EdgeInsets.only(left: 10),
+                    //   child: DropdownButton<int>(
+                    //     items: [
+                    //       const DropdownMenuItem<int>(
+                    //         value: 0,
+                    //         child: Text('All'),
                     //       ),
-                    //       onSubmitted: (String value) {
+                    //       ...cinemasResult.map((e) => DropdownMenuItem(
+                    //             value: e.id,
+                    //             child: Text(
+                    //               e.name!,
+                    //             ),
+                    //           ))
+                    //     ],
+                    //     value: selectedCinema,
+                    //     onChanged: (int? newValue) {
+                    //       setState(() {
+                    //         selectedCinema = newValue;
                     //         showsResult = PagedResult<Show>();
                     //         loadShows({
                     //           'PageNumber': _currentPage,
@@ -246,11 +233,12 @@ class _MoviesScreenState extends State<MoviesScreen> {
                     //           'Cinema': selectedCinema,
                     //           'Genre': selectedGenre,
                     //         });
-                    //       },
-                    //     ),
+                    //       });
+                    //     },
+                    //     isExpanded: true,
+                    //     underline: Container(),
+                    //     style: const TextStyle(color: Colors.grey),
                     //   ),
-                    // ),
-                    // ],
                     // ),
                     buildGenres(),
                     const SizedBox(height: 10),
@@ -278,8 +266,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
               minimumSize: const Size(55, 35),
               padding: const EdgeInsets.all(1),
               shape: RoundedRectangleBorder(
-                  side: const BorderSide(color: Colors.white),
-                  borderRadius: BorderRadius.circular(15))),
+                  side: const BorderSide(color: Colors.white), borderRadius: BorderRadius.circular(15))),
           onPressed: _currentPage > 1
               ? () {
                   setState(() {
@@ -306,8 +293,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
               minimumSize: const Size(55, 35),
               padding: const EdgeInsets.all(1),
               shape: RoundedRectangleBorder(
-                  side: const BorderSide(color: Colors.white),
-                  borderRadius: BorderRadius.circular(15))),
+                  side: const BorderSide(color: Colors.white), borderRadius: BorderRadius.circular(15))),
           onPressed: showsResult?.hasNextPage ?? false
               ? () {
                   setState(() {
@@ -348,7 +334,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            children: genresResult!.map((genre) {
+            children: genresResult.map((genre) {
               bool isSelected = selectedGenre == genre.id;
               return ChoiceChip(
                 label: Text(genre.name.toString()),
@@ -412,8 +398,11 @@ Widget buildShows(PagedResult<Show>? shows) {
 Widget buildShow(BuildContext context, Show show) {
   return GestureDetector(
     onTap: () {
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (builder) => MovieDetailsScreen(show: show)));
+      Navigator.pushNamed(
+        context,
+        MovieDetailsScreen.routeName,
+        arguments: show,
+      );
     },
     child: Expanded(
         child: ClipRRect(
