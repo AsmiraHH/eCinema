@@ -7,6 +7,7 @@ namespace eCinema.Service.ServiceInterfaces
     {
         Task ChangePassword(UserNewPasswordDTO dto);
         Task<UserDTO> Login(string username, string password);
+        Task<UserDTO> UpdateProfileImageAsync(UserUpsertImageDTO upsertDTO);
         Task<List<string>> GetRoles(string username);
     }
 }

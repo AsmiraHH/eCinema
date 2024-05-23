@@ -4,7 +4,9 @@ import 'package:ecinema_mobile/helpers/constants.dart';
 import 'package:ecinema_mobile/models/user.dart';
 import 'package:ecinema_mobile/providers/user_provider.dart';
 import 'package:ecinema_mobile/screens/change_password_screen.dart';
+import 'package:ecinema_mobile/utils/success_snackbar.dart';
 import 'package:ecinema_mobile/utils/util.dart';
+import 'package:ecinema_mobile/widgets/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -64,16 +66,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     try {
       await userProvider.update(editUser);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            backgroundColor: redColor,
-            content: Center(
-              child: Text('Changes successfully saved.',
-                  style: TextStyle(
-                    color: Colors.white,
-                  )),
-            )),
-      );
+      showSuccessSnackBar(context, 'Changes successfully saved.');
     } catch (e) {
       showDialog(
           context: context,
@@ -87,6 +80,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     loadUser();
   }
 
+  void _onImageSaved(String base64Image) {
+    setState(() {
+      user!.profilePhoto = base64Image;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
@@ -94,12 +93,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     } else {
       return Scaffold(
         appBar: AppBar(
-          // title: Center(
-          //   child: Text(
-          //     "Profile",
-          //     textAlign: TextAlign.center,
-          //   ),
-          // ),
           actions: [
             IconButton(
               icon: const Icon(Icons.logout),
@@ -128,15 +121,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       bottom: 0,
                       right: 0,
                       child: Container(
-                        width: 35,
-                        height: 35,
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(100), color: darkRedColor),
-                        child: const Icon(
-                          Icons.edit_outlined,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                      ),
+                          width: 35,
+                          height: 35,
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(100), color: darkRedColor),
+                          child: IconButton(
+                            icon: const Icon(
+                              Icons.edit_outlined,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return ImagePickerDialog(
+                                    user: user!,
+                                    onImageSaved: _onImageSaved,
+                                  );
+                                },
+                              );
+                            },
+                          )),
                     ),
                   ],
                 ),

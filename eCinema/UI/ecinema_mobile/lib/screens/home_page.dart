@@ -24,8 +24,8 @@ class _HomePageState extends State<HomePage> {
   late CinemaProvider _cinemaProvider;
   List<Cinema> cinemasResult = <Cinema>[];
   int selectedCinema = 1;
-  bool loading = false;
   final TextEditingController _searchController = TextEditingController();
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -38,10 +38,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> loadLastAddedShows() async {
+    _isLoading = true;
     try {
       var data = await _showProvider.getLastAdded(selectedCinema);
       setState(() {
         lastAddedShows = data;
+        _isLoading = false;
       });
     } catch (e) {
       showDialog(
@@ -55,10 +57,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> loadMostWatchedShows() async {
+    _isLoading = true;
     try {
       var data = await _showProvider.getMostWatched(selectedCinema);
       setState(() {
         mostWatchedShows = data;
+        _isLoading = false;
       });
     } catch (e) {
       showDialog(
@@ -72,10 +76,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> loadCinemas() async {
+    // _isLoading = true;
     try {
       var data = await _cinemaProvider.getAll();
       setState(() {
         cinemasResult = data;
+        // _isLoading = false;
       });
     } catch (e) {
       showDialog(
@@ -90,111 +96,115 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 10),
-            child: DropdownButton<int>(
-              items: [
-                ...cinemasResult.map((e) => DropdownMenuItem(
-                      value: e.id,
-                      child: Text(
-                        e.name!,
-                      ),
-                    ))
-              ],
-              value: selectedCinema,
-              onChanged: (int? newValue) {
-                setState(() {
-                  selectedCinema = newValue ?? 1;
-                  lastAddedShows = [];
-                  mostWatchedShows = [];
-                  loadLastAddedShows();
-                  loadMostWatchedShows();
-                });
-              },
-              isExpanded: false,
-              underline: Container(),
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                shadows: [
-                  Shadow(
-                    offset: const Offset(2.0, 2.0),
-                    blurRadius: 3.0,
-                    color: Colors.black.withOpacity(0.8),
-                  ),
+    if (_isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    } else {
+      return Scaffold(
+        appBar: AppBar(
+          actions: [
+            Container(
+              margin: const EdgeInsets.only(right: 10),
+              child: DropdownButton<int>(
+                items: [
+                  ...cinemasResult.map((e) => DropdownMenuItem(
+                        value: e.id,
+                        child: Text(
+                          e.name!,
+                        ),
+                      ))
                 ],
-              ),
-            ),
-          ),
-        ],
-      ),
-      body: Container(
-        margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 45,
-                child: TextField(
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                    suffixIcon: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => MoviesScreen(movieName: _searchController.text)),
-                        );
-                      },
-                      child: const Icon(
-                        Icons.search,
-                        color: Colors.grey,
-                      ),
+                value: selectedCinema,
+                onChanged: (int? newValue) {
+                  setState(() {
+                    selectedCinema = newValue ?? 1;
+                    lastAddedShows = [];
+                    mostWatchedShows = [];
+                    loadLastAddedShows();
+                    loadMostWatchedShows();
+                  });
+                },
+                isExpanded: false,
+                underline: Container(),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  shadows: [
+                    Shadow(
+                      offset: const Offset(2.0, 2.0),
+                      blurRadius: 3.0,
+                      color: Colors.black.withOpacity(0.8),
                     ),
-                    hintText: 'Search ...',
-                    hintStyle: const TextStyle(color: Colors.grey),
-                  ),
-                  onSubmitted: (String value) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => MoviesScreen(movieName: value)),
-                    );
-                  },
+                  ],
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Text(
-                'Last Added Movies',
-                textAlign: TextAlign.start,
-                style: TextStyle(color: Colors.white, fontSize: 16),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              if (loading == false) buildShows(lastAddedShows),
-              const SizedBox(
-                height: 20,
-              ),
-              const Text(
-                'Popular Movies',
-                textAlign: TextAlign.start,
-                style: TextStyle(color: Colors.white, fontSize: 16),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              if (loading == false) buildShows(mostWatchedShows),
-            ],
+            ),
+          ],
+        ),
+        body: Container(
+          margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 45,
+                  child: TextField(
+                    controller: _searchController,
+                    decoration: InputDecoration(
+                      suffixIcon: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => MoviesScreen(movieName: _searchController.text)),
+                          );
+                        },
+                        child: const Icon(
+                          Icons.search,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      hintText: 'Search ...',
+                      hintStyle: const TextStyle(color: Colors.grey),
+                    ),
+                    onSubmitted: (String value) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MoviesScreen(movieName: value)),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text(
+                  'Last Added Movies',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                buildShows(lastAddedShows),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text(
+                  'Popular Movies',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                buildShows(mostWatchedShows),
+              ],
+            ),
           ),
         ),
-      ),
-    );
+      );
+    }
   }
 }
 

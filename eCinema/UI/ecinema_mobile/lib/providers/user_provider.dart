@@ -38,6 +38,22 @@ class UserProvider extends BaseProvider<User> {
     }
   }
 
+  Future<User> updateProfileImage(dynamic object) async {
+    var url = "$baseUrl$endpoint/UpdateProfileImage";
+    var uri = Uri.parse(url);
+    var headers = createHeaders();
+
+    var obj = jsonEncode(object);
+    var response = await http.put(uri, headers: headers, body: obj);
+
+    if (isValidResponse(response)) {
+      var data = jsonDecode(response.body);
+      return fromJson(data);
+    } else {
+      throw Exception('Error...');
+    }
+  }
+
   Future changePassword(dynamic object) async {
     var url = "$baseUrl$endpoint/ChangePassword";
     var uri = Uri.parse(url);

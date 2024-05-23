@@ -32,6 +32,26 @@ namespace eCinema.Controllers
                 return BadRequest();
             }
         }
+        [HttpPut]
+        [Authorize(Roles = "User,Administrator")]
+        public async Task<IActionResult> UpdateProfileImage([FromBody] UserUpsertImageDTO dto)
+        {
+            try
+            {
+                var user = await service.UpdateProfileImageAsync(dto);
+                return Ok(user);
+            }
+            catch (UserNotFoundException e)
+            {
+                logger.LogError(e, $"Error while updating image for object with ID {dto.ID}", dto.ID);
+                return Unauthorized(new { message = e.Message });
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, $"Error while updating image for object with ID {dto.ID}", dto.ID);
+                return BadRequest();
+            }
+        }
         [HttpGet("{username}")]
         [Authorize(Roles = "User,Administrator")]
         public virtual async Task<IActionResult> GetRoles(string username)

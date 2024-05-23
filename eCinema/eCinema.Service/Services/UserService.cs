@@ -66,6 +66,21 @@ namespace eCinema.Service.Services
 
             return Mapper.Map<UserDTO>(entity);
         }
+        public async Task<UserDTO> UpdateProfileImageAsync(UserUpsertImageDTO upsertDTO)
+        {
+            var user = await CurrentRepository.GetByIdAsync(upsertDTO.ID);
+
+            if (user == null)
+                throw new UserNotFoundException();
+         
+            if (!string.IsNullOrEmpty(upsertDTO?.PhotoBase64))
+                user.ProfilePhoto = Convert.FromBase64String(upsertDTO.PhotoBase64);
+
+            CurrentRepository.Update(user);
+            await UnitOfWork.SaveChangesAsync();
+
+            return Mapper.Map<UserDTO>(user);
+        }
         public async Task<UserDTO> Login(string username, string password)
         {
             var user = await CurrentRepository.GetByUsernameAsync(username);

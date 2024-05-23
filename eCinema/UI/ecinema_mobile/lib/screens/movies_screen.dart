@@ -32,7 +32,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
   List<Genre> genresResult = [];
   int? selectedCinema = 1;
   int? selectedGenre = 0;
-  bool loading = false;
+  bool _isLoading = false;
   final TextEditingController _searchController = TextEditingController();
 
   @override
@@ -52,10 +52,12 @@ class _MoviesScreenState extends State<MoviesScreen> {
   }
 
   Future<void> loadShows(dynamic request) async {
+    _isLoading = true;
     try {
       var data = await _showProvider.getPaged(request);
       setState(() {
         showsResult = data;
+        _isLoading = false;
       });
     } catch (e) {
       showDialog(
