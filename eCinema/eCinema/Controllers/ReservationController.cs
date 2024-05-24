@@ -9,7 +9,7 @@ namespace eCinema.Controllers
     {
         public ReservationController(IReservationService service, ILogger<ReservationController> logger) : base(service, logger) { }
 
-        [HttpGet("userID")]
+        [HttpGet("{userID}")]
         public virtual async Task<IActionResult> GetByUserID(int userID)
         {
             try

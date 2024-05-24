@@ -21,6 +21,7 @@ import 'package:ecinema_mobile/screens/login_screen.dart';
 import 'package:ecinema_mobile/screens/movie_details_screen.dart';
 import 'package:ecinema_mobile/screens/movies_screen.dart';
 import 'package:ecinema_mobile/screens/profile_screen.dart';
+import 'package:ecinema_mobile/screens/reservations_screen.dart';
 import 'package:ecinema_mobile/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -69,6 +70,7 @@ class MyApp extends StatelessWidget {
         routes: {
           LoginScreen.routeName: (context) => const LoginScreen(),
           ChangePasswordScreen.routeName: (context) => const ChangePasswordScreen(),
+          ReservationsScreen.routeName: (context) => const ReservationsScreen(),
           // RegisterScreen.routeName: (context) => const RegisterScreen(),
           // CinemaScreen.routeName: (context) => const CinemaScreen(),
           // PaymentScreen.routeName: (context) => const PaymentScreen(),
@@ -97,16 +99,19 @@ class NavBar extends StatefulWidget {
 }
 
 class _NavBarState extends State<NavBar> {
-  final List<Widget> screens = [const HomePage(), const MoviesScreen(), const ProfileScreen()];
+  final List<Widget> screens = [
+    const HomePage(),
+    const MoviesScreen(),
+    const ReservationsScreen(),
+    const ProfileScreen()
+  ];
 
   late int _selectedIndex;
-  // late UserProvider userProvider;
 
   @override
   void initState() {
     super.initState();
     _selectedIndex = widget.index;
-    // userProvider = context.read<UserProvider>();
   }
 
   void _onItemTapped(int index) {
@@ -120,12 +125,7 @@ class _NavBarState extends State<NavBar> {
     int? user = Authorization.userId;
     if (user == null) {
       return const LoginScreen();
-    }
-    // User? user = userProvider.user;
-    // if (user == null) {
-    //   return const LoginScreen();
-    // }
-    else {
+    } else {
       return SafeArea(
         child: Scaffold(
           body: screens.elementAt(_selectedIndex),
@@ -139,9 +139,15 @@ class _NavBarState extends State<NavBar> {
               ),
               BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.theaters,
+                  Icons.movie,
                 ),
                 label: 'Movies',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.calendar_month,
+                ),
+                label: 'Reservations',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person),

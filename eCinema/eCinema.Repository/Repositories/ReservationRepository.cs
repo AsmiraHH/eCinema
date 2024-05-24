@@ -44,7 +44,7 @@ namespace eCinema.Repository.Repositories
         }
         public virtual async Task<IEnumerable<Reservation>> GetByUserID(int userID)
         {
-            return await dbSet.Include(x => x.Show).Where(x => x.UserId == userID).ToListAsync();
+            return await dbSet.Include(x => x.Show).ThenInclude(x=>x.Movie).Where(x => x.UserId == userID).OrderByDescending(x=>x.Show.DateTime).ToListAsync();
         }
         public virtual async Task DeleteByShowIdsAsync(List<int> ids)
         {

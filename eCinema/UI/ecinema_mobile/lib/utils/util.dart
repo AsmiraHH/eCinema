@@ -19,6 +19,15 @@ Image fromBase64String(String image) {
   );
 }
 
+Image fromBase64StringR(String image) {
+  return Image.memory(
+    base64Decode(image),
+    width: 250,
+    height: 150,
+    fit: BoxFit.cover,
+  );
+}
+
 Image fromBase64StringCover(String image) {
   return Image.memory(
     base64Decode(image),

@@ -15,12 +15,10 @@ Future<dynamic> showErrorDialog(BuildContext context, String? message) async {
           ],
         ),
         content: SingleChildScrollView(
-          child: Center(
-            child: Text(
-              message ?? 'An error occurred.',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey[700], fontSize: 16),
-            ),
+          child: Text(
+            message ?? 'An error occurred.',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.grey[700], fontSize: 16),
           ),
         ),
         shape: RoundedRectangleBorder(
