@@ -10,8 +10,7 @@ namespace eCinema.Core.DTOs
 
         public ShowDTO Show { get; set; } = null!;
 
-        public SeatDTO Seat { get; set; } = null!;
-
         public UserDTO User { get; set; } = null!;
+        public List<ReservationSeatDTO> Seats { get; set; } = null!;
     }
 }

@@ -40,5 +40,51 @@ namespace eCinema.Service.Services
             await CurrentRepository.DeleteByShowIdsAsync(ids);
             await UnitOfWork.SaveChangesAsync();
         }
+        public override async Task<ReservationDTO> AddAsync(ReservationUpsertDTO dto)
+        {
+            await ValidateAsync(dto);
+
+            var entity = Mapper.Map<Reservation>(dto);
+           
+            if (dto.SeatIDs.Any())
+            {
+                entity.Seats = new List<ReservationSeat>();
+                foreach (var seat in dto.SeatIDs)
+                {
+                    entity.Seats.Add(new ReservationSeat()
+                    {
+                        SeatId = seat,
+                        Reservation = entity
+                    });
+                }
+            }
+
+            await CurrentRepository.AddAsync(entity);
+            await UnitOfWork.SaveChangesAsync();
+            return Mapper.Map<ReservationDTO>(entity);
+        }
+        public override async Task<ReservationDTO> UpdateAsync(ReservationUpsertDTO dto)
+        {
+            await ValidateAsync(dto);
+
+            var entity = Mapper.Map<Reservation>(dto);
+
+            if (dto.SeatIDs.Any())
+            {
+                entity.Seats = new List<ReservationSeat>();
+                foreach (var seat in dto.SeatIDs)
+                {
+                    entity.Seats.Add(new ReservationSeat()
+                    {
+                        SeatId = seat,
+                        Reservation = entity
+                    });
+                }
+            }
+
+            CurrentRepository.Update(entity);
+            await UnitOfWork.SaveChangesAsync();
+            return Mapper.Map<ReservationDTO>(entity);
+        }
     }
 }

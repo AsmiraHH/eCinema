@@ -6,11 +6,6 @@ using eCinema.Repository.RepositoriesInterfaces;
 using eCinema.Repository.UnitOfWork;
 using eCinema.Service.ServiceInterfaces;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace eCinema.Service.Services
 {
@@ -20,6 +15,15 @@ namespace eCinema.Service.Services
         public ShowService(IMapper mapper, IReservationService reservationService, IUnitOfWork unitOfWork, IValidator<ShowUpsertDTO> validator) : base(mapper, unitOfWork, validator)
         {
             _reservationService = reservationService;
+        }
+        public virtual async Task DeleteByHallIdAsync(int id)
+        {
+            var shows = CurrentRepository.GetByHallIdAsync(id);
+            if (shows != null)
+                await _reservationService.DeleteByShowIdsAsync(shows.Result.Select(x => x.ID).ToList());
+
+            await CurrentRepository.DeleteByHallIdAsync(id);
+            await UnitOfWork.SaveChangesAsync();
         }
         public virtual async Task DeleteByMovieIdAsync(int id)
         {

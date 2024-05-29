@@ -181,13 +181,13 @@ namespace eCinema.Repository.Migrations
                         name: "FK_Movies_Languages_LanguageId",
                         column: x => x.LanguageId,
                         principalTable: "Languages",
-                        principalColumn: "ID",
+                        principalColumn: "ID", 
                         onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_Movies_Productions_ProductionId",
                         column: x => x.ProductionId,
                         principalTable: "Productions",
-                        principalColumn: "ID",
+                        principalColumn: "ID", 
                         onDelete: ReferentialAction.SetNull);
                 });
 
@@ -230,6 +230,8 @@ namespace eCinema.Repository.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NumberOfSeats = table.Column<int>(type: "int", nullable: false),
+                    NumberOfRows = table.Column<int>(type: "int", nullable: false),
+                    MaxNumberOfSeatsPerRow = table.Column<int>(type: "int", nullable: false),
                     CinemaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -299,6 +301,7 @@ namespace eCinema.Repository.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Row = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Column = table.Column<int>(type: "int", nullable: false),
+                    isDisabled = table.Column<bool>(type: "bit", nullable: false),
                     HallId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -349,24 +352,17 @@ namespace eCinema.Repository.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     ShowId = table.Column<int>(type: "int", nullable: false),
-                    SeatId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reservations", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Reservations_Seats_SeatId",
-                        column: x => x.SeatId,
-                        principalTable: "Seats",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_Reservations_Shows_ShowId",
                         column: x => x.ShowId,
                         principalTable: "Shows",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Reservations_Users_UserId",
                         column: x => x.UserId,
@@ -375,10 +371,34 @@ namespace eCinema.Repository.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ReservationSeat",
+                columns: table => new
+                {
+                    ReservationId = table.Column<int>(type: "int", nullable: false),
+                    SeatId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ReservationSeat", x => new { x.ReservationId, x.SeatId });
+                    table.ForeignKey(
+                        name: "FK_ReservationSeat_Reservations_ReservationId",
+                        column: x => x.ReservationId,
+                        principalTable: "Reservations",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ReservationSeat_Seats_SeatId",
+                        column: x => x.SeatId,
+                        principalTable: "Seats",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.NoAction);
+                });
+
             migrationBuilder.InsertData(
                 table: "Actors",
                 columns: new[] { "ID", "BirthDate", "Email", "FirstName", "Gender", "LastName" },
-                values: new object[] { 1, new DateTime(2024, 4, 19, 14, 29, 28, 411, DateTimeKind.Local).AddTicks(8191), "jennifer.lopez@gmail.com", "Jennifer", 1, "Lopez" });
+                values: new object[] { 1, new DateTime(2024, 5, 29, 12, 29, 2, 327, DateTimeKind.Local).AddTicks(4108), "jennifer.lopez@gmail.com", "Jennifer", 1, "Lopez" });
 
             migrationBuilder.InsertData(
                 table: "Countries",
@@ -467,12 +487,12 @@ namespace eCinema.Repository.Migrations
             migrationBuilder.InsertData(
                 table: "Employees",
                 columns: new[] { "ID", "BirthDate", "CinemaId", "Email", "FirstName", "Gender", "IsActive", "LastName", "PasswordHash", "PasswordSalt", "PhoneNumber", "ProfilePhoto", "Role", "Username" },
-                values: new object[] { 1, new DateTime(2024, 4, 19, 14, 29, 28, 411, DateTimeKind.Local).AddTicks(8248), 1, "almedina.golos@eCinema.com", "Almedina", 1, true, "Gološ", "b4I5yA4Mp+0Pg1C3EsKU17sS13eDExGtBjjI07Vh/JM=", "1wQEjdSFeZttx6dlvEDjOg==", "38761327546", null, 0, "almedinaG" });
+                values: new object[] { 1, new DateTime(2024, 5, 29, 12, 29, 2, 327, DateTimeKind.Local).AddTicks(4168), 1, "almedina.golos@eCinema.com", "Almedina", 1, true, "Gološ", "b4I5yA4Mp+0Pg1C3EsKU17sS13eDExGtBjjI07Vh/JM=", "1wQEjdSFeZttx6dlvEDjOg==", "38761327546", null, 0, "almedinaG" });
 
             migrationBuilder.InsertData(
                 table: "Hall",
-                columns: new[] { "ID", "CinemaId", "Name", "NumberOfSeats" },
-                values: new object[] { 1, 1, "A1", 25 });
+                columns: new[] { "ID", "CinemaId", "MaxNumberOfSeatsPerRow", "Name", "NumberOfRows", "NumberOfSeats" },
+                values: new object[] { 1, 1, 0, "A1", 0, 25 });
 
             migrationBuilder.InsertData(
                 table: "MovieActors",
@@ -486,18 +506,23 @@ namespace eCinema.Repository.Migrations
 
             migrationBuilder.InsertData(
                 table: "Seats",
-                columns: new[] { "ID", "Column", "HallId", "Row" },
-                values: new object[] { 1, 1, 1, "A" });
+                columns: new[] { "ID", "Column", "HallId", "Row", "isDisabled" },
+                values: new object[] { 1, 1, 1, "A", false });
 
             migrationBuilder.InsertData(
                 table: "Shows",
                 columns: new[] { "ID", "DateTime", "Format", "HallId", "MovieId", "Price" },
-                values: new object[] { 1, new DateTime(2024, 4, 19, 14, 29, 28, 411, DateTimeKind.Local).AddTicks(8327), "ThreeD", 1, 1, 25.0 });
+                values: new object[] { 1, new DateTime(2024, 5, 29, 12, 29, 2, 327, DateTimeKind.Local).AddTicks(4319), "ThreeD", 1, 1, 25.0 });
 
             migrationBuilder.InsertData(
                 table: "Reservations",
-                columns: new[] { "ID", "SeatId", "ShowId", "UserId", "isActive" },
-                values: new object[] { 1, 1, 1, 1, true });
+                columns: new[] { "ID", "ShowId", "UserId", "isActive" },
+                values: new object[] { 1, 1, 1, true });
+
+            migrationBuilder.InsertData(
+                table: "ReservationSeat",
+                columns: new[] { "ReservationId", "SeatId" },
+                values: new object[] { 1, 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cinemas_CityId",
@@ -545,11 +570,6 @@ namespace eCinema.Repository.Migrations
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reservations_SeatId",
-                table: "Reservations",
-                column: "SeatId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Reservations_ShowId",
                 table: "Reservations",
                 column: "ShowId");
@@ -558,6 +578,11 @@ namespace eCinema.Repository.Migrations
                 name: "IX_Reservations_UserId",
                 table: "Reservations",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReservationSeat_SeatId",
+                table: "ReservationSeat",
+                column: "SeatId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Seats_HallId",
@@ -588,13 +613,16 @@ namespace eCinema.Repository.Migrations
                 name: "MovieGenres");
 
             migrationBuilder.DropTable(
-                name: "Reservations");
+                name: "ReservationSeat");
 
             migrationBuilder.DropTable(
                 name: "Actors");
 
             migrationBuilder.DropTable(
                 name: "Genres");
+
+            migrationBuilder.DropTable(
+                name: "Reservations");
 
             migrationBuilder.DropTable(
                 name: "Seats");

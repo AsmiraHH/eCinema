@@ -49,6 +49,8 @@ namespace eCinema.Core
             CreateMap<ReservationDTO, Reservation>().ReverseMap();
             CreateMap<ReservationUpsertDTO, Reservation>();
 
+            CreateMap<ReservationSeatDTO, ReservationSeat>().ReverseMap();
+
             CreateMap<SeatDTO, Seat>().ReverseMap();
             CreateMap<SeatUpsertDTO, Seat>();
             CreateMap<SeatDisableDTO, Seat>();

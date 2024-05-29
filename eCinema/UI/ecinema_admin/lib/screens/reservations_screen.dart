@@ -116,9 +116,10 @@ class _ReservationsScreenState extends State<ReservationsScreen> {
 
   Future<void> _saveReservation() async {
     Map<String, dynamic> newReservation = Map.from(_formKey.currentState!.value);
-    newReservation['id'] = selectedReservation?.id;
+    newReservation['Id'] = selectedReservation?.id;
     newReservation['ShowId'] = selectedReservation?.show!.id;
-    newReservation['SeatId'] = selectedReservation?.seat!.id;
+    // newReservation['SeatId'] = selectedReservation?.seat!.id;
+    newReservation['SeatIDs'] = [];
     newReservation['UserId'] = selectedReservation?.user!.id;
 
     try {
@@ -194,11 +195,13 @@ class _ReservationsScreenState extends State<ReservationsScreen> {
                       cells: [
                         DataCell(Text(reservation.show!.hall!.cinema!.name.toString())),
                         DataCell(Text(reservation.show!.movie!.title.toString())),
-                        DataCell(Text('${reservation.seat!.column.toString()}${reservation.seat!.row}')),
+                        DataCell(Text(
+                          reservation.seats!.map((seat) => seat.seat!.column.toString() + seat.seat!.row.toString()).join(', '),
+                        )),
                         DataCell(Text('${reservation.user!.firstName} ${reservation.user!.lastName}')),
                         DataCell(Container(
                             margin: const EdgeInsets.only(left: 9),
-                            child: reservation.user!.isActive == true
+                            child: reservation.isActive == true
                                 ? const Icon(
                                     Icons.check_box_outlined,
                                     color: Colors.green,
@@ -475,10 +478,11 @@ class _ReservationsScreenState extends State<ReservationsScreen> {
                             child: FormBuilderTextField(
                               enabled: false,
                               cursorColor: Colors.grey,
-                              name: 'SeatId',
-                              initialValue: (reservationEdit?.seat?.column?.toString() ?? '') +
-                                  (reservationEdit?.seat?.row ?? '').toString(),
-                              decoration: const InputDecoration(labelText: 'Seat'),
+                              name: 'SeatIDs',
+                              initialValue: reservationEdit!.seats!
+                                  .map((seat) => seat.seat!.column.toString() + seat.seat!.row.toString())
+                                  .join(', '),
+                              decoration: const InputDecoration(labelText: 'Seats'),
                             ),
                           ),
                           SizedBox(
@@ -487,8 +491,8 @@ class _ReservationsScreenState extends State<ReservationsScreen> {
                               enabled: false,
                               cursorColor: Colors.grey,
                               name: 'UserId',
-                              initialValue: ('${reservationEdit?.user?.firstName ?? ''} ${reservationEdit?.user?.lastName ?? ''}')
-                                  .toString(),
+                              initialValue:
+                                  ('${reservationEdit.user?.firstName ?? ''} ${reservationEdit.user?.lastName ?? ''}').toString(),
                               decoration: const InputDecoration(labelText: 'User'),
                             ),
                           ),
@@ -497,7 +501,7 @@ class _ReservationsScreenState extends State<ReservationsScreen> {
                             child: FormBuilderCheckbox(
                               title: const Text('Active'),
                               name: 'IsActive',
-                              initialValue: reservationEdit!.isActive,
+                              initialValue: reservationEdit.isActive,
                             ),
                           ),
                         ],

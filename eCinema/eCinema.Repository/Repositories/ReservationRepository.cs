@@ -12,7 +12,7 @@ namespace eCinema.Repository.Repositories
         public ReservationRepository(DatabaseContext db) : base(db) { }
         public override async Task<PagedList<Reservation>> GetPagedAsync(ReservationSearchObject searchObject)
         {
-            var items = dbSet.Include(x => x.User).Include(x => x.Seat).Include(x => x.Show).ThenInclude(x => x.Movie)
+            var items = dbSet.Include(x => x.User).Include(x => x.Seats).ThenInclude(x => x.Seat).Include(x => x.Show).ThenInclude(x => x.Movie)
                              .Include(x => x.Show).ThenInclude(x => x.Hall).ThenInclude(x => x.Cinema).OrderByDescending(x => x.ID).AsQueryable();
 
             if (searchObject.Cinema != null)
@@ -28,7 +28,7 @@ namespace eCinema.Repository.Repositories
         }
         public virtual async Task<List<Reservation>> GetForReportAsync(ReportDTO dto)
         {
-            var items = dbSet.Include(x => x.User).Include(x => x.Seat).Include(x => x.Show).ThenInclude(x => x.Movie)
+            var items = dbSet.Include(x => x.User).Include(x => x.Seats).ThenInclude(x => x.Seat).Include(x => x.Show).ThenInclude(x => x.Movie)
                              .Include(x => x.Show).ThenInclude(x => x.Hall).ThenInclude(x => x.Cinema).OrderByDescending(x => x.ID).AsQueryable();
 
             if (dto.Cinema != null)
@@ -44,7 +44,7 @@ namespace eCinema.Repository.Repositories
         }
         public virtual async Task<IEnumerable<Reservation>> GetByUserID(int userID)
         {
-            return await dbSet.Include(x => x.Show).ThenInclude(x=>x.Movie).Where(x => x.UserId == userID).OrderByDescending(x=>x.Show.DateTime).ToListAsync();
+            return await dbSet.Include(x => x.Show).ThenInclude(x => x.Movie).Where(x => x.UserId == userID).OrderByDescending(x => x.Show.DateTime).ToListAsync();
         }
         public virtual async Task DeleteByShowIdsAsync(List<int> ids)
         {

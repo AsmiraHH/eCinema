@@ -414,7 +414,7 @@ class _ReportScreenState extends State<ReportScreen> {
                 DataColumn(label: Text('Price')),
               ],
               rows: [
-                ...(_reportResult?.listOfReservations?.map((Reservation reservation) {
+                ...(_reportResult?.listOfReservations.map((Reservation reservation) {
                       return DataRow(
                         cells: [
                           DataCell(Text(reservation.show!.movie!.title.toString())),

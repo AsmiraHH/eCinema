@@ -11,12 +11,9 @@ namespace eCinema.Core.Entities
         public int ShowId { get; set; }
         public Show Show { get; set; } = null!;
 
-        [ForeignKey(nameof(Seat))]
-        public int SeatId { get; set; }
-        public Seat Seat { get; set; } = null!;
-
         [ForeignKey(nameof(User))]
         public int UserId { get; set; }
         public User User { get; set; } = null!;
+        public ICollection<ReservationSeat> Seats { get; set; } = new List<ReservationSeat>();
     }
 }

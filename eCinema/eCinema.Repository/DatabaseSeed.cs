@@ -24,6 +24,7 @@ namespace eCinema.Repository
             SeedSeats(modelBuilder);
             SeedShows(modelBuilder);
             SeedReservations(modelBuilder);
+            SeedReservationSeats(modelBuilder);
         }
         private void SeedCountries(ModelBuilder modelBuilder)
         {
@@ -246,8 +247,16 @@ namespace eCinema.Repository
                     ID = 1,
                     isActive = true,
                     ShowId = 1,
-                    SeatId = 1,
                     UserId = 1,
+                });
+        }
+        private void SeedReservationSeats(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ReservationSeat>().HasData(
+                new ReservationSeat
+                {
+                    SeatId = 1,
+                    ReservationId = 1,
                 });
         }
         private void SeedEmployees(ModelBuilder modelBuilder)

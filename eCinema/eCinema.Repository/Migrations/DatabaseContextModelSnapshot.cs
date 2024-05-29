@@ -56,7 +56,7 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            BirthDate = new DateTime(2024, 4, 25, 19, 22, 16, 416, DateTimeKind.Local).AddTicks(9944),
+                            BirthDate = new DateTime(2024, 5, 29, 12, 29, 2, 327, DateTimeKind.Local).AddTicks(4108),
                             Email = "jennifer.lopez@gmail.com",
                             FirstName = "Jennifer",
                             Gender = 1,
@@ -319,7 +319,7 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            BirthDate = new DateTime(2024, 4, 25, 19, 22, 16, 416, DateTimeKind.Local).AddTicks(9994),
+                            BirthDate = new DateTime(2024, 5, 29, 12, 29, 2, 327, DateTimeKind.Local).AddTicks(4168),
                             CinemaId = 1,
                             Email = "almedina.golos@eCinema.com",
                             FirstName = "Almedina",
@@ -626,9 +626,6 @@ namespace eCinema.Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<int>("SeatId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ShowId")
                         .HasColumnType("int");
 
@@ -640,8 +637,6 @@ namespace eCinema.Repository.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("SeatId");
-
                     b.HasIndex("ShowId");
 
                     b.HasIndex("UserId");
@@ -652,10 +647,31 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            SeatId = 1,
                             ShowId = 1,
                             UserId = 1,
                             isActive = true
+                        });
+                });
+
+            modelBuilder.Entity("eCinema.Core.Entities.ReservationSeat", b =>
+                {
+                    b.Property<int>("ReservationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SeatId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ReservationId", "SeatId");
+
+                    b.HasIndex("SeatId");
+
+                    b.ToTable("ReservationSeat");
+
+                    b.HasData(
+                        new
+                        {
+                            ReservationId = 1,
+                            SeatId = 1
                         });
                 });
 
@@ -733,7 +749,7 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            DateTime = new DateTime(2024, 4, 25, 19, 22, 16, 417, DateTimeKind.Local).AddTicks(69),
+                            DateTime = new DateTime(2024, 5, 29, 12, 29, 2, 327, DateTimeKind.Local).AddTicks(4319),
                             Format = "ThreeD",
                             HallId = 1,
                             MovieId = 1,
@@ -928,12 +944,6 @@ namespace eCinema.Repository.Migrations
 
             modelBuilder.Entity("eCinema.Core.Entities.Reservation", b =>
                 {
-                    b.HasOne("eCinema.Core.Entities.Seat", "Seat")
-                        .WithMany("Reservations")
-                        .HasForeignKey("SeatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("eCinema.Core.Entities.Show", "Show")
                         .WithMany("Reservations")
                         .HasForeignKey("ShowId")
@@ -946,11 +956,28 @@ namespace eCinema.Repository.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Seat");
-
                     b.Navigation("Show");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("eCinema.Core.Entities.ReservationSeat", b =>
+                {
+                    b.HasOne("eCinema.Core.Entities.Reservation", "Reservation")
+                        .WithMany("Seats")
+                        .HasForeignKey("ReservationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eCinema.Core.Entities.Seat", "Seat")
+                        .WithMany("Reservations")
+                        .HasForeignKey("SeatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Reservation");
+
+                    b.Navigation("Seat");
                 });
 
             modelBuilder.Entity("eCinema.Core.Entities.Seat", b =>
@@ -1036,6 +1063,11 @@ namespace eCinema.Repository.Migrations
             modelBuilder.Entity("eCinema.Core.Entities.Production", b =>
                 {
                     b.Navigation("Movies");
+                });
+
+            modelBuilder.Entity("eCinema.Core.Entities.Reservation", b =>
+                {
+                    b.Navigation("Seats");
                 });
 
             modelBuilder.Entity("eCinema.Core.Entities.Seat", b =>

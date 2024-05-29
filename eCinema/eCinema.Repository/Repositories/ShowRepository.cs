@@ -35,9 +35,20 @@ namespace eCinema.Repository.Repositories
             if (entity != null)
                 dbSet.RemoveRange(entity);
         }
+        public virtual async Task DeleteByHallIdAsync(int id)
+        {
+            var entity = await dbSet.Where(x => x.HallId == id).ToListAsync();
+            if (entity != null)
+                dbSet.RemoveRange(entity);
+        }
         public virtual async Task<List<Show>> GetByMovieIdAsync(int id)
         {
             var entities = await dbSet.Where(x => x.MovieId == id).ToListAsync();
+            return entities;
+        }
+        public virtual async Task<List<Show>> GetByHallIdAsync(int id)
+        {
+            var entities = await dbSet.Where(x => x.HallId == id).ToListAsync();
             return entities;
         }
 

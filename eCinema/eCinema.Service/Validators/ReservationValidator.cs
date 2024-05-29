@@ -13,7 +13,7 @@ namespace eCinema.Service.Validators
         public ReservationValidator()
         {
             RuleFor(a => a.isActive).NotNull().WithErrorCode("NotNull");
-            RuleFor(a => a.SeatId).NotNull().WithErrorCode("NotNull");
+            RuleFor(a => a.SeatIDs).NotNull().WithErrorCode("NotNull");
             RuleFor(a => a.ShowId).NotNull().WithErrorCode("NotNull");
             RuleFor(a => a.UserId).NotNull().WithErrorCode("NotNull");
         }
