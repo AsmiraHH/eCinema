@@ -1,16 +1,12 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:ui';
-
 import 'package:ecinema_mobile/helpers/constants.dart';
 import 'package:ecinema_mobile/models/reservation.dart';
+import 'package:ecinema_mobile/models/seat.dart';
 import 'package:ecinema_mobile/providers/reservation_provider.dart';
 import 'package:ecinema_mobile/utils/error_dialog.dart';
 import 'package:ecinema_mobile/utils/util.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -27,7 +23,6 @@ class _ReservationsScreenState extends State<ReservationsScreen> {
   late ReservationProvider reservationProvider;
   List<Reservation> reservationsResult = [];
   bool _isLoading = true;
-  var _seatsColor = darkRedColor;
 
   @override
   void initState() {
@@ -75,6 +70,7 @@ class _ReservationsScreenState extends State<ReservationsScreen> {
 Widget _buildReservation(BuildContext context, Reservation reservation) {
   return Card(
     margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+    color: !reservation.isActive! ? ThemeData().disabledColor : null,
     child: SizedBox(
       height: 150,
       child: Row(
@@ -98,21 +94,21 @@ Widget _buildReservation(BuildContext context, Reservation reservation) {
                     ),
                   ),
                   const Spacer(),
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.hd_outlined,
-                        size: 19,
-                        color: darkRedColor,
-                      ),
-                      const SizedBox(width: 5),
-                      Text(
-                        reservation.show!.format!,
-                        style: const TextStyle(color: Colors.white70),
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
+                  // Row(
+                  //   children: [
+                  //     const Icon(
+                  //       Icons.hd_outlined,
+                  //       size: 19,
+                  //       color: darkRedColor,
+                  //     ),
+                  //     const SizedBox(width: 5),
+                  //     Text(
+                  //       reservation.show!.format!,
+                  //       style: const TextStyle(color: Colors.white70),
+                  //     ),
+                  //   ],
+                  // ),
+                  // const Spacer(),
                   Row(
                     children: [
                       const Icon(
@@ -142,6 +138,21 @@ Widget _buildReservation(BuildContext context, Reservation reservation) {
                       ),
                     ],
                   ),
+                  const Spacer(),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.monetization_on_outlined,
+                        size: 19,
+                        color: darkRedColor,
+                      ),
+                      const SizedBox(width: 5),
+                      Text(
+                        '${reservation.totalPrice!.round()} BAM',
+                        style: const TextStyle(color: Colors.white70),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -161,7 +172,7 @@ Widget _buildReservation(BuildContext context, Reservation reservation) {
                     child: Opacity(opacity: a1.value, child: dialog),
                   );
                 },
-                pageBuilder: (_, __, ___) => buildTicketsModal(context, reservation),
+                pageBuilder: (_, __, ___) => buildSeatsModal(context, reservation),
               );
             },
             child: Container(
@@ -182,61 +193,72 @@ Widget _buildReservation(BuildContext context, Reservation reservation) {
   );
 }
 
-buildTicketsModal(BuildContext context, Reservation reservation) {
+buildSeatsModal(BuildContext context, Reservation reservation) {
   return Center(
     child: SizedBox(
       height: 400,
       width: 250,
-      child: Column(
-        children: [
-          ClipRRect(
-              borderRadius: BorderRadius.circular(10.0), child: fromBase64StringR(reservation.show!.movie!.photo!)),
-          const Expanded(
-            child: Material(
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(15, 12, 15, 0),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            'Seat',
-                            style: TextStyle(
-                              color: Color(0xFFf2f2f2),
-                            ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ClipRRect(child: fromBase64StringR(reservation.show!.movie!.photo!)),
+            Expanded(
+              child: Material(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(15, 12, 15, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Center(
+                        child: Text(
+                          'Seats',
+                          style: TextStyle(
+                            color: Color(0xFFf2f2f2),
                           ),
                         ),
-                        Expanded(
-                          child: Text(
-                            'Price',
-                            style: TextStyle(
-                              color: Color(0xFFf2f2f2),
-                            ),
+                      ),
+                      const SizedBox(height: 10),
+                      Expanded(
+                        child: ListView.separated(
+                          itemCount: reservation.seats!.length,
+                          padding: const EdgeInsets.all(0),
+                          separatorBuilder: (ctx, i) => const SizedBox(height: 20),
+                          itemBuilder: (ctx, i) => _ReservationSeatsListItem(
+                            seat: reservation.seats![i].seat!,
                           ),
                         ),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-
-                    // //Column data
-                    // Expanded(
-                    //   child: ListView.separated(
-                    //     itemCount: reservation..length,
-                    //     padding: const EdgeInsets.all(0),
-                    //     separatorBuilder: (ctx, i) => const SizedBox(height: 20),
-                    //     itemBuilder: (ctx, i) => _BookingSeatsListItem(
-                    //       booking: bookings[i],
-                    //     ),
-                    //   ),
-                    // ),
-                  ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     ),
   );
+}
+
+class _ReservationSeatsListItem extends StatelessWidget {
+  const _ReservationSeatsListItem({
+    required this.seat,
+  });
+
+  final Seat seat;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(
+        '${seat.row}-${seat.column}',
+        style: const TextStyle(
+          color: Colors.white70,
+          fontSize: 13,
+        ),
+      ),
+    );
+  }
 }

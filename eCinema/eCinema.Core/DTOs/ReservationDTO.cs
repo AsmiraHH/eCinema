@@ -12,5 +12,7 @@ namespace eCinema.Core.DTOs
 
         public UserDTO User { get; set; } = null!;
         public List<ReservationSeatDTO> Seats { get; set; } = null!;
+
+        public double TotalPrice { get; set; }
     }
 }

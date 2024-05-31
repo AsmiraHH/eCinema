@@ -20,7 +20,13 @@ namespace eCinema.Service.Services
         public async Task<IEnumerable<ReservationDTO>> GetByUserID(int userID)
         {
             var entities = await CurrentRepository.GetByUserID(userID);
-            return Mapper.Map<IEnumerable<ReservationDTO>>(entities);
+
+            var dtos = Mapper.Map<IEnumerable<ReservationDTO>>(entities);
+
+            foreach (var d in dtos)
+                d.TotalPrice = d.Seats.Count() * d.Show.Price;
+
+            return dtos;
         }
         public async Task<ReportModel> GetForReportAsync(ReportDTO dto)
         {
@@ -31,7 +37,7 @@ namespace eCinema.Service.Services
             report.ListOfReservations = Mapper.Map<List<ReservationDTO>>(list);
             report.TotalPrice = list.Sum(x => x.Show.Price);
             report.TotalCount = list.Count();
-            report.TotalUsers = list.DistinctBy(x=>x.UserId).Count();
+            report.TotalUsers = list.DistinctBy(x => x.UserId).Count();
 
             return report;
         }
@@ -45,7 +51,7 @@ namespace eCinema.Service.Services
             await ValidateAsync(dto);
 
             var entity = Mapper.Map<Reservation>(dto);
-           
+
             if (dto.SeatIDs.Any())
             {
                 entity.Seats = new List<ReservationSeat>();
