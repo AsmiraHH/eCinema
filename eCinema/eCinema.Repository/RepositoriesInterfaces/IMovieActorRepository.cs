@@ -10,5 +10,6 @@ namespace eCinema.Repository.RepositoriesInterfaces
 {
     public interface IMovieActorRepository : IBaseRepository<MovieActor, int, BaseSearchObject>
     {
+        void DetachEntity(MovieActor entity);
     }
 }

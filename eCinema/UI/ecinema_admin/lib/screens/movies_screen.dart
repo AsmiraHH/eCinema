@@ -3,11 +3,13 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:ecinema_admin/helpers/constants.dart';
+import 'package:ecinema_admin/models/actor.dart';
 import 'package:ecinema_admin/models/genre.dart';
 import 'package:ecinema_admin/models/language.dart';
 import 'package:ecinema_admin/models/movie.dart';
 import 'package:ecinema_admin/models/paged_result.dart';
 import 'package:ecinema_admin/models/production.dart';
+import 'package:ecinema_admin/providers/actor_provider.dart';
 import 'package:ecinema_admin/providers/genre_provider.dart';
 import 'package:ecinema_admin/providers/language_provider.dart';
 import 'package:ecinema_admin/providers/movie_provider.dart';
@@ -35,11 +37,13 @@ class _MoviesScreenState extends State<MoviesScreen> {
 
   late MovieProvider _movieProvider;
   late GenreProvider _genreProvider;
+  late ActorProvider _actorProvider;
   late LanguageProvider _languageProvider;
   late ProductionProvider _productionProvider;
 
   PagedResult<Movie>? moviesResult;
   List<Genre>? genresResult;
+  List<Actor>? actorsResult;
   List<Language>? languagesResult;
   List<Production>? productionsResult;
 
@@ -49,6 +53,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
 
   final TextEditingController _searchController = TextEditingController();
   final MultiSelectController<int> _genreController = MultiSelectController<int>();
+  final MultiSelectController<int> _actorController = MultiSelectController<int>();
 
   Movie? selectedMovie;
 
@@ -59,10 +64,12 @@ class _MoviesScreenState extends State<MoviesScreen> {
     super.initState();
     _movieProvider = context.read<MovieProvider>();
     _genreProvider = context.read<GenreProvider>();
+    _actorProvider = context.read<ActorProvider>();
     _languageProvider = context.read<LanguageProvider>();
     _productionProvider = context.read<ProductionProvider>();
     loadMovies({'PageNumber': _currentPage, 'PageSize': _pageSize});
     loadGenres();
+    loadActors();
     loadLanguages();
     loadProductions();
 
@@ -101,6 +108,23 @@ class _MoviesScreenState extends State<MoviesScreen> {
       var data = await _genreProvider.getAll();
       setState(() {
         genresResult = data;
+      });
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: Text("Error"),
+                content: Text(e.toString()),
+                actions: [TextButton(onPressed: () => Navigator.pop(context), child: Text("OK"))],
+              ));
+    }
+  }
+
+  void loadActors() async {
+    try {
+      var data = await _actorProvider.getAll();
+      setState(() {
+        actorsResult = data;
       });
     } catch (e) {
       showDialog(
@@ -155,6 +179,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
 
     newMovie['photoBase64'] = _base64Image;
     newMovie['GenreIDs'] = _genreController.selectedOptions.map((e) => e.value).toList();
+    newMovie['ActorIDs'] = _actorController.selectedOptions.map((e) => e.value).toList();
 
     try {
       if (!isEdit) {
@@ -548,20 +573,23 @@ class _MoviesScreenState extends State<MoviesScreen> {
   }
 
   Widget buildAddMovieModal({bool isEdit = false, Movie? movieEdit}) {
+    _actorController.clearAllSelection();
+    _genreController.clearAllSelection();
+
     if (!isEdit) {
-      _genreController.clearAllSelection();
       _base64Image = "";
     } else {
       _base64Image = movieEdit?.photo!;
     }
+
     return SizedBox(
-        height: 450,
         width: 900,
         child: Padding(
           padding: const EdgeInsets.all(35.0),
           child: FormBuilder(
               key: _formKey,
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Wrap(
                     runAlignment: WrapAlignment.spaceEvenly,
@@ -764,6 +792,60 @@ class _MoviesScreenState extends State<MoviesScreen> {
                               validator: (value) {
                                 if (_genreController.selectedOptions.isEmpty) {
                                   return 'Genre is required';
+                                } else {
+                                  return null;
+                                }
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            width: 250,
+                            child: FormBuilderField(
+                              name: 'ActorIDs',
+                              builder: (FormFieldState<dynamic> field) {
+                                return InputDecorator(
+                                  decoration: InputDecoration(
+                                    labelText: 'Actors',
+                                    labelStyle: TextStyle(fontSize: 20.0),
+                                    errorText: field.errorText,
+                                  ),
+                                  child: MultiSelectDropDown<int>(
+                                    optionsBackgroundColor: Colors.black,
+                                    selectedOptionBackgroundColor: Colors.black,
+                                    fieldBackgroundColor: Colors.black,
+                                    singleSelectItemStyle: TextStyle(color: Colors.black, backgroundColor: Colors.black),
+                                    controller: _actorController,
+                                    inputDecoration: BoxDecoration(
+                                      color: Colors.transparent,
+                                      border: Border.all(color: Colors.transparent),
+                                    ),
+                                    hint: "",
+                                    padding: EdgeInsets.all(0),
+                                    onOptionSelected: (List<ValueItem<int>> selectedO) {
+                                      _actorController.setSelectedOptions(selectedO);
+                                    },
+                                    options: actorsResult!.map((e) {
+                                      return ValueItem<int>(
+                                        value: e.id,
+                                        label: '${e.firstName!} ${e.lastName!}',
+                                      );
+                                    }).toList(),
+                                    selectedOptions: movieEdit?.actors != null
+                                        ? movieEdit!.actors!.map((movieActor) {
+                                            return ValueItem<int>(
+                                              value: movieActor.actor!.id!,
+                                              label: '${movieActor.actor!.firstName!} ${movieActor.actor!.lastName!}',
+                                            );
+                                          }).toList()
+                                        : [],
+                                    selectionType: SelectionType.multi,
+                                    chipConfig: ChipConfig(backgroundColor: blueColor.withOpacity(1)),
+                                  ),
+                                );
+                              },
+                              validator: (value) {
+                                if (_actorController.selectedOptions.isEmpty) {
+                                  return 'Actor is required';
                                 } else {
                                   return null;
                                 }

@@ -38,10 +38,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     try {
       _isLoading = true;
       var data = await userProvider.getById(Authorization.userId);
-      setState(() {
-        user = data;
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          user = data;
+          _isLoading = false;
+        });
+      }
     } catch (e) {
       showDialog(
           context: context,

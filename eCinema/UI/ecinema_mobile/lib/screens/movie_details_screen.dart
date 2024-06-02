@@ -2,6 +2,7 @@ import 'package:ecinema_mobile/helpers/constants.dart';
 import 'package:ecinema_mobile/models/show.dart';
 import 'package:ecinema_mobile/utils/util.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class MovieDetailsScreen extends StatefulWidget {
   final Show show;
@@ -100,10 +101,27 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                 ),
               ]),
             ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+              child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                const Text(
+                  'Actors: ',
+                  style: TextStyle(fontSize: 15),
+                ),
+                Expanded(
+                  child: Text(
+                    widget.show.movie!.actors!
+                        .map((actor) => '${actor.actor!.firstName} ${actor.actor!.lastName}')
+                        .join(', '),
+                    style: TextStyle(fontSize: 15, color: Colors.grey[400]),
+                  ),
+                ),
+              ]),
+            ),
             const Padding(
               padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
               child: Text(
-                'About Movie',
+                'Synopsis:',
                 style: TextStyle(fontSize: 15),
               ),
             ),

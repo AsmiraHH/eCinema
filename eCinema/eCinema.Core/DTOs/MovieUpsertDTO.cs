@@ -13,5 +13,6 @@ namespace eCinema.Core.DTOs
         public int LanguageId { get; set; }
         public int ProductionId { get; set; }
         public List<int> GenreIDs { get; set; } = null!;
+        public List<int> ActorIDs { get; set; } = null!;
     }
 }

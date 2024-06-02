@@ -35,10 +35,12 @@ class _ReservationsScreenState extends State<ReservationsScreen> {
     try {
       _isLoading = true;
       var data = await reservationProvider.getByUserId(Authorization.userId);
-      setState(() {
-        reservationsResult = data;
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          reservationsResult = data;
+          _isLoading = false;
+        });
+      }
     } catch (e) {
       showErrorDialog(context, e.toString().substring(11));
     }

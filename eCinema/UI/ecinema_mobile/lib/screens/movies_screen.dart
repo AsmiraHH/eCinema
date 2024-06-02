@@ -55,10 +55,12 @@ class _MoviesScreenState extends State<MoviesScreen> {
     _isLoading = true;
     try {
       var data = await _showProvider.getPaged(request);
-      setState(() {
-        showsResult = data;
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          showsResult = data;
+          _isLoading = false;
+        });
+      }
     } catch (e) {
       showDialog(
           context: context,
@@ -73,9 +75,11 @@ class _MoviesScreenState extends State<MoviesScreen> {
   Future<void> loadCinemas() async {
     try {
       var data = await _cinemaProvider.getAll();
-      setState(() {
-        cinemasResult = data;
-      });
+      if (mounted) {
+        setState(() {
+          cinemasResult = data;
+        });
+      }
     } catch (e) {
       showDialog(
           context: context,
@@ -90,9 +94,11 @@ class _MoviesScreenState extends State<MoviesScreen> {
   Future<void> loadGenres() async {
     try {
       var data = await _genreProvider.getAll();
-      setState(() {
-        genresResult = data;
-      });
+      if (mounted) {
+        setState(() {
+          genresResult = data;
+        });
+      }
     } catch (e) {
       showDialog(
           context: context,

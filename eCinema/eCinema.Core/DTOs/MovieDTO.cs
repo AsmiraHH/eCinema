@@ -15,5 +15,6 @@ namespace eCinema.Core.DTOs
         public  LanguageDTO Language { get; set; } = null!;
         public ProductionDTO Production { get; set; } = null!;
         public List<MovieGenreDTO> Genres { get; set; } = null!;
+        public List<MovieActorDTO> Actors { get; set; } = null!;
     }
 }

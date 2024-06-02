@@ -8,11 +8,13 @@ namespace eCinema.Repository.Repositories
     public class MovieGenreRepository : BaseRepository<MovieGenre, int, BaseSearchObject>, IMovieGenreRepository
     {
         public MovieGenreRepository(DatabaseContext db) : base(db) { }
-        public virtual async Task DeleteByMovieIdAsync(int id)
+        public void DetachEntity(MovieGenre entity)
         {
-            var entity = await dbSet.Where(x => x.MovieId == id).ToListAsync();
-            if (entity != null)
-                dbSet.RemoveRange(entity);
+            var entry = db.Entry(entity);
+            if (entry != null)
+            {
+                entry.State = EntityState.Modified;
+            }
         }
     }
 }

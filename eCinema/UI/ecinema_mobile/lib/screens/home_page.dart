@@ -43,10 +43,12 @@ class _HomePageState extends State<HomePage> {
     _isLoading = true;
     try {
       var data = await _showProvider.getLastAdded(selectedCinema);
-      setState(() {
-        lastAddedShows = data;
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          lastAddedShows = data;
+          _isLoading = false;
+        });
+      }
     } catch (e) {
       showDialog(
           context: context,
@@ -62,10 +64,12 @@ class _HomePageState extends State<HomePage> {
     _isLoading = true;
     try {
       var data = await _showProvider.getMostWatched(selectedCinema);
-      setState(() {
-        mostWatchedShows = data;
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          mostWatchedShows = data;
+          _isLoading = false;
+        });
+      }
     } catch (e) {
       showDialog(
           context: context,
@@ -81,10 +85,12 @@ class _HomePageState extends State<HomePage> {
     _isLoading = true;
     try {
       var data = await _showProvider.getRecommended(selectedCinema);
-      setState(() {
-        recommendedShows = data;
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          recommendedShows = data;
+          _isLoading = false;
+        });
+      }
     } catch (e) {
       showDialog(
           context: context,
@@ -99,9 +105,11 @@ class _HomePageState extends State<HomePage> {
   Future<void> loadCinemas() async {
     try {
       var data = await _cinemaProvider.getAll();
-      setState(() {
-        cinemasResult = data;
-      });
+      if (mounted) {
+        setState(() {
+          cinemasResult = data;
+        });
+      }
     } catch (e) {
       showDialog(
           context: context,

@@ -13,7 +13,7 @@ namespace eCinema.Repository.Repositories
 
         public override async Task<PagedList<Show>> GetPagedAsync(ShowSearchObject searchObject)
         {
-            var items = dbSet.Include(x => x.Hall).ThenInclude(x => x.Cinema).Include(x => x.Movie).ThenInclude(x => x.Genres).ThenInclude(x => x.Genre).AsQueryable();
+            var items = dbSet.Include(x => x.Hall).ThenInclude(x => x.Cinema).Include(x => x.Movie).ThenInclude(x => x.Genres).ThenInclude(x => x.Genre).Include(x => x.Movie).ThenInclude(x => x.Actors).ThenInclude(x => x.Actor).AsQueryable();
 
             if (searchObject.Cinema != null && searchObject.Cinema != 0)
                 items = items.Where(x => x.Hall.CinemaId == searchObject.Cinema);
@@ -55,19 +55,19 @@ namespace eCinema.Repository.Repositories
 
         public virtual async Task<List<Show>> GetLastAddedAsync(int cinemaId)
         {
-            var entities = await dbSet.Where(x => x.Hall.CinemaId == cinemaId).Include(x => x.Movie).ThenInclude(x => x.Genres).ThenInclude(x => x.Genre).OrderByDescending(x => x.ID).Take(6).ToListAsync();
+            var entities = await dbSet.Where(x => x.Hall.CinemaId == cinemaId).Include(x => x.Movie).ThenInclude(x => x.Genres).ThenInclude(x => x.Genre).Include(x => x.Movie).ThenInclude(x => x.Actors).ThenInclude(x => x.Actor).OrderByDescending(x => x.ID).Take(6).ToListAsync();
             return entities;
         }
 
         public virtual async Task<List<Show>> GetMostWatchedAsync(int cinemaId)
         {
-            var entities = await dbSet.Where(x => x.Hall.CinemaId == cinemaId).Include(x => x.Movie).ThenInclude(x => x.Genres).ThenInclude(x => x.Genre).OrderByDescending(x => x.Reservations.Count).Take(6).ToListAsync();
+            var entities = await dbSet.Where(x => x.Hall.CinemaId == cinemaId).Include(x => x.Movie).ThenInclude(x => x.Genres).ThenInclude(x => x.Genre).Include(x => x.Movie).ThenInclude(x => x.Actors).ThenInclude(x => x.Actor).OrderByDescending(x => x.Reservations.Count).Take(6).ToListAsync();
             return entities;
         }
 
         public virtual async Task<List<Show>> GetRecommendedAsync(int cinemaId, int genreId)
         {
-            var entities = await dbSet.Where(x => x.Hall.CinemaId == cinemaId && x.Movie.Genres.Any(x => x.GenreId == genreId)).Include(x => x.Movie).ThenInclude(x => x.Genres).ThenInclude(x => x.Genre).Take(6).ToListAsync();
+            var entities = await dbSet.Where(x => x.Hall.CinemaId == cinemaId && x.Movie.Genres.Any(x => x.GenreId == genreId)).Include(x => x.Movie).ThenInclude(x => x.Genres).ThenInclude(x => x.Genre).Include(x=>x.Movie).ThenInclude(x => x.Actors).ThenInclude(x => x.Actor).Take(6).ToListAsync();
             return entities;
         }
     }

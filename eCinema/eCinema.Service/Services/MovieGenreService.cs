@@ -15,10 +15,5 @@ namespace eCinema.Service.Services
         {
 
         }
-        public virtual async Task DeleteByMovieIdAsync(int id)
-        {
-            await CurrentRepository.DeleteByMovieIdAsync(id);
-            await UnitOfWork.SaveChangesAsync();
-        }
     }
 }

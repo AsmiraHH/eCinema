@@ -5,6 +5,6 @@ namespace eCinema.Repository.RepositoriesInterfaces
 {
     public interface IMovieGenreRepository : IBaseRepository<MovieGenre, int, BaseSearchObject>
     {
-        Task DeleteByMovieIdAsync(int id);
+        void DetachEntity(MovieGenre entity);
     }
 }
