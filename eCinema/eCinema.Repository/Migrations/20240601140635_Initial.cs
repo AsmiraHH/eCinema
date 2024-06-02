@@ -181,13 +181,13 @@ namespace eCinema.Repository.Migrations
                         name: "FK_Movies_Languages_LanguageId",
                         column: x => x.LanguageId,
                         principalTable: "Languages",
-                        principalColumn: "ID", 
+                        principalColumn: "ID",
                         onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_Movies_Productions_ProductionId",
                         column: x => x.ProductionId,
                         principalTable: "Productions",
-                        principalColumn: "ID", 
+                        principalColumn: "ID",
                         onDelete: ReferentialAction.SetNull);
                 });
 
@@ -362,7 +362,7 @@ namespace eCinema.Repository.Migrations
                         column: x => x.ShowId,
                         principalTable: "Shows",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Reservations_Users_UserId",
                         column: x => x.UserId,
@@ -392,13 +392,13 @@ namespace eCinema.Repository.Migrations
                         column: x => x.SeatId,
                         principalTable: "Seats",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 table: "Actors",
                 columns: new[] { "ID", "BirthDate", "Email", "FirstName", "Gender", "LastName" },
-                values: new object[] { 1, new DateTime(2024, 5, 29, 12, 29, 2, 327, DateTimeKind.Local).AddTicks(4108), "jennifer.lopez@gmail.com", "Jennifer", 1, "Lopez" });
+                values: new object[] { 1, new DateTime(2024, 6, 1, 16, 6, 35, 187, DateTimeKind.Local).AddTicks(6547), "jennifer.lopez@gmail.com", "Jennifer", 1, "Lopez" });
 
             migrationBuilder.InsertData(
                 table: "Countries",
@@ -487,7 +487,7 @@ namespace eCinema.Repository.Migrations
             migrationBuilder.InsertData(
                 table: "Employees",
                 columns: new[] { "ID", "BirthDate", "CinemaId", "Email", "FirstName", "Gender", "IsActive", "LastName", "PasswordHash", "PasswordSalt", "PhoneNumber", "ProfilePhoto", "Role", "Username" },
-                values: new object[] { 1, new DateTime(2024, 5, 29, 12, 29, 2, 327, DateTimeKind.Local).AddTicks(4168), 1, "almedina.golos@eCinema.com", "Almedina", 1, true, "Gološ", "b4I5yA4Mp+0Pg1C3EsKU17sS13eDExGtBjjI07Vh/JM=", "1wQEjdSFeZttx6dlvEDjOg==", "38761327546", null, 0, "almedinaG" });
+                values: new object[] { 1, new DateTime(2024, 6, 1, 16, 6, 35, 187, DateTimeKind.Local).AddTicks(6599), 1, "almedina.golos@eCinema.com", "Almedina", 1, true, "Gološ", "b4I5yA4Mp+0Pg1C3EsKU17sS13eDExGtBjjI07Vh/JM=", "1wQEjdSFeZttx6dlvEDjOg==", "38761327546", null, 0, "almedinaG" });
 
             migrationBuilder.InsertData(
                 table: "Hall",
@@ -512,7 +512,7 @@ namespace eCinema.Repository.Migrations
             migrationBuilder.InsertData(
                 table: "Shows",
                 columns: new[] { "ID", "DateTime", "Format", "HallId", "MovieId", "Price" },
-                values: new object[] { 1, new DateTime(2024, 5, 29, 12, 29, 2, 327, DateTimeKind.Local).AddTicks(4319), "ThreeD", 1, 1, 25.0 });
+                values: new object[] { 1, new DateTime(2024, 6, 1, 16, 6, 35, 187, DateTimeKind.Local).AddTicks(6725), "ThreeD", 1, 1, 25.0 });
 
             migrationBuilder.InsertData(
                 table: "Reservations",

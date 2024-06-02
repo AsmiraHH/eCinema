@@ -55,5 +55,22 @@ namespace eCinema.Repository.Repositories
                     dbSet.RemoveRange(resEntities);
             }
         }
+
+        public virtual async Task<int> GetMostFrequentGenreAsync(int userID, int cinemaID)
+        {
+            var result = await dbSet
+                               .Where(r => r.UserId == userID && r.Show.Hall.CinemaId == cinemaID)
+                               .SelectMany(r => r.Show.Movie.Genres) 
+                               .GroupBy(g => g.GenreId) 
+                               .Select(g => new
+                               {
+                                   GenreId = g.Key,
+                                   Count = g.Count()
+                               })
+                               .OrderByDescending(g => g.Count)
+                               .FirstOrDefaultAsync();
+
+            return result?.GenreId ?? -1; // Return -1 if no genre found
+        }
     }
 }

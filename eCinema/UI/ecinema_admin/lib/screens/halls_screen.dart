@@ -525,11 +525,13 @@ class _HallsScreenState extends State<HallsScreen> {
   Widget buildAddHallModal({bool isEdit = false, Hall? hallEdit}) {
     return SizedBox(
         width: 600,
+        // height: 400,
         child: Padding(
           padding: const EdgeInsets.all(35.0),
           child: FormBuilder(
               key: _formKey,
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Wrap(
                     runAlignment: WrapAlignment.spaceEvenly,
@@ -537,7 +539,6 @@ class _HallsScreenState extends State<HallsScreen> {
                     runSpacing: 10,
                     children: [
                       Column(
-                        mainAxisSize: MainAxisSize.min,
                         children: [
                           SizedBox(
                             width: 330,

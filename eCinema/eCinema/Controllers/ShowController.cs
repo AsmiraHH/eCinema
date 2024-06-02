@@ -37,5 +37,19 @@ namespace eCinema.Controllers
                 return BadRequest();
             }
         }
+        [HttpGet("{cinemaId}/{userId}")]
+        public virtual async Task<IActionResult> GetRecommended(int cinemaId, int userId)
+        {
+            try
+            {
+                var dto = await service.GetRecommendedAsync(cinemaId, userId);
+                return Ok(dto);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, $"Error while getting recommended shows.");
+                return BadRequest();
+            }
+        }
     }
 }

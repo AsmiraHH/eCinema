@@ -9,5 +9,6 @@ namespace eCinema.Repository.RepositoriesInterfaces
         Task<IEnumerable<Reservation>> GetByUserID(int userID);
         Task<List<Reservation>> GetForReportAsync(ReportDTO dto);
         Task DeleteByShowIdsAsync(List<int> ids);
+        Task<int> GetMostFrequentGenreAsync(int userID, int cinemaID);
     }
 }

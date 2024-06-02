@@ -12,7 +12,7 @@ using eCinema.Repository;
 namespace eCinema.Repository.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240529102902_Initial")]
+    [Migration("20240601140635_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -59,7 +59,7 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            BirthDate = new DateTime(2024, 5, 29, 12, 29, 2, 327, DateTimeKind.Local).AddTicks(4108),
+                            BirthDate = new DateTime(2024, 6, 1, 16, 6, 35, 187, DateTimeKind.Local).AddTicks(6547),
                             Email = "jennifer.lopez@gmail.com",
                             FirstName = "Jennifer",
                             Gender = 1,
@@ -322,7 +322,7 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            BirthDate = new DateTime(2024, 5, 29, 12, 29, 2, 327, DateTimeKind.Local).AddTicks(4168),
+                            BirthDate = new DateTime(2024, 6, 1, 16, 6, 35, 187, DateTimeKind.Local).AddTicks(6599),
                             CinemaId = 1,
                             Email = "almedina.golos@eCinema.com",
                             FirstName = "Almedina",
@@ -752,7 +752,7 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            DateTime = new DateTime(2024, 5, 29, 12, 29, 2, 327, DateTimeKind.Local).AddTicks(4319),
+                            DateTime = new DateTime(2024, 6, 1, 16, 6, 35, 187, DateTimeKind.Local).AddTicks(6725),
                             Format = "ThreeD",
                             HallId = 1,
                             MovieId = 1,

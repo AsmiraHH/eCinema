@@ -55,5 +55,18 @@ namespace eCinema.Service.Services
             var entities = await CurrentRepository.GetMostWatchedAsync(cinemaId);
             return Mapper.Map<List<ShowDTO>>(entities);
         }
+        public async Task<List<ShowDTO>?> GetRecommendedAsync(int cinemaId, int userId)
+        {
+            var mostFrequentGenre = await UnitOfWork.ReservationRepository.GetMostFrequentGenreAsync(userId, cinemaId);
+
+            List<Show>? entities;
+
+            if (mostFrequentGenre != -1)
+                entities = await CurrentRepository.GetRecommendedAsync(cinemaId, mostFrequentGenre);
+            else
+                entities = await CurrentRepository.GetMostWatchedAsync(cinemaId);
+
+            return Mapper.Map<List<ShowDTO>>(entities);
+        }
     }
 }

@@ -2,6 +2,7 @@
 using eCinema.Core.Helpers;
 using eCinema.Core.SearchObjects;
 using eCinema.Repository.RepositoriesInterfaces;
+using eCinema.Repository.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 
 namespace eCinema.Repository.Repositories
@@ -61,6 +62,12 @@ namespace eCinema.Repository.Repositories
         public virtual async Task<List<Show>> GetMostWatchedAsync(int cinemaId)
         {
             var entities = await dbSet.Where(x => x.Hall.CinemaId == cinemaId).Include(x => x.Movie).ThenInclude(x => x.Genres).ThenInclude(x => x.Genre).OrderByDescending(x => x.Reservations.Count).Take(6).ToListAsync();
+            return entities;
+        }
+
+        public virtual async Task<List<Show>> GetRecommendedAsync(int cinemaId, int genreId)
+        {
+            var entities = await dbSet.Where(x => x.Hall.CinemaId == cinemaId && x.Movie.Genres.Any(x => x.GenreId == genreId)).Include(x => x.Movie).ThenInclude(x => x.Genres).ThenInclude(x => x.Genre).Take(6).ToListAsync();
             return entities;
         }
     }

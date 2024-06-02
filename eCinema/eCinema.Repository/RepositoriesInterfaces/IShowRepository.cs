@@ -1,10 +1,5 @@
 ﻿using eCinema.Core.Entities;
 using eCinema.Core.SearchObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace eCinema.Repository.RepositoriesInterfaces
 {
@@ -16,5 +11,6 @@ namespace eCinema.Repository.RepositoriesInterfaces
         Task<List<Show>> GetByHallIdAsync(int id);
         Task<List<Show>> GetLastAddedAsync(int cinemaId);
         Task<List<Show>> GetMostWatchedAsync(int cinemaId);
+        Task<List<Show>> GetRecommendedAsync(int cinemaId, int genreId);
     }
 }

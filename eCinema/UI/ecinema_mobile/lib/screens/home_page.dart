@@ -20,6 +20,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<Show> lastAddedShows = <Show>[];
   List<Show> mostWatchedShows = <Show>[];
+  List<Show> recommendedShows = <Show>[];
   late ShowProvider _showProvider;
   late CinemaProvider _cinemaProvider;
   List<Cinema> cinemasResult = <Cinema>[];
@@ -35,6 +36,7 @@ class _HomePageState extends State<HomePage> {
     loadCinemas();
     loadLastAddedShows();
     loadMostWatchedShows();
+    loadRecommendedShows();
   }
 
   Future<void> loadLastAddedShows() async {
@@ -75,13 +77,30 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Future<void> loadRecommendedShows() async {
+    _isLoading = true;
+    try {
+      var data = await _showProvider.getRecommended(selectedCinema);
+      setState(() {
+        recommendedShows = data;
+        _isLoading = false;
+      });
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: const Text("Error"),
+                content: Text(e.toString()),
+                actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text("OK"))],
+              ));
+    }
+  }
+
   Future<void> loadCinemas() async {
-    // _isLoading = true;
     try {
       var data = await _cinemaProvider.getAll();
       setState(() {
         cinemasResult = data;
-        // _isLoading = false;
       });
     } catch (e) {
       showDialog(
@@ -119,8 +138,10 @@ class _HomePageState extends State<HomePage> {
                     selectedCinema = newValue ?? 1;
                     lastAddedShows = [];
                     mostWatchedShows = [];
+                    recommendedShows = [];
                     loadLastAddedShows();
                     loadMostWatchedShows();
+                    loadRecommendedShows();
                   });
                 },
                 isExpanded: false,
@@ -179,6 +200,18 @@ class _HomePageState extends State<HomePage> {
                   height: 20,
                 ),
                 const Text(
+                  'Recommended Movies',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                buildShows(recommendedShows),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text(
                   'Last Added Movies',
                   textAlign: TextAlign.start,
                   style: TextStyle(color: Colors.white, fontSize: 16),
@@ -206,23 +239,22 @@ class _HomePageState extends State<HomePage> {
       );
     }
   }
-}
 
-Widget buildShows(List<Show> shows) {
-  return GridView.builder(
-    shrinkWrap: true,
-    physics: const NeverScrollableScrollPhysics(),
-    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-      crossAxisSpacing: 15,
-      mainAxisSpacing: 15,
-      crossAxisCount: 3,
-      childAspectRatio: 0.7,
-    ),
-    itemCount: shows.length,
-    itemBuilder: (context, index) {
-      return buildShow(context, shows[index]);
-    },
-  );
+  Widget buildShows(List<Show> shows) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Wrap(
+        spacing: 15,
+        runSpacing: 15,
+        children: List.generate(shows.length, (index) {
+          return SizedBox(
+            width: MediaQuery.of(context).size.width / 3 - 20,
+            child: buildShow(context, shows[index]),
+          );
+        }),
+      ),
+    );
+  }
 }
 
 Widget buildShow(BuildContext context, Show show) {
