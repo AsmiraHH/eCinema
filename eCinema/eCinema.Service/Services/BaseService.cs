@@ -83,6 +83,11 @@ namespace eCinema.Service.Services
             await CurrentRepository.DeleteByIdAsync(id);
             await UnitOfWork.SaveChangesAsync();
         }
+        public virtual async Task SoftDeleteAsync(int id)
+        {
+            await CurrentRepository.SoftDeleteAsync(id);
+            await UnitOfWork.SaveChangesAsync();
+        }
         protected async Task ValidateAsync(TUpsertDTO dto)
         {
             var validationResult = await Validator.ValidateAsync(dto);

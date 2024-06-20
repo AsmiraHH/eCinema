@@ -110,7 +110,7 @@ namespace eCinema.Controllers
         {
             try
             {
-                await service.DeleteByIdAsync(id);
+                await service.SoftDeleteAsync(id);
                 return Ok();
             }
             catch (Exception e)

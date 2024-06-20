@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace eCinema.Core.Entities
 {
     [PrimaryKey(nameof(ReservationId), nameof(SeatId))]
-    public class ReservationSeat
+    public class ReservationSeat : BaseEntity
     {
         [ForeignKey(nameof(Reservation))]
         public int ReservationId { get; set; }

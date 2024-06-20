@@ -16,5 +16,6 @@ namespace eCinema.Repository.RepositoriesInterfaces
         Task<TEntity?> GetByIdAsync(TPrimaryKey id);
         Task<PagedList<TEntity>> GetPagedAsync(TSearchObject searchObject);
         Task DeleteByIdAsync(TPrimaryKey id);
+        Task SoftDeleteAsync(TPrimaryKey id);
     }
 }

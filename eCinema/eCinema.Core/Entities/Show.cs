@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eCinema.Core.Entities
 {
-    public class Show
+    public class Show : BaseEntity
     {
         public int ID { get; set; }
 

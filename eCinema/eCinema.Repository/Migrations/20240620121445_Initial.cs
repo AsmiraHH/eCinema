@@ -23,7 +23,9 @@ namespace eCinema.Repository.Migrations
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Gender = table.Column<int>(type: "int", nullable: false)
+                    Gender = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -36,7 +38,9 @@ namespace eCinema.Repository.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -49,7 +53,9 @@ namespace eCinema.Repository.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -62,7 +68,9 @@ namespace eCinema.Repository.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -87,7 +95,9 @@ namespace eCinema.Repository.Migrations
                     Role = table.Column<int>(type: "int", nullable: false),
                     IsVerified = table.Column<bool>(type: "bit", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    ProfilePhoto = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
+                    ProfilePhoto = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -102,7 +112,9 @@ namespace eCinema.Repository.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ZipCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CountryId = table.Column<int>(type: "int", nullable: false)
+                    CountryId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -122,7 +134,9 @@ namespace eCinema.Repository.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CountryId = table.Column<int>(type: "int", nullable: false)
+                    CountryId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -146,7 +160,9 @@ namespace eCinema.Repository.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NumberOfHalls = table.Column<int>(type: "int", nullable: false),
-                    CityId = table.Column<int>(type: "int", nullable: false)
+                    CityId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -171,8 +187,10 @@ namespace eCinema.Repository.Migrations
                     ReleaseYear = table.Column<int>(type: "int", nullable: false),
                     Duration = table.Column<int>(type: "int", nullable: false),
                     Photo = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
-                    LanguageId = table.Column<int>(type: "int", nullable: true),
-                    ProductionId = table.Column<int>(type: "int", nullable: true)
+                    LanguageId = table.Column<int>(type: "int", nullable: false),
+                    ProductionId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -182,13 +200,13 @@ namespace eCinema.Repository.Migrations
                         column: x => x.LanguageId,
                         principalTable: "Languages",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Movies_Productions_ProductionId",
                         column: x => x.ProductionId,
                         principalTable: "Productions",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -209,7 +227,9 @@ namespace eCinema.Repository.Migrations
                     Role = table.Column<int>(type: "int", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     ProfilePhoto = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
-                    CinemaId = table.Column<int>(type: "int", nullable: false)
+                    CinemaId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -232,7 +252,9 @@ namespace eCinema.Repository.Migrations
                     NumberOfSeats = table.Column<int>(type: "int", nullable: false),
                     NumberOfRows = table.Column<int>(type: "int", nullable: false),
                     MaxNumberOfSeatsPerRow = table.Column<int>(type: "int", nullable: false),
-                    CinemaId = table.Column<int>(type: "int", nullable: false)
+                    CinemaId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -250,7 +272,9 @@ namespace eCinema.Repository.Migrations
                 columns: table => new
                 {
                     MovieId = table.Column<int>(type: "int", nullable: false),
-                    ActorId = table.Column<int>(type: "int", nullable: false)
+                    ActorId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -274,7 +298,9 @@ namespace eCinema.Repository.Migrations
                 columns: table => new
                 {
                     MovieId = table.Column<int>(type: "int", nullable: false),
-                    GenreId = table.Column<int>(type: "int", nullable: false)
+                    GenreId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -302,7 +328,9 @@ namespace eCinema.Repository.Migrations
                     Row = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Column = table.Column<int>(type: "int", nullable: false),
                     isDisabled = table.Column<bool>(type: "bit", nullable: false),
-                    HallId = table.Column<int>(type: "int", nullable: false)
+                    HallId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -325,7 +353,9 @@ namespace eCinema.Repository.Migrations
                     Format = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<double>(type: "float", nullable: false),
                     HallId = table.Column<int>(type: "int", nullable: false),
-                    MovieId = table.Column<int>(type: "int", nullable: false)
+                    MovieId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -341,7 +371,7 @@ namespace eCinema.Repository.Migrations
                         column: x => x.MovieId,
                         principalTable: "Movies",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -352,7 +382,9 @@ namespace eCinema.Repository.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
                     ShowId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -362,7 +394,7 @@ namespace eCinema.Repository.Migrations
                         column: x => x.ShowId,
                         principalTable: "Shows",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Reservations_Users_UserId",
                         column: x => x.UserId,
@@ -376,7 +408,9 @@ namespace eCinema.Repository.Migrations
                 columns: table => new
                 {
                     ReservationId = table.Column<int>(type: "int", nullable: false),
-                    SeatId = table.Column<int>(type: "int", nullable: false)
+                    SeatId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -392,137 +426,137 @@ namespace eCinema.Repository.Migrations
                         column: x => x.SeatId,
                         principalTable: "Seats",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.InsertData(
                 table: "Actors",
-                columns: new[] { "ID", "BirthDate", "Email", "FirstName", "Gender", "LastName" },
-                values: new object[] { 1, new DateTime(2024, 6, 1, 16, 6, 35, 187, DateTimeKind.Local).AddTicks(6547), "jennifer.lopez@gmail.com", "Jennifer", 1, "Lopez" });
+                columns: new[] { "ID", "BirthDate", "Email", "FirstName", "Gender", "IsDeleted", "LastName", "ModifiedAt" },
+                values: new object[] { 1, new DateTime(2024, 6, 20, 14, 14, 45, 110, DateTimeKind.Local).AddTicks(2008), "jennifer.lopez@gmail.com", "Jennifer", 1, false, "Lopez", null });
 
             migrationBuilder.InsertData(
                 table: "Countries",
-                columns: new[] { "ID", "Name" },
+                columns: new[] { "ID", "IsDeleted", "ModifiedAt", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Bosnia and Herzegovina" },
-                    { 2, "Croatia" },
-                    { 3, "Serbia" },
-                    { 4, "Australia" },
-                    { 5, "Canada" },
-                    { 6, "Switzerland" },
-                    { 7, "France" },
-                    { 8, "United States" },
-                    { 9, "Germany" },
-                    { 10, "Austria" }
+                    { 1, false, null, "Bosnia and Herzegovina" },
+                    { 2, false, null, "Croatia" },
+                    { 3, false, null, "Serbia" },
+                    { 4, false, null, "Australia" },
+                    { 5, false, null, "Canada" },
+                    { 6, false, null, "Switzerland" },
+                    { 7, false, null, "France" },
+                    { 8, false, null, "United States" },
+                    { 9, false, null, "Germany" },
+                    { 10, false, null, "Austria" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Genres",
-                columns: new[] { "ID", "Name" },
+                columns: new[] { "ID", "IsDeleted", "ModifiedAt", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Action" },
-                    { 2, "Comedy" },
-                    { 3, "Horror" },
-                    { 4, "Romance" },
-                    { 5, "Western" },
-                    { 6, "Thriller" },
-                    { 7, "Drama" },
-                    { 8, "Mistery" }
+                    { 1, false, null, "Action" },
+                    { 2, false, null, "Comedy" },
+                    { 3, false, null, "Horror" },
+                    { 4, false, null, "Romance" },
+                    { 5, false, null, "Western" },
+                    { 6, false, null, "Thriller" },
+                    { 7, false, null, "Drama" },
+                    { 8, false, null, "Mistery" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Languages",
-                columns: new[] { "ID", "Name" },
+                columns: new[] { "ID", "IsDeleted", "ModifiedAt", "Name" },
                 values: new object[,]
                 {
-                    { 1, "English" },
-                    { 2, "German" },
-                    { 3, "Bosnian" }
+                    { 1, false, null, "English" },
+                    { 2, false, null, "German" },
+                    { 3, false, null, "Bosnian" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "ID", "BirthDate", "Email", "FirstName", "Gender", "IsActive", "IsVerified", "LastName", "PasswordHash", "PasswordSalt", "PhoneNumber", "ProfilePhoto", "Role", "Username" },
-                values: new object[] { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@eCinema.com", "Asmira", 1, true, false, "Husić", "b4I5yA4Mp+0Pg1C3EsKU17sS13eDExGtBjjI07Vh/JM=", "1wQEjdSFeZttx6dlvEDjOg==", "38761123456", null, 1, "asmiraH" });
+                columns: new[] { "ID", "BirthDate", "Email", "FirstName", "Gender", "IsActive", "IsDeleted", "IsVerified", "LastName", "ModifiedAt", "PasswordHash", "PasswordSalt", "PhoneNumber", "ProfilePhoto", "Role", "Username" },
+                values: new object[] { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@eCinema.com", "Asmira", 1, true, false, false, "Husić", null, "b4I5yA4Mp+0Pg1C3EsKU17sS13eDExGtBjjI07Vh/JM=", "1wQEjdSFeZttx6dlvEDjOg==", "38761123456", null, 1, "asmiraH" });
 
             migrationBuilder.InsertData(
                 table: "Cities",
-                columns: new[] { "ID", "CountryId", "Name", "ZipCode" },
+                columns: new[] { "ID", "CountryId", "IsDeleted", "ModifiedAt", "Name", "ZipCode" },
                 values: new object[,]
                 {
-                    { 1, 1, "Mostar", "88000" },
-                    { 2, 1, "Sarajevo", "77000" },
-                    { 3, 1, "Tuzla", "75000" },
-                    { 4, 1, "Zenica", "72000" },
-                    { 5, 1, "Konjic", "88400" }
+                    { 1, 1, false, null, "Mostar", "88000" },
+                    { 2, 1, false, null, "Sarajevo", "77000" },
+                    { 3, 1, false, null, "Tuzla", "75000" },
+                    { 4, 1, false, null, "Zenica", "72000" },
+                    { 5, 1, false, null, "Konjic", "88400" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Productions",
-                columns: new[] { "ID", "CountryId", "Name" },
+                columns: new[] { "ID", "CountryId", "IsDeleted", "ModifiedAt", "Name" },
                 values: new object[,]
                 {
-                    { 1, 6, "Warner Bros" },
-                    { 2, 6, "Universal Pictures" },
-                    { 3, 3, "Režim" },
-                    { 4, 6, "Volcano Films" }
+                    { 1, 6, false, null, "Warner Bros" },
+                    { 2, 6, false, null, "Universal Pictures" },
+                    { 3, 3, false, null, "Režim" },
+                    { 4, 6, false, null, "Volcano Films" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Cinemas",
-                columns: new[] { "ID", "Address", "CityId", "Email", "Name", "NumberOfHalls", "PhoneNumber" },
+                columns: new[] { "ID", "Address", "CityId", "Email", "IsDeleted", "ModifiedAt", "Name", "NumberOfHalls", "PhoneNumber" },
                 values: new object[,]
                 {
-                    { 1, "Bisce Polje bb", 1, "plazamostar@gmail.com", "Cineplexx Plaza Mostar", 10, "060100100" },
-                    { 2, "Dzemala Bijedica St", 2, "srajevocinestar@gmail.com", "CineStar Sarajevo", 5, "060200200" }
+                    { 1, "Bisce Polje bb", 1, "plazamostar@gmail.com", false, null, "Cineplexx Plaza Mostar", 10, "060100100" },
+                    { 2, "Dzemala Bijedica St", 2, "srajevocinestar@gmail.com", false, null, "CineStar Sarajevo", 5, "060200200" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Movies",
-                columns: new[] { "ID", "Author", "Description", "Duration", "LanguageId", "Photo", "ProductionId", "ReleaseYear", "Title" },
-                values: new object[] { 1, "", "", 150, 1, null, 1, 2001, "Fast and furious" });
+                columns: new[] { "ID", "Author", "Description", "Duration", "IsDeleted", "LanguageId", "ModifiedAt", "Photo", "ProductionId", "ReleaseYear", "Title" },
+                values: new object[] { 1, "", "", 150, false, 1, null, null, 1, 2001, "Fast and furious" });
 
             migrationBuilder.InsertData(
                 table: "Employees",
-                columns: new[] { "ID", "BirthDate", "CinemaId", "Email", "FirstName", "Gender", "IsActive", "LastName", "PasswordHash", "PasswordSalt", "PhoneNumber", "ProfilePhoto", "Role", "Username" },
-                values: new object[] { 1, new DateTime(2024, 6, 1, 16, 6, 35, 187, DateTimeKind.Local).AddTicks(6599), 1, "almedina.golos@eCinema.com", "Almedina", 1, true, "Gološ", "b4I5yA4Mp+0Pg1C3EsKU17sS13eDExGtBjjI07Vh/JM=", "1wQEjdSFeZttx6dlvEDjOg==", "38761327546", null, 0, "almedinaG" });
+                columns: new[] { "ID", "BirthDate", "CinemaId", "Email", "FirstName", "Gender", "IsActive", "IsDeleted", "LastName", "ModifiedAt", "PasswordHash", "PasswordSalt", "PhoneNumber", "ProfilePhoto", "Role", "Username" },
+                values: new object[] { 1, new DateTime(2024, 6, 20, 14, 14, 45, 110, DateTimeKind.Local).AddTicks(2068), 1, "almedina.golos@eCinema.com", "Almedina", 1, true, false, "Gološ", null, "b4I5yA4Mp+0Pg1C3EsKU17sS13eDExGtBjjI07Vh/JM=", "1wQEjdSFeZttx6dlvEDjOg==", "38761327546", null, 0, "almedinaG" });
 
             migrationBuilder.InsertData(
                 table: "Hall",
-                columns: new[] { "ID", "CinemaId", "MaxNumberOfSeatsPerRow", "Name", "NumberOfRows", "NumberOfSeats" },
-                values: new object[] { 1, 1, 0, "A1", 0, 25 });
+                columns: new[] { "ID", "CinemaId", "IsDeleted", "MaxNumberOfSeatsPerRow", "ModifiedAt", "Name", "NumberOfRows", "NumberOfSeats" },
+                values: new object[] { 1, 1, false, 0, null, "A1", 0, 25 });
 
             migrationBuilder.InsertData(
                 table: "MovieActors",
-                columns: new[] { "ActorId", "MovieId" },
-                values: new object[] { 1, 1 });
+                columns: new[] { "ActorId", "MovieId", "IsDeleted", "ModifiedAt" },
+                values: new object[] { 1, 1, false, null });
 
             migrationBuilder.InsertData(
                 table: "MovieGenres",
-                columns: new[] { "GenreId", "MovieId" },
-                values: new object[] { 1, 1 });
+                columns: new[] { "GenreId", "MovieId", "IsDeleted", "ModifiedAt" },
+                values: new object[] { 1, 1, false, null });
 
             migrationBuilder.InsertData(
                 table: "Seats",
-                columns: new[] { "ID", "Column", "HallId", "Row", "isDisabled" },
-                values: new object[] { 1, 1, 1, "A", false });
+                columns: new[] { "ID", "Column", "HallId", "IsDeleted", "ModifiedAt", "Row", "isDisabled" },
+                values: new object[] { 1, 1, 1, false, null, "A", false });
 
             migrationBuilder.InsertData(
                 table: "Shows",
-                columns: new[] { "ID", "DateTime", "Format", "HallId", "MovieId", "Price" },
-                values: new object[] { 1, new DateTime(2024, 6, 1, 16, 6, 35, 187, DateTimeKind.Local).AddTicks(6725), "ThreeD", 1, 1, 25.0 });
+                columns: new[] { "ID", "DateTime", "Format", "HallId", "IsDeleted", "ModifiedAt", "MovieId", "Price" },
+                values: new object[] { 1, new DateTime(2024, 6, 20, 14, 14, 45, 110, DateTimeKind.Local).AddTicks(2224), "ThreeD", 1, false, null, 1, 25.0 });
 
             migrationBuilder.InsertData(
                 table: "Reservations",
-                columns: new[] { "ID", "ShowId", "UserId", "isActive" },
-                values: new object[] { 1, 1, 1, true });
+                columns: new[] { "ID", "IsDeleted", "ModifiedAt", "ShowId", "UserId", "isActive" },
+                values: new object[] { 1, false, null, 1, 1, true });
 
             migrationBuilder.InsertData(
                 table: "ReservationSeat",
-                columns: new[] { "ReservationId", "SeatId" },
-                values: new object[] { 1, 1 });
+                columns: new[] { "ReservationId", "SeatId", "IsDeleted", "ModifiedAt" },
+                values: new object[] { 1, 1, false, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cinemas_CityId",

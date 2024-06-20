@@ -16,26 +16,7 @@ namespace eCinema.Service.Services
         {
             _reservationService = reservationService;
         }
-        public virtual async Task DeleteByHallIdAsync(int id)
-        {
-            var shows = CurrentRepository.GetByHallIdAsync(id);
-            if (shows != null)
-                await _reservationService.DeleteByShowIdsAsync(shows.Result.Select(x => x.ID).ToList());
-
-            await CurrentRepository.DeleteByHallIdAsync(id);
-            await UnitOfWork.SaveChangesAsync();
-        }
-        public override async Task DeleteByIdAsync(int id)
-        {
-            var entity = CurrentRepository.GetByIdAsync(id);
-            if (entity.Result != null)
-            {
-                await _reservationService.DeleteByShowIdsAsync(new List<int>() { id });
-            }
-
-            await CurrentRepository.DeleteByIdAsync(id);
-            await UnitOfWork.SaveChangesAsync();
-        }
+       
         public async Task<List<ShowDTO>?> GetLastAddedAsync(int cinemaId)
         {
             var entities = await CurrentRepository.GetLastAddedAsync(cinemaId);

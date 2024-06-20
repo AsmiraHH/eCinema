@@ -107,19 +107,5 @@ namespace eCinema.Service.Services
             await UnitOfWork.SaveChangesAsync();
             return Mapper.Map<MovieDTO>(entity);
         }
-        public override async Task DeleteByIdAsync(int id)
-        {
-            var entity = CurrentRepository.GetByIdAsync(id);
-            if (entity.Result != null)
-            {
-                foreach (var show in entity.Result.Shows)
-                {
-                    UnitOfWork.ShowRepository.Delete(show);
-                }
-            }
-
-            await CurrentRepository.DeleteByIdAsync(id);
-            await UnitOfWork.SaveChangesAsync();
-        }
     }
 }

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace eCinema.Core.Entities
 {
     [PrimaryKey(nameof(MovieId), nameof(GenreId))]
-    public class MovieGenre
+    public class MovieGenre : BaseEntity
     {
         [ForeignKey(nameof(Movie))]
         public int MovieId { get; set; }

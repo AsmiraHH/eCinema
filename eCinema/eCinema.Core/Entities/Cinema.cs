@@ -2,7 +2,7 @@
 
 namespace eCinema.Core.Entities
 {
-    public class Cinema
+    public class Cinema : BaseEntity
     {
         public int ID { get; set; }
         public string Name { get; set; } = null!;

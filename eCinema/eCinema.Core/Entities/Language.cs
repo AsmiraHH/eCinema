@@ -1,6 +1,6 @@
 ﻿namespace eCinema.Core.Entities
 {
-    public class Language
+    public class Language : BaseEntity
     {
         public int ID { get; set; }
         public string Name { get; set; } = null!;

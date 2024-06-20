@@ -1,5 +1,6 @@
 ﻿using eCinema.Core.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace eCinema.Repository
 {
@@ -12,6 +13,20 @@ namespace eCinema.Repository
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                var parameter = Expression.Parameter(entityType.ClrType, "e");
+                var filter = Expression.Lambda(
+                    Expression.Equal(
+                        Expression.Property(parameter, nameof(BaseEntity.IsDeleted)),
+                        Expression.Constant(false)
+                    ),
+                    parameter
+                );
+
+                modelBuilder.Entity(entityType.ClrType).HasQueryFilter(filter);
+            }
 
             SeedData(modelBuilder);
         }

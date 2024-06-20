@@ -12,7 +12,7 @@ using eCinema.Repository;
 namespace eCinema.Repository.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240601140635_Initial")]
+    [Migration("20240620121445_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -47,9 +47,15 @@ namespace eCinema.Repository.Migrations
                     b.Property<int>("Gender")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("ID");
 
@@ -59,10 +65,11 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            BirthDate = new DateTime(2024, 6, 1, 16, 6, 35, 187, DateTimeKind.Local).AddTicks(6547),
+                            BirthDate = new DateTime(2024, 6, 20, 14, 14, 45, 110, DateTimeKind.Local).AddTicks(2008),
                             Email = "jennifer.lopez@gmail.com",
                             FirstName = "Jennifer",
                             Gender = 1,
+                            IsDeleted = false,
                             LastName = "Lopez"
                         });
                 });
@@ -85,6 +92,12 @@ namespace eCinema.Repository.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -110,6 +123,7 @@ namespace eCinema.Repository.Migrations
                             Address = "Bisce Polje bb",
                             CityId = 1,
                             Email = "plazamostar@gmail.com",
+                            IsDeleted = false,
                             Name = "Cineplexx Plaza Mostar",
                             NumberOfHalls = 10,
                             PhoneNumber = "060100100"
@@ -120,6 +134,7 @@ namespace eCinema.Repository.Migrations
                             Address = "Dzemala Bijedica St",
                             CityId = 2,
                             Email = "srajevocinestar@gmail.com",
+                            IsDeleted = false,
                             Name = "CineStar Sarajevo",
                             NumberOfHalls = 5,
                             PhoneNumber = "060200200"
@@ -136,6 +151,12 @@ namespace eCinema.Repository.Migrations
 
                     b.Property<int>("CountryId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -156,6 +177,7 @@ namespace eCinema.Repository.Migrations
                         {
                             ID = 1,
                             CountryId = 1,
+                            IsDeleted = false,
                             Name = "Mostar",
                             ZipCode = "88000"
                         },
@@ -163,6 +185,7 @@ namespace eCinema.Repository.Migrations
                         {
                             ID = 2,
                             CountryId = 1,
+                            IsDeleted = false,
                             Name = "Sarajevo",
                             ZipCode = "77000"
                         },
@@ -170,6 +193,7 @@ namespace eCinema.Repository.Migrations
                         {
                             ID = 3,
                             CountryId = 1,
+                            IsDeleted = false,
                             Name = "Tuzla",
                             ZipCode = "75000"
                         },
@@ -177,6 +201,7 @@ namespace eCinema.Repository.Migrations
                         {
                             ID = 4,
                             CountryId = 1,
+                            IsDeleted = false,
                             Name = "Zenica",
                             ZipCode = "72000"
                         },
@@ -184,6 +209,7 @@ namespace eCinema.Repository.Migrations
                         {
                             ID = 5,
                             CountryId = 1,
+                            IsDeleted = false,
                             Name = "Konjic",
                             ZipCode = "88400"
                         });
@@ -197,6 +223,12 @@ namespace eCinema.Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -209,51 +241,61 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
+                            IsDeleted = false,
                             Name = "Bosnia and Herzegovina"
                         },
                         new
                         {
                             ID = 2,
+                            IsDeleted = false,
                             Name = "Croatia"
                         },
                         new
                         {
                             ID = 3,
+                            IsDeleted = false,
                             Name = "Serbia"
                         },
                         new
                         {
                             ID = 4,
+                            IsDeleted = false,
                             Name = "Australia"
                         },
                         new
                         {
                             ID = 5,
+                            IsDeleted = false,
                             Name = "Canada"
                         },
                         new
                         {
                             ID = 6,
+                            IsDeleted = false,
                             Name = "Switzerland"
                         },
                         new
                         {
                             ID = 7,
+                            IsDeleted = false,
                             Name = "France"
                         },
                         new
                         {
                             ID = 8,
+                            IsDeleted = false,
                             Name = "United States"
                         },
                         new
                         {
                             ID = 9,
+                            IsDeleted = false,
                             Name = "Germany"
                         },
                         new
                         {
                             ID = 10,
+                            IsDeleted = false,
                             Name = "Austria"
                         });
                 });
@@ -286,9 +328,15 @@ namespace eCinema.Repository.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
@@ -322,12 +370,13 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            BirthDate = new DateTime(2024, 6, 1, 16, 6, 35, 187, DateTimeKind.Local).AddTicks(6599),
+                            BirthDate = new DateTime(2024, 6, 20, 14, 14, 45, 110, DateTimeKind.Local).AddTicks(2068),
                             CinemaId = 1,
                             Email = "almedina.golos@eCinema.com",
                             FirstName = "Almedina",
                             Gender = 1,
                             IsActive = true,
+                            IsDeleted = false,
                             LastName = "Gološ",
                             PasswordHash = "b4I5yA4Mp+0Pg1C3EsKU17sS13eDExGtBjjI07Vh/JM=",
                             PasswordSalt = "1wQEjdSFeZttx6dlvEDjOg==",
@@ -345,6 +394,12 @@ namespace eCinema.Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -357,41 +412,49 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
+                            IsDeleted = false,
                             Name = "Action"
                         },
                         new
                         {
                             ID = 2,
+                            IsDeleted = false,
                             Name = "Comedy"
                         },
                         new
                         {
                             ID = 3,
+                            IsDeleted = false,
                             Name = "Horror"
                         },
                         new
                         {
                             ID = 4,
+                            IsDeleted = false,
                             Name = "Romance"
                         },
                         new
                         {
                             ID = 5,
+                            IsDeleted = false,
                             Name = "Western"
                         },
                         new
                         {
                             ID = 6,
+                            IsDeleted = false,
                             Name = "Thriller"
                         },
                         new
                         {
                             ID = 7,
+                            IsDeleted = false,
                             Name = "Drama"
                         },
                         new
                         {
                             ID = 8,
+                            IsDeleted = false,
                             Name = "Mistery"
                         });
                 });
@@ -407,8 +470,14 @@ namespace eCinema.Repository.Migrations
                     b.Property<int>("CinemaId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<int>("MaxNumberOfSeatsPerRow")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -431,6 +500,7 @@ namespace eCinema.Repository.Migrations
                         {
                             ID = 1,
                             CinemaId = 1,
+                            IsDeleted = false,
                             MaxNumberOfSeatsPerRow = 0,
                             Name = "A1",
                             NumberOfRows = 0,
@@ -446,6 +516,12 @@ namespace eCinema.Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -458,16 +534,19 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
+                            IsDeleted = false,
                             Name = "English"
                         },
                         new
                         {
                             ID = 2,
+                            IsDeleted = false,
                             Name = "German"
                         },
                         new
                         {
                             ID = 3,
+                            IsDeleted = false,
                             Name = "Bosnian"
                         });
                 });
@@ -491,13 +570,19 @@ namespace eCinema.Repository.Migrations
                     b.Property<int>("Duration")
                         .HasColumnType("int");
 
-                    b.Property<int?>("LanguageId")
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("LanguageId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<byte[]>("Photo")
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<int?>("ProductionId")
+                    b.Property<int>("ProductionId")
                         .HasColumnType("int");
 
                     b.Property<int>("ReleaseYear")
@@ -522,6 +607,7 @@ namespace eCinema.Repository.Migrations
                             Author = "",
                             Description = "",
                             Duration = 150,
+                            IsDeleted = false,
                             LanguageId = 1,
                             ProductionId = 1,
                             ReleaseYear = 2001,
@@ -537,6 +623,12 @@ namespace eCinema.Repository.Migrations
                     b.Property<int>("ActorId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("MovieId", "ActorId");
 
                     b.HasIndex("ActorId");
@@ -547,7 +639,8 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             MovieId = 1,
-                            ActorId = 1
+                            ActorId = 1,
+                            IsDeleted = false
                         });
                 });
 
@@ -559,6 +652,12 @@ namespace eCinema.Repository.Migrations
                     b.Property<int>("GenreId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("MovieId", "GenreId");
 
                     b.HasIndex("GenreId");
@@ -569,7 +668,8 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             MovieId = 1,
-                            GenreId = 1
+                            GenreId = 1,
+                            IsDeleted = false
                         });
                 });
 
@@ -583,6 +683,12 @@ namespace eCinema.Repository.Migrations
 
                     b.Property<int>("CountryId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -599,24 +705,28 @@ namespace eCinema.Repository.Migrations
                         {
                             ID = 1,
                             CountryId = 6,
+                            IsDeleted = false,
                             Name = "Warner Bros"
                         },
                         new
                         {
                             ID = 2,
                             CountryId = 6,
+                            IsDeleted = false,
                             Name = "Universal Pictures"
                         },
                         new
                         {
                             ID = 3,
                             CountryId = 3,
+                            IsDeleted = false,
                             Name = "Režim"
                         },
                         new
                         {
                             ID = 4,
                             CountryId = 6,
+                            IsDeleted = false,
                             Name = "Volcano Films"
                         });
                 });
@@ -628,6 +738,12 @@ namespace eCinema.Repository.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("ShowId")
                         .HasColumnType("int");
@@ -650,6 +766,7 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
+                            IsDeleted = false,
                             ShowId = 1,
                             UserId = 1,
                             isActive = true
@@ -664,6 +781,12 @@ namespace eCinema.Repository.Migrations
                     b.Property<int>("SeatId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("ReservationId", "SeatId");
 
                     b.HasIndex("SeatId");
@@ -674,7 +797,8 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ReservationId = 1,
-                            SeatId = 1
+                            SeatId = 1,
+                            IsDeleted = false
                         });
                 });
 
@@ -691,6 +815,12 @@ namespace eCinema.Repository.Migrations
 
                     b.Property<int>("HallId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Row")
                         .IsRequired()
@@ -711,6 +841,7 @@ namespace eCinema.Repository.Migrations
                             ID = 1,
                             Column = 1,
                             HallId = 1,
+                            IsDeleted = false,
                             Row = "A",
                             isDisabled = false
                         });
@@ -734,6 +865,12 @@ namespace eCinema.Repository.Migrations
                     b.Property<int>("HallId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("MovieId")
                         .HasColumnType("int");
 
@@ -752,9 +889,10 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            DateTime = new DateTime(2024, 6, 1, 16, 6, 35, 187, DateTimeKind.Local).AddTicks(6725),
+                            DateTime = new DateTime(2024, 6, 20, 14, 14, 45, 110, DateTimeKind.Local).AddTicks(2224),
                             Format = "ThreeD",
                             HallId = 1,
+                            IsDeleted = false,
                             MovieId = 1,
                             Price = 25.0
                         });
@@ -785,12 +923,18 @@ namespace eCinema.Repository.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsVerified")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
@@ -827,6 +971,7 @@ namespace eCinema.Repository.Migrations
                             FirstName = "Asmira",
                             Gender = 1,
                             IsActive = true,
+                            IsDeleted = false,
                             IsVerified = false,
                             LastName = "Husić",
                             PasswordHash = "b4I5yA4Mp+0Pg1C3EsKU17sS13eDExGtBjjI07Vh/JM=",
@@ -885,11 +1030,15 @@ namespace eCinema.Repository.Migrations
                 {
                     b.HasOne("eCinema.Core.Entities.Language", "Language")
                         .WithMany("Movies")
-                        .HasForeignKey("LanguageId");
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("eCinema.Core.Entities.Production", "Production")
                         .WithMany("Movies")
-                        .HasForeignKey("ProductionId");
+                        .HasForeignKey("ProductionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Language");
 

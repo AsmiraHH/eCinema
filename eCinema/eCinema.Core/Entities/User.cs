@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace eCinema.Core.Entities
 {
-    public class User
+    public class User : BaseEntity
     {
         public int ID { get; set; }
         public string FirstName { get; set; } = null!;

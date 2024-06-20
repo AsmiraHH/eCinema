@@ -2,7 +2,7 @@
 
 namespace eCinema.Core.Entities
 {
-    public class Seat
+    public class Seat : BaseEntity
     {
         public int ID { get; set; }
         public string Row { get; set; } = null!;

@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace eCinema.Core.Entities
 {
-    public class Actor
+    public class Actor:BaseEntity
     {
         public int ID { get; set; }
         public string FirstName { get; set; } = null!;

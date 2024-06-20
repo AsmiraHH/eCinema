@@ -2,7 +2,7 @@
 
 namespace eCinema.Core.Entities
 {
-    public class Reservation
+    public class Reservation : BaseEntity
     {
         public int ID { get; set; }
         public bool isActive { get; set; }

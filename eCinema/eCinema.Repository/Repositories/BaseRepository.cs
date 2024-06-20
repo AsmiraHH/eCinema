@@ -1,4 +1,5 @@
-﻿using eCinema.Core.Helpers;
+﻿using eCinema.Core.Entities;
+using eCinema.Core.Helpers;
 using eCinema.Core.SearchObjects;
 using eCinema.Repository.RepositoriesInterfaces;
 using Microsoft.EntityFrameworkCore;
@@ -6,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace eCinema.Repository.Repositories
 {
     public abstract class BaseRepository<TEntity, TPrimaryKey, TSearchObject> : IBaseRepository<TEntity, TPrimaryKey, TSearchObject>
-        where TEntity : class
+        where TEntity : BaseEntity
         where TSearchObject : BaseSearchObject
     {
         protected readonly DatabaseContext db;
@@ -42,6 +43,15 @@ namespace eCinema.Repository.Repositories
             var entity = await dbSet.FindAsync(id);
             if (entity != null)
                 dbSet.Remove(entity);
+        }
+        public virtual async Task SoftDeleteAsync(TPrimaryKey id)
+        {
+            var entity = await dbSet.FindAsync(id);
+            if (entity != null)
+            {
+                entity.IsDeleted = true;
+                entity.ModifiedAt = DateTime.Now;
+            }
         }
         public virtual async Task<TEntity?> GetByIdAsync(TPrimaryKey id)
         {

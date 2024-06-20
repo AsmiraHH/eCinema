@@ -2,7 +2,7 @@
 
 namespace eCinema.Core.Entities
 {
-    public class Movie
+    public class Movie : BaseEntity
     {
         public int ID { get; set; }
         public string Title { get; set; } = null!;
@@ -13,12 +13,12 @@ namespace eCinema.Core.Entities
         public byte[]? Photo { get; set; } = null!;
 
         [ForeignKey(nameof(Language))]
-        public int? LanguageId { get; set; }
-        public Language? Language { get; set; } 
+        public int LanguageId { get; set; }
+        public Language Language { get; set; } = null!; 
 
         [ForeignKey(nameof(Production))]
-        public int? ProductionId { get; set; }
-        public Production? Production { get; set; } 
+        public int ProductionId { get; set; }
+        public Production Production { get; set; } = null!;
 
         public ICollection<MovieGenre> Genres { get; set; } = new List<MovieGenre>();
         public ICollection<MovieActor> Actors { get; set; } = new List<MovieActor>();

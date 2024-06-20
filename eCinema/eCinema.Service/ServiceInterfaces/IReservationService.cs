@@ -8,7 +8,5 @@ namespace eCinema.Service.ServiceInterfaces
     {
         Task<IEnumerable<ReservationDTO>> GetByUserID(int userID);
         Task<ReportModel> GetForReportAsync(ReportDTO dto);
-
-        Task DeleteByShowIdsAsync(List<int> ids);
     }
 }

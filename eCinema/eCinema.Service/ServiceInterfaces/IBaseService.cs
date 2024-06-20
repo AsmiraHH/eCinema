@@ -15,5 +15,6 @@ namespace eCinema.Service.ServiceInterfaces
         Task<TDTO> UpdateAsync(TUpsertDTO dto);
         Task DeleteAsync(TDTO dto);
         Task DeleteByIdAsync(TPrimaryKey id);
+        Task SoftDeleteAsync(int id);
     }
 }

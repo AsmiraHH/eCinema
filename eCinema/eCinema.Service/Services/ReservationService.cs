@@ -41,11 +41,6 @@ namespace eCinema.Service.Services
 
             return report;
         }
-        public virtual async Task DeleteByShowIdsAsync(List<int> ids)
-        {
-            await CurrentRepository.DeleteByShowIdsAsync(ids);
-            await UnitOfWork.SaveChangesAsync();
-        }
         public override async Task<ReservationDTO> AddAsync(ReservationUpsertDTO dto)
         {
             await ValidateAsync(dto);

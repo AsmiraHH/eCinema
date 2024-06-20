@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eCinema.Core.Entities
 {
-    public class Hall
+    public class Hall : BaseEntity
     {
         public int ID { get; set; }
         public string Name { get; set; } = null!;
