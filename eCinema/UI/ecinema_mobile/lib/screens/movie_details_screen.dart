@@ -1,13 +1,12 @@
 import 'package:ecinema_mobile/helpers/constants.dart';
-import 'package:ecinema_mobile/models/show.dart';
+import 'package:ecinema_mobile/models/movie.dart';
 import 'package:ecinema_mobile/utils/util.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class MovieDetailsScreen extends StatefulWidget {
-  final Show show;
+  final Movie movie;
   static const String routeName = '/movieDetail';
-  const MovieDetailsScreen({super.key, required this.show});
+  const MovieDetailsScreen({super.key, required this.movie});
 
   @override
   State<MovieDetailsScreen> createState() => _MovieDetailsScreenState();
@@ -28,8 +27,8 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height / 2,
-                  child: widget.show.movie!.photo != ""
-                      ? fromBase64StringCover(widget.show.movie!.photo!)
+                  child: widget.movie.photo != ""
+                      ? fromBase64StringCover(widget.movie.photo!)
                       : const Icon(Icons.photo, size: 40, color: Colors.white),
                 ),
               ),
@@ -37,7 +36,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                 bottom: 30,
                 left: 10,
                 child: Text(
-                  widget.show.movie!.title.toString().toUpperCase(),
+                  widget.movie.title.toString().toUpperCase(),
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -56,7 +55,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                 bottom: 10,
                 left: 10,
                 child: Text(
-                  widget.show.movie!.genres!.map((genre) => genre.genre!.name.toString()).join(', '),
+                  widget.movie.genres!.map((genre) => genre.genre!.name.toString()).join(', '),
                   style: TextStyle(
                     fontSize: 15,
                     color: Colors.grey[400],
@@ -74,7 +73,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                   style: TextStyle(fontSize: 15),
                 ),
                 Text(
-                  widget.show.movie!.author.toString(),
+                  widget.movie.author.toString(),
                   style: TextStyle(fontSize: 15, color: Colors.grey[400]),
                 ),
               ]),
@@ -87,7 +86,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                   style: TextStyle(fontSize: 15),
                 ),
                 Text(
-                  widget.show.movie!.releaseYear.toString(),
+                  widget.movie.releaseYear.toString(),
                   style: TextStyle(fontSize: 15, color: Colors.grey[400]),
                 ),
                 const SizedBox(width: 10),
@@ -96,7 +95,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                   style: TextStyle(fontSize: 15),
                 ),
                 Text(
-                  '${widget.show.movie!.duration} min',
+                  '${widget.movie.duration} min',
                   style: TextStyle(fontSize: 15, color: Colors.grey[400]),
                 ),
               ]),
@@ -110,7 +109,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                 ),
                 Expanded(
                   child: Text(
-                    widget.show.movie!.actors!
+                    widget.movie.actors!
                         .map((actor) => '${actor.actor!.firstName} ${actor.actor!.lastName}')
                         .join(', '),
                     style: TextStyle(fontSize: 15, color: Colors.grey[400]),
@@ -128,7 +127,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
               child: Text(
-                widget.show.movie!.description.toString(),
+                widget.movie.description.toString(),
                 style: TextStyle(fontSize: 15, color: Colors.grey[400]),
               ),
             ),

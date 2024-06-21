@@ -13,5 +13,6 @@ namespace eCinema.Core.SearchObjects
         public int? Genre { get; set; }
         public int? Language { get; set; }
         public int? Production { get; set; }
+        public int? Cinema { get; set; }
     }
 }

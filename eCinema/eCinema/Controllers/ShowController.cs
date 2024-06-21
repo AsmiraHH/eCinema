@@ -8,35 +8,7 @@ namespace eCinema.Controllers
     public class ShowController : BaseController<ShowDTO, ShowUpsertDTO, ShowSearchObject, IShowService>
     {
         public ShowController(IShowService service, ILogger<ShowController> logger) : base(service, logger) { }
-
-        [HttpGet("{cinemaId}")]
-        public virtual async Task<IActionResult> GetLastAdded(int cinemaId)
-        {
-            try
-            {
-                var dto = await service.GetLastAddedAsync(cinemaId);
-                return Ok(dto);
-            }
-            catch (Exception e)
-            {
-                logger.LogError(e, $"Error while getting last added shows.");
-                return BadRequest();
-            }
-        }
-        [HttpGet("{cinemaId}")]
-        public virtual async Task<IActionResult> GetMostWatched(int cinemaId)
-        {
-            try
-            {
-                var dto = await service.GetMostWatchedAsync(cinemaId);
-                return Ok(dto);
-            }
-            catch (Exception e)
-            {
-                logger.LogError(e, $"Error while getting most watched shows.");
-                return BadRequest();
-            }
-        }
+       
         [HttpGet("{cinemaId}/{userId}")]
         public virtual async Task<IActionResult> GetRecommended(int cinemaId, int userId)
         {

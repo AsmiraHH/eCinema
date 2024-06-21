@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:ecinema_mobile/helpers/constants.dart';
-import 'package:ecinema_mobile/models/show.dart';
+import 'package:ecinema_mobile/models/movie.dart';
 import 'package:ecinema_mobile/providers/actor_provider.dart';
 import 'package:ecinema_mobile/providers/cinema_provider.dart';
 import 'package:ecinema_mobile/providers/city_provider.dart';
@@ -78,7 +78,7 @@ class MyApp extends StatelessWidget {
         },
         onGenerateRoute: (settings) {
           if (settings.name == MovieDetailsScreen.routeName) {
-            return MaterialPageRoute(builder: (context) => MovieDetailsScreen(show: settings.arguments as Show));
+            return MaterialPageRoute(builder: (context) => MovieDetailsScreen(movie: settings.arguments as Movie));
           }
           if (settings.name == '/') {
             return MaterialPageRoute(

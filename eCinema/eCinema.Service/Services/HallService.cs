@@ -11,11 +11,9 @@ namespace eCinema.Service.Services
 {
     public class HallService : BaseService<Hall, HallDTO, HallUpsertDTO, HallSearchObject, IHallRepository>, IHallService
     {
-        private IShowService _showService;
 
-        public HallService(IMapper mapper, IUnitOfWork unitOfWork, IShowService showService, IValidator<HallUpsertDTO> validator) : base(mapper, unitOfWork, validator)
+        public HallService(IMapper mapper, IUnitOfWork unitOfWork, IValidator<HallUpsertDTO> validator) : base(mapper, unitOfWork, validator)
         {
-            _showService = showService;
         }
     }
 }

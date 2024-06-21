@@ -107,5 +107,15 @@ namespace eCinema.Service.Services
             await UnitOfWork.SaveChangesAsync();
             return Mapper.Map<MovieDTO>(entity);
         }
+        public async Task<List<MovieDTO>?> GetLastAddedAsync(int cinemaId)
+        {
+            var entities = await CurrentRepository.GetLastAddedAsync(cinemaId);
+            return Mapper.Map<List<MovieDTO>>(entities);
+        }
+        public async Task<List<MovieDTO>?> GetMostWatchedAsync(int cinemaId)
+        {
+            var entities = await CurrentRepository.GetMostWatchedAsync(cinemaId);
+            return Mapper.Map<List<MovieDTO>>(entities);
+        }
     }
 }

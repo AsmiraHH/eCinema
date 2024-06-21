@@ -2,11 +2,11 @@
 
 import 'package:ecinema_mobile/models/cinema.dart';
 import 'package:ecinema_mobile/models/genre.dart';
+import 'package:ecinema_mobile/models/movie.dart';
 import 'package:ecinema_mobile/models/paged_result.dart';
-import 'package:ecinema_mobile/models/show.dart';
 import 'package:ecinema_mobile/providers/cinema_provider.dart';
 import 'package:ecinema_mobile/providers/genre_provider.dart';
-import 'package:ecinema_mobile/providers/show_provider.dart';
+import 'package:ecinema_mobile/providers/movie_provider.dart';
 import 'package:ecinema_mobile/screens/movie_details_screen.dart';
 import 'package:ecinema_mobile/utils/util.dart';
 import 'package:flutter/material.dart';
@@ -24,8 +24,8 @@ class MoviesScreen extends StatefulWidget {
 class _MoviesScreenState extends State<MoviesScreen> {
   int _currentPage = 1;
   final _pageSize = 9;
-  PagedResult<Show>? showsResult;
-  late ShowProvider _showProvider;
+  PagedResult<Movie>? moviesResult;
+  late MovieProvider _movieProvider;
   late CinemaProvider _cinemaProvider;
   late GenreProvider _genreProvider;
   List<Cinema> cinemasResult = [];
@@ -38,26 +38,26 @@ class _MoviesScreenState extends State<MoviesScreen> {
   @override
   void initState() {
     super.initState();
-    _showProvider = context.read<ShowProvider>();
+    _movieProvider = context.read<MovieProvider>();
     _cinemaProvider = context.read<CinemaProvider>();
     _genreProvider = context.read<GenreProvider>();
     loadCinemas();
     loadGenres();
-    loadShows({
+    loadMovies({
       'PageNumber': _currentPage,
       'PageSize': _pageSize,
       'Cinema': selectedCinema,
-      'Movie': widget.movieName ?? "",
+      'Title': widget.movieName ?? "",
     });
   }
 
-  Future<void> loadShows(dynamic request) async {
+  Future<void> loadMovies(dynamic request) async {
     _isLoading = true;
     try {
-      var data = await _showProvider.getPaged(request);
+      var data = await _movieProvider.getPaged(request);
       if (mounted) {
         setState(() {
-          showsResult = data;
+          moviesResult = data;
           _isLoading = false;
         });
       }
@@ -133,11 +133,11 @@ class _MoviesScreenState extends State<MoviesScreen> {
                 onChanged: (int? newValue) {
                   setState(() {
                     selectedCinema = newValue ?? 1;
-                    showsResult = PagedResult<Show>();
-                    loadShows({
+                    moviesResult = PagedResult<Movie>();
+                    loadMovies({
                       'PageNumber': _currentPage,
                       'PageSize': _pageSize,
-                      'Movie': _searchController.text,
+                      'Title': _searchController.text,
                       'Cinema': selectedCinema,
                       'Genre': selectedGenre,
                     });
@@ -179,11 +179,11 @@ class _MoviesScreenState extends State<MoviesScreen> {
                           decoration: InputDecoration(
                             suffixIcon: GestureDetector(
                               onTap: () {
-                                showsResult = PagedResult<Show>();
-                                loadShows({
+                                moviesResult = PagedResult<Movie>();
+                                loadMovies({
                                   'PageNumber': _currentPage,
                                   'PageSize': _pageSize,
-                                  'Movie': _searchController.text,
+                                  'Title': _searchController.text,
                                   'Cinema': selectedCinema,
                                   'Genre': selectedGenre,
                                 });
@@ -197,11 +197,11 @@ class _MoviesScreenState extends State<MoviesScreen> {
                             hintStyle: const TextStyle(color: Colors.grey, fontSize: 15),
                           ),
                           onSubmitted: (String value) {
-                            showsResult = PagedResult<Show>();
-                            loadShows({
+                            moviesResult = PagedResult<Movie>();
+                            loadMovies({
                               'PageNumber': _currentPage,
                               'PageSize': _pageSize,
-                              'Movie': _searchController.text,
+                              'Title': _searchController.text,
                               'Cinema': selectedCinema,
                               'Genre': selectedGenre,
                             });
@@ -253,7 +253,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
                       // ),
                       buildGenres(),
                       const SizedBox(height: 10),
-                      buildShows(showsResult),
+                      buildMovies(moviesResult),
                     ],
                   ),
                 ),
@@ -283,12 +283,12 @@ class _MoviesScreenState extends State<MoviesScreen> {
               ? () {
                   setState(() {
                     _currentPage--;
-                    showsResult = PagedResult<Show>();
+                    moviesResult = PagedResult<Movie>();
                   });
-                  loadShows({
+                  loadMovies({
                     'PageNumber': _currentPage,
                     'PageSize': _pageSize,
-                    'Movie': _searchController.text,
+                    'Title': _searchController.text,
                     'Cinema': selectedCinema,
                     'Genre': selectedGenre,
                   });
@@ -306,16 +306,16 @@ class _MoviesScreenState extends State<MoviesScreen> {
               padding: const EdgeInsets.all(1),
               shape: RoundedRectangleBorder(
                   side: const BorderSide(color: Colors.white), borderRadius: BorderRadius.circular(15))),
-          onPressed: showsResult?.hasNextPage ?? false
+          onPressed: moviesResult?.hasNextPage ?? false
               ? () {
                   setState(() {
                     _currentPage++;
-                    showsResult = PagedResult<Show>();
+                    moviesResult = PagedResult<Movie>();
                   });
-                  loadShows({
+                  loadMovies({
                     'PageNumber': _currentPage,
                     'PageSize': _pageSize,
-                    'Movie': _searchController.text,
+                    'Title': _searchController.text,
                     'Cinema': selectedCinema,
                     'Genre': selectedGenre,
                   });
@@ -359,11 +359,11 @@ class _MoviesScreenState extends State<MoviesScreen> {
                       selectedGenre = genre.id;
                     }
                   });
-                  showsResult = PagedResult<Show>();
-                  loadShows({
+                  moviesResult = PagedResult<Movie>();
+                  loadMovies({
                     'PageNumber': _currentPage,
                     'PageSize': _pageSize,
-                    'Movie': _searchController.text,
+                    'Title': _searchController.text,
                     'Cinema': selectedCinema,
                     'Genre': selectedGenre,
                   });
@@ -386,8 +386,8 @@ class _MoviesScreenState extends State<MoviesScreen> {
   }
 }
 
-Widget buildShows(PagedResult<Show>? shows) {
-  if (shows != null) {
+Widget buildMovies(PagedResult<Movie>? movies) {
+  if (movies != null) {
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -397,9 +397,9 @@ Widget buildShows(PagedResult<Show>? shows) {
         crossAxisCount: 3,
         childAspectRatio: 0.7,
       ),
-      itemCount: shows.items.length,
+      itemCount: movies.items.length,
       itemBuilder: (context, index) {
-        return buildShow(context, shows.items[index]);
+        return buildMovie(context, movies.items[index]);
       },
     );
   } else {
@@ -407,21 +407,20 @@ Widget buildShows(PagedResult<Show>? shows) {
   }
 }
 
-Widget buildShow(BuildContext context, Show show) {
+Widget buildMovie(BuildContext context, Movie movie) {
   return GestureDetector(
     onTap: () {
       Navigator.pushNamed(
         context,
         MovieDetailsScreen.routeName,
-        arguments: show,
+        arguments: movie,
       );
     },
     child: Expanded(
         child: ClipRRect(
       borderRadius: BorderRadius.circular(10),
-      child: show.movie!.photo != ""
-          ? fromBase64String(show.movie!.photo!)
-          : const Icon(Icons.photo, size: 40, color: Colors.white),
+      child:
+          movie.photo != "" ? fromBase64String(movie.photo!) : const Icon(Icons.photo, size: 40, color: Colors.white),
     )),
   );
 }
