@@ -27,5 +27,10 @@ namespace eCinema.Service.Services
 
             return Mapper.Map<List<ShowDTO>>(entities);
         }
+        public async Task<List<ShowDTO>?> GetByMovieIdAsync(int movieId,int cinemaId, bool isDistinct)
+        {
+            var entities = await CurrentRepository.GetByMovieIdAsync(movieId, cinemaId, isDistinct);
+            return Mapper.Map<List<ShowDTO>>(entities);
+        }
     }
 }

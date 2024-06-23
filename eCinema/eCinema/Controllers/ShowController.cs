@@ -23,5 +23,20 @@ namespace eCinema.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet("{movieId}/{cinemaId}/{isDistinct}")]
+        public virtual async Task<IActionResult> GetByMovieId(int movieId, int cinemaId, bool isDistinct)
+        {
+            try
+            {
+                var dto = await service.GetByMovieIdAsync(movieId, cinemaId, isDistinct);
+                return Ok(dto);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, $"Error while getting recommended shows.");
+                return BadRequest();
+            }
+        }
     }
 }

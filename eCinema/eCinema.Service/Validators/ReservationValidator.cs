@@ -1,10 +1,5 @@
 ﻿using eCinema.Core.DTOs;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace eCinema.Service.Validators
 {
@@ -13,6 +8,7 @@ namespace eCinema.Service.Validators
         public ReservationValidator()
         {
             RuleFor(a => a.isActive).NotNull().WithErrorCode("NotNull");
+            RuleFor(a => a.TransactionNumber).NotEmpty().WithErrorCode("NotEmpty");
             RuleFor(a => a.SeatIDs).NotNull().WithErrorCode("NotNull");
             RuleFor(a => a.ShowId).NotNull().WithErrorCode("NotNull");
             RuleFor(a => a.UserId).NotNull().WithErrorCode("NotNull");

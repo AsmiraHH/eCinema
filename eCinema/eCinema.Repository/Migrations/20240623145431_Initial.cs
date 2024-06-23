@@ -381,6 +381,7 @@ namespace eCinema.Repository.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     isActive = table.Column<bool>(type: "bit", nullable: false),
+                    TransactionNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ShowId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -394,7 +395,7 @@ namespace eCinema.Repository.Migrations
                         column: x => x.ShowId,
                         principalTable: "Shows",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Reservations_Users_UserId",
                         column: x => x.UserId,
@@ -432,7 +433,7 @@ namespace eCinema.Repository.Migrations
             migrationBuilder.InsertData(
                 table: "Actors",
                 columns: new[] { "ID", "BirthDate", "Email", "FirstName", "Gender", "IsDeleted", "LastName", "ModifiedAt" },
-                values: new object[] { 1, new DateTime(2024, 6, 20, 14, 14, 45, 110, DateTimeKind.Local).AddTicks(2008), "jennifer.lopez@gmail.com", "Jennifer", 1, false, "Lopez", null });
+                values: new object[] { 1, new DateTime(2024, 6, 23, 16, 54, 31, 399, DateTimeKind.Local).AddTicks(660), "jennifer.lopez@gmail.com", "Jennifer", 1, false, "Lopez", null });
 
             migrationBuilder.InsertData(
                 table: "Countries",
@@ -521,7 +522,7 @@ namespace eCinema.Repository.Migrations
             migrationBuilder.InsertData(
                 table: "Employees",
                 columns: new[] { "ID", "BirthDate", "CinemaId", "Email", "FirstName", "Gender", "IsActive", "IsDeleted", "LastName", "ModifiedAt", "PasswordHash", "PasswordSalt", "PhoneNumber", "ProfilePhoto", "Role", "Username" },
-                values: new object[] { 1, new DateTime(2024, 6, 20, 14, 14, 45, 110, DateTimeKind.Local).AddTicks(2068), 1, "almedina.golos@eCinema.com", "Almedina", 1, true, false, "Gološ", null, "b4I5yA4Mp+0Pg1C3EsKU17sS13eDExGtBjjI07Vh/JM=", "1wQEjdSFeZttx6dlvEDjOg==", "38761327546", null, 0, "almedinaG" });
+                values: new object[] { 1, new DateTime(2024, 6, 23, 16, 54, 31, 399, DateTimeKind.Local).AddTicks(719), 1, "almedina.golos@eCinema.com", "Almedina", 1, true, false, "Gološ", null, "b4I5yA4Mp+0Pg1C3EsKU17sS13eDExGtBjjI07Vh/JM=", "1wQEjdSFeZttx6dlvEDjOg==", "38761327546", null, 0, "almedinaG" });
 
             migrationBuilder.InsertData(
                 table: "Hall",
@@ -546,12 +547,12 @@ namespace eCinema.Repository.Migrations
             migrationBuilder.InsertData(
                 table: "Shows",
                 columns: new[] { "ID", "DateTime", "Format", "HallId", "IsDeleted", "ModifiedAt", "MovieId", "Price" },
-                values: new object[] { 1, new DateTime(2024, 6, 20, 14, 14, 45, 110, DateTimeKind.Local).AddTicks(2224), "ThreeD", 1, false, null, 1, 25.0 });
+                values: new object[] { 1, new DateTime(2024, 6, 23, 16, 54, 31, 399, DateTimeKind.Local).AddTicks(835), "ThreeD", 1, false, null, 1, 25.0 });
 
             migrationBuilder.InsertData(
                 table: "Reservations",
-                columns: new[] { "ID", "IsDeleted", "ModifiedAt", "ShowId", "UserId", "isActive" },
-                values: new object[] { 1, false, null, 1, 1, true });
+                columns: new[] { "ID", "IsDeleted", "ModifiedAt", "ShowId", "TransactionNumber", "UserId", "isActive" },
+                values: new object[] { 1, false, null, 1, "test", 1, true });
 
             migrationBuilder.InsertData(
                 table: "ReservationSeat",

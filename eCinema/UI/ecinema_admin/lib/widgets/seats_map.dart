@@ -33,6 +33,8 @@ class _SeatsMapState extends State<SeatsMap> {
                     onTap: () {
                       if (!widget.selectedSeats!.contains(s)) {
                         widget.selectedSeats!.add(s);
+                      } else {
+                        widget.selectedSeats!.remove(s);
                       }
                       setState(() {
                         s.isSelected = !(s.isSelected ?? false);

@@ -36,3 +36,10 @@ Image fromBase64StringCover(String image) {
     colorBlendMode: BlendMode.dstATop,
   );
 }
+
+Image fromBase64StringCoverWithoutOpacity(String image) {
+  return Image.memory(
+    base64Decode(image),
+    fit: BoxFit.cover,
+  );
+}

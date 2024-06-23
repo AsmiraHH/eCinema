@@ -246,6 +246,7 @@ namespace eCinema.Repository
                 {
                     ID = 1,
                     isActive = true,
+                    TransactionNumber= "test",
                     ShowId = 1,
                     UserId = 1,
                 });

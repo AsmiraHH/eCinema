@@ -19,6 +19,7 @@ namespace eCinema.Repository.UnitOfWork
         public readonly IMovieRepository MovieRepository;
         public readonly IProductionRepository ProductionRepository;
         public readonly IReservationRepository ReservationRepository;
+        public readonly IReservationSeatRepository ReservationSeatRepository;
         public readonly ISeatRepository SeatRepository;
         public readonly IHallRepository HallRepository;
         public readonly IShowRepository ShowRepository;
@@ -38,6 +39,7 @@ namespace eCinema.Repository.UnitOfWork
             IMovieRepository movieRepository,
             IProductionRepository productionRepository,
             IReservationRepository reservationRepository,
+            IReservationSeatRepository reservationSeatRepository,
             ISeatRepository seatRepository,
             IHallRepository hallRepository,
             IShowRepository showRepository,
@@ -56,6 +58,7 @@ namespace eCinema.Repository.UnitOfWork
             MovieRepository = movieRepository;
             ProductionRepository = productionRepository;
             ReservationRepository = reservationRepository;
+            ReservationSeatRepository = reservationSeatRepository;
             SeatRepository = seatRepository;
             HallRepository = hallRepository;
             ShowRepository = showRepository;

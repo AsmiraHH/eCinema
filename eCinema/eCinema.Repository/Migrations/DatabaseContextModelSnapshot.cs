@@ -62,7 +62,7 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            BirthDate = new DateTime(2024, 6, 20, 14, 14, 45, 110, DateTimeKind.Local).AddTicks(2008),
+                            BirthDate = new DateTime(2024, 6, 23, 16, 54, 31, 399, DateTimeKind.Local).AddTicks(660),
                             Email = "jennifer.lopez@gmail.com",
                             FirstName = "Jennifer",
                             Gender = 1,
@@ -367,7 +367,7 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            BirthDate = new DateTime(2024, 6, 20, 14, 14, 45, 110, DateTimeKind.Local).AddTicks(2068),
+                            BirthDate = new DateTime(2024, 6, 23, 16, 54, 31, 399, DateTimeKind.Local).AddTicks(719),
                             CinemaId = 1,
                             Email = "almedina.golos@eCinema.com",
                             FirstName = "Almedina",
@@ -745,6 +745,10 @@ namespace eCinema.Repository.Migrations
                     b.Property<int>("ShowId")
                         .HasColumnType("int");
 
+                    b.Property<string>("TransactionNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -765,6 +769,7 @@ namespace eCinema.Repository.Migrations
                             ID = 1,
                             IsDeleted = false,
                             ShowId = 1,
+                            TransactionNumber = "test",
                             UserId = 1,
                             isActive = true
                         });
@@ -886,7 +891,7 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            DateTime = new DateTime(2024, 6, 20, 14, 14, 45, 110, DateTimeKind.Local).AddTicks(2224),
+                            DateTime = new DateTime(2024, 6, 23, 16, 54, 31, 399, DateTimeKind.Local).AddTicks(835),
                             Format = "ThreeD",
                             HallId = 1,
                             IsDeleted = false,

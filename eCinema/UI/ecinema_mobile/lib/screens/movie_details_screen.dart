@@ -1,5 +1,6 @@
 import 'package:ecinema_mobile/helpers/constants.dart';
 import 'package:ecinema_mobile/models/movie.dart';
+import 'package:ecinema_mobile/screens/shows_screen.dart';
 import 'package:ecinema_mobile/utils/util.dart';
 import 'package:flutter/material.dart';
 
@@ -136,7 +137,13 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
               child: SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      ShowsScreen.routeName,
+                      arguments: widget.movie,
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size.fromHeight(35),
                     backgroundColor: darkRedColor,

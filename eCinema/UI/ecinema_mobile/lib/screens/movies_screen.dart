@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:ecinema_mobile/helpers/global_variables.dart';
 import 'package:ecinema_mobile/models/cinema.dart';
 import 'package:ecinema_mobile/models/genre.dart';
 import 'package:ecinema_mobile/models/movie.dart';
@@ -30,7 +31,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
   late GenreProvider _genreProvider;
   List<Cinema> cinemasResult = [];
   List<Genre> genresResult = [];
-  int? selectedCinema = 1;
+  int selectedCinema = cinema;
   int? selectedGenre = 0;
   bool _isLoading = false;
   final TextEditingController _searchController = TextEditingController();
@@ -133,6 +134,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
                 onChanged: (int? newValue) {
                   setState(() {
                     selectedCinema = newValue ?? 1;
+                    cinema = selectedCinema;
                     moviesResult = PagedResult<Movie>();
                     loadMovies({
                       'PageNumber': _currentPage,

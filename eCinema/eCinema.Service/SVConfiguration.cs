@@ -5,11 +5,6 @@ using eCinema.Service.Services;
 using eCinema.Service.Validators;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace eCinema.Service
 {
@@ -29,6 +24,7 @@ namespace eCinema.Service
             services.AddScoped<IMovieService, MovieService>();
             services.AddScoped<IProductionService, ProductionService>();
             services.AddScoped<IReservationService, ReservationService>();
+            services.AddScoped<IReservationSeatService, ReservationSeatService>();
             services.AddScoped<ISeatService, SeatService>();
             services.AddScoped<IHallService, HallService>();
             services.AddScoped<IShowService, ShowService>();
@@ -50,6 +46,7 @@ namespace eCinema.Service
             services.AddScoped<IValidator<MovieUpsertDTO>, MovieValidator>();
             services.AddScoped<IValidator<ProductionUpsertDTO>, ProductionValidator>();
             services.AddScoped<IValidator<ReservationUpsertDTO>, ReservationValidator>();
+            services.AddScoped<IValidator<ReservationSeatUpsertDTO>, ReservationSeatValidator>();
             services.AddScoped<IValidator<SeatUpsertDTO>, SeatValidator>();
             services.AddScoped<IValidator<HallUpsertDTO>, HallValidator>();
             services.AddScoped<IValidator<ShowUpsertDTO>, ShowValidator>();

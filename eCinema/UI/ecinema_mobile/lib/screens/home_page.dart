@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:ecinema_mobile/helpers/global_variables.dart';
 import 'package:ecinema_mobile/models/cinema.dart';
 import 'package:ecinema_mobile/models/show.dart';
 import 'package:ecinema_mobile/models/movie.dart';
@@ -27,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   late CinemaProvider _cinemaProvider;
   late MovieProvider _movieProvider;
   List<Cinema> cinemasResult = <Cinema>[];
-  int selectedCinema = 1;
+  int selectedCinema = cinema;
   final TextEditingController _searchController = TextEditingController();
   bool _isLoading = true;
 
@@ -148,6 +149,7 @@ class _HomePageState extends State<HomePage> {
                 onChanged: (int? newValue) {
                   setState(() {
                     selectedCinema = newValue ?? 1;
+                    cinema = selectedCinema;
                     lastAddedShows = [];
                     mostWatchedShows = [];
                     // recommendedShows = [];

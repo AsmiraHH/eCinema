@@ -13,8 +13,14 @@ class Seat {
   bool? isDisabled;
   bool? isSelected = false;
 
-  Seat(this.id, this.row, this.column, this.hallId, this.hall, this.isDisabled,
-      this.isSelected);
+  Seat(this.id, this.row, this.column, this.hallId, this.hall, this.isDisabled, this.isSelected);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is Seat && other.id == id;
+  }
 
   factory Seat.fromJson(Map<String, dynamic> json) => _$SeatFromJson(json);
 

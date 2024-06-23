@@ -31,8 +31,15 @@ namespace eCinema.Repository.Repositories
         }
         public virtual async Task<List<Show>> GetRecommendedAsync(int cinemaId, int genreId)
         {
-            var entities = await dbSet.Where(x => x.Hall.CinemaId == cinemaId && x.Movie.Genres.Any(x => x.GenreId == genreId)).Include(x => x.Movie).ThenInclude(x => x.Genres).ThenInclude(x => x.Genre).Include(x=>x.Movie).ThenInclude(x => x.Actors).ThenInclude(x => x.Actor).Take(6).ToListAsync();
+            var entities = await dbSet.Where(x => x.Hall.CinemaId == cinemaId && x.Movie.Genres.Any(x => x.GenreId == genreId)).Include(x => x.Movie).ThenInclude(x => x.Genres).ThenInclude(x => x.Genre).Include(x => x.Movie).ThenInclude(x => x.Actors).ThenInclude(x => x.Actor).Take(6).ToListAsync();
             return entities;
+        }
+        public async Task<List<Show>?> GetByMovieIdAsync(int movieId, int cinemaId, bool isDistinct)
+        {
+            if (isDistinct)
+                return await dbSet.Include(x => x.Hall).Include(x=>x.Movie).Where(x => x.MovieId == movieId && x.Hall.CinemaId == cinemaId).GroupBy(x => x.DateTime.Date).Select(g => g.First()).ToListAsync();
+            else
+                return await dbSet.Include(x => x.Hall).Include(x => x.Movie).Where(x => x.MovieId == movieId && x.Hall.CinemaId == cinemaId).ToListAsync();
         }
     }
 }

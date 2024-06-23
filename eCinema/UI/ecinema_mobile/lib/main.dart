@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:ecinema_mobile/helpers/constants.dart';
 import 'package:ecinema_mobile/models/movie.dart';
+import 'package:ecinema_mobile/models/show.dart';
 import 'package:ecinema_mobile/providers/actor_provider.dart';
 import 'package:ecinema_mobile/providers/cinema_provider.dart';
 import 'package:ecinema_mobile/providers/city_provider.dart';
@@ -12,6 +13,7 @@ import 'package:ecinema_mobile/providers/language_provider.dart';
 import 'package:ecinema_mobile/providers/movie_provider.dart';
 import 'package:ecinema_mobile/providers/production_provider.dart';
 import 'package:ecinema_mobile/providers/reservation_provider.dart';
+import 'package:ecinema_mobile/providers/reservation_seat_provider.dart';
 import 'package:ecinema_mobile/providers/seat_provider.dart';
 import 'package:ecinema_mobile/providers/show_provider.dart';
 import 'package:ecinema_mobile/providers/user_provider.dart';
@@ -20,14 +22,21 @@ import 'package:ecinema_mobile/screens/home_page.dart';
 import 'package:ecinema_mobile/screens/login_screen.dart';
 import 'package:ecinema_mobile/screens/movie_details_screen.dart';
 import 'package:ecinema_mobile/screens/movies_screen.dart';
+import 'package:ecinema_mobile/screens/payment_screen.dart';
 import 'package:ecinema_mobile/screens/profile_screen.dart';
+import 'package:ecinema_mobile/screens/reservation_success_screen.dart';
 import 'package:ecinema_mobile/screens/reservations_screen.dart';
+import 'package:ecinema_mobile/screens/seats_screen.dart';
+import 'package:ecinema_mobile/screens/shows_screen.dart';
 import 'package:ecinema_mobile/utils/util.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 
 void main() {
   HttpOverrides.global = MyHttpOverrides();
+  Stripe.publishableKey = stripePublishKey;
+
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => UserProvider()),
@@ -43,6 +52,7 @@ void main() {
       ChangeNotifierProvider(create: (_) => ShowProvider()),
       ChangeNotifierProvider(create: (_) => ReservationProvider()),
       ChangeNotifierProvider(create: (_) => SeatProvider()),
+      ChangeNotifierProvider(create: (_) => ReservationSeatProvider()),
     ],
     child: const MyApp(),
   ));
@@ -71,6 +81,7 @@ class MyApp extends StatelessWidget {
           LoginScreen.routeName: (context) => const LoginScreen(),
           ChangePasswordScreen.routeName: (context) => const ChangePasswordScreen(),
           ReservationsScreen.routeName: (context) => const ReservationsScreen(),
+          ReservationSuccessScreen.routeName: (context) => const ReservationSuccessScreen(),
           // RegisterScreen.routeName: (context) => const RegisterScreen(),
           // CinemaScreen.routeName: (context) => const CinemaScreen(),
           // PaymentScreen.routeName: (context) => const PaymentScreen(),
@@ -79,6 +90,15 @@ class MyApp extends StatelessWidget {
         onGenerateRoute: (settings) {
           if (settings.name == MovieDetailsScreen.routeName) {
             return MaterialPageRoute(builder: (context) => MovieDetailsScreen(movie: settings.arguments as Movie));
+          }
+          if (settings.name == ShowsScreen.routeName) {
+            return MaterialPageRoute(builder: (context) => ShowsScreen(movie: settings.arguments as Movie));
+          }
+          if (settings.name == SeatsScreen.routeName) {
+            return MaterialPageRoute(builder: (context) => SeatsScreen(show: settings.arguments as Show));
+          }
+          if (settings.name == PaymentScreen.routeName) {
+            return MaterialPageRoute(builder: (context) => PaymentScreen(show: settings.arguments as Show));
           }
           if (settings.name == '/') {
             return MaterialPageRoute(

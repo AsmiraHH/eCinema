@@ -7,6 +7,8 @@ namespace eCinema.Core.Entities
         public int ID { get; set; }
         public bool isActive { get; set; }
 
+        public string TransactionNumber { get; set; } = null!;
+
         [ForeignKey(nameof(Show))]
         public int ShowId { get; set; }
         public Show Show { get; set; } = null!;

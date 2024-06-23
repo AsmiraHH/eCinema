@@ -7,6 +7,7 @@ namespace eCinema.Core.DTOs
     {
         public int ID { get; set; }
         public bool isActive { get; set; }
+        public string TransactionNumber { get; set; } = null!;
 
         public int ShowId { get; set; }
 
