@@ -9,6 +9,7 @@ part 'reservation.g.dart';
 class Reservation {
   int? id;
   bool? isActive;
+  String? transactionNumber;
   int? showId;
   Show? show;
   int? userId;
@@ -16,7 +17,8 @@ class Reservation {
   List<ReservationSeat>? seats;
   double? totalPrice;
 
-  Reservation(this.id, this.isActive, this.showId, this.show, this.seats, this.userId, this.user, this.totalPrice);
+  Reservation(this.id, this.isActive, this.transactionNumber, this.showId, this.show, this.seats, this.userId,
+      this.user, this.totalPrice);
 
   factory Reservation.fromJson(Map<String, dynamic> json) => _$ReservationFromJson(json);
 

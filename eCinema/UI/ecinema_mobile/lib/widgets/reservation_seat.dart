@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class ReservationSeatsListItem extends StatelessWidget {
   const ReservationSeatsListItem({
+    super.key,
     required this.seat,
   });
 
