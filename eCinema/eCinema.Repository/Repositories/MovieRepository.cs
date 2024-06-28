@@ -39,32 +39,67 @@ namespace eCinema.Repository.Repositories
         }
         public virtual async Task<List<Movie>> GetMostWatchedAsync(int cinemaId)
         {
-            var moviesWithShows = await dbSet
-                .Where(x => x.Shows.Any(show => show.Hall.CinemaId == cinemaId))
-                .Include(x => x.Shows)
-                    .ThenInclude(x => x.Hall)
-                .Include(x => x.Shows)
-                    .ThenInclude(x => x.Reservations)
-                .Include(x => x.Genres)
-                    .ThenInclude(x => x.Genre)
-                .Include(x => x.Actors)
-                    .ThenInclude(x => x.Actor)
-                .ToListAsync();
+            //    var moviesWithShows = await dbSet
+            //        .Where(x => x.Shows.Any(show => show.Hall.CinemaId == cinemaId))
+            //        .Include(x => x.Shows)
+            //            .ThenInclude(x => x.Hall)
+            //        .Include(x => x.Shows)
+            //            .ThenInclude(x => x.Reservations)
+            //        .Include(x => x.Genres)
+            //            .ThenInclude(x => x.Genre)
+            //        .Include(x => x.Actors)
+            //            .ThenInclude(x => x.Actor)
+            //        .ToListAsync();
 
-            var mostWatchedMovies = moviesWithShows
+            //    var mostWatchedMovies = moviesWithShows
+            //        .Select(movie => new
+            //        {
+            //            Movie = movie,
+            //            TotalReservations = movie.Shows
+            //                .Where(show => show.Hall.CinemaId == cinemaId)
+            //                .Sum(show => show.Reservations.Count)
+            //        })
+            //        .OrderByDescending(x => x.TotalReservations)
+            //        .Take(6)
+            //        .Select(x => x.Movie)
+            //        .ToList();
+
+            //    return mostWatchedMovies;
+
+            // Step 1: Aggregate reservation counts for movies in the specified cinema
+            var movieReservationCounts = await dbSet
+                .Where(movie => movie.Shows.Any(show => show.Hall.CinemaId == cinemaId))
                 .Select(movie => new
                 {
-                    Movie = movie,
+                    MovieId = movie.ID,
                     TotalReservations = movie.Shows
                         .Where(show => show.Hall.CinemaId == cinemaId)
-                        .Sum(show => show.Reservations.Count)
+                        .SelectMany(show => show.Reservations)
+                        .Count()
                 })
                 .OrderByDescending(x => x.TotalReservations)
                 .Take(6)
-                .Select(x => x.Movie)
-                .ToList();
+                .ToListAsync();
+
+            // Step 2: Extract movie IDs of the top 6 most watched movies
+            var topMovieIds = movieReservationCounts.Select(x => x.MovieId).ToList();
+
+            // Step 3: Load the top 6 most watched movies with necessary related entities
+            var mostWatchedMovies = await dbSet
+                .Where(movie => topMovieIds.Contains(movie.ID))
+                .Include(x => x.Shows)
+                    .ThenInclude(show => show.Hall)
+                .Include(x => x.Genres)
+                    .ThenInclude(g => g.Genre)
+                .Include(x => x.Actors)
+                    .ThenInclude(a => a.Actor)
+                .ToListAsync();
 
             return mostWatchedMovies;
+        }
+        public async Task<List<Movie>?> GetForRecommendedAsync(int cinemaId, int userId)
+        {
+            return await dbSet.Where(x => x.Shows.Any(show => show.Hall.CinemaId == cinemaId)).Where(x => !x.Shows.Any(y => y.Reservations.Any(z => z.UserId == userId))).Include(x => x.Genres).ThenInclude(x => x.Genre).Include(x => x.Actors).ThenInclude(x => x.Actor).ToListAsync();
         }
     }
 }

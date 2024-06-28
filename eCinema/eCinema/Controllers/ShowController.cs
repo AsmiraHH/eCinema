@@ -9,21 +9,6 @@ namespace eCinema.Controllers
     {
         public ShowController(IShowService service, ILogger<ShowController> logger) : base(service, logger) { }
        
-        [HttpGet("{cinemaId}/{userId}")]
-        public virtual async Task<IActionResult> GetRecommended(int cinemaId, int userId)
-        {
-            try
-            {
-                var dto = await service.GetRecommendedAsync(cinemaId, userId);
-                return Ok(dto);
-            }
-            catch (Exception e)
-            {
-                logger.LogError(e, $"Error while getting recommended shows.");
-                return BadRequest();
-            }
-        }
-
         [HttpGet("{movieId}/{cinemaId}/{isDistinct}")]
         public virtual async Task<IActionResult> GetByMovieId(int movieId, int cinemaId, bool isDistinct)
         {

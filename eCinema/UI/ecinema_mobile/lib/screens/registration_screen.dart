@@ -199,8 +199,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                         });
                                       },
                                       icon: _obscurePassword
-                                          ? const Icon(Icons.visibility_outlined)
-                                          : const Icon(Icons.visibility_off_outlined)),
+                                          ? const Icon(Icons.visibility_off_outlined)
+                                          : const Icon(Icons.visibility_outlined)),
                                 ),
                                 validator: FormBuilderValidators.compose([
                                   FormBuilderValidators.required(errorText: 'Password is required'),

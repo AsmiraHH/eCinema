@@ -7,5 +7,6 @@ namespace eCinema.Repository.RepositoriesInterfaces
     {
         Task<List<Movie>> GetLastAddedAsync(int cinemaId);
         Task<List<Movie>> GetMostWatchedAsync(int cinemaId);
+        Task<List<Movie>?> GetForRecommendedAsync(int cinemaId, int userId);
     }
 }

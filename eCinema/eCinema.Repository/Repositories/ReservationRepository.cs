@@ -10,6 +10,10 @@ namespace eCinema.Repository.Repositories
     public class ReservationRepository : BaseRepository<Reservation, int, ReservationSearchObject>, IReservationRepository
     {
         public ReservationRepository(DatabaseContext db) : base(db) { }
+        public override async Task<List<Reservation>> GetAllAsync()
+        {
+            return await dbSet.Include(x => x.User).Include(x => x.Show).ThenInclude(x => x.Movie).ToListAsync();
+        }
         public override async Task<PagedList<Reservation>> GetPagedAsync(ReservationSearchObject searchObject)
         {
             var items = dbSet.Include(x => x.User).Include(x => x.Seats).ThenInclude(x => x.Seat).Include(x => x.Show).ThenInclude(x => x.Movie)
@@ -54,23 +58,6 @@ namespace eCinema.Repository.Repositories
                 if (resEntities != null)
                     dbSet.RemoveRange(resEntities);
             }
-        }
-
-        public virtual async Task<int> GetMostFrequentGenreAsync(int userID, int cinemaID)
-        {
-            var result = await dbSet
-                               .Where(r => r.UserId == userID && r.Show.Hall.CinemaId == cinemaID)
-                               .SelectMany(r => r.Show.Movie.Genres) 
-                               .GroupBy(g => g.GenreId) 
-                               .Select(g => new
-                               {
-                                   GenreId = g.Key,
-                                   Count = g.Count()
-                               })
-                               .OrderByDescending(g => g.Count)
-                               .FirstOrDefaultAsync();
-
-            return result?.GenreId ?? -1; // Return -1 if no genre found
         }
     }
 }

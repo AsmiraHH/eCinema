@@ -10,6 +10,8 @@
     <PackageReference Include="FluentValidation" Version="11.9.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="7.0.13" />
+    <PackageReference Include="Microsoft.ML" Version="3.0.1" />
+    <PackageReference Include="Microsoft.ML.Recommender" Version="0.21.1" />
   </ItemGroup>
 
   <ItemGroup>

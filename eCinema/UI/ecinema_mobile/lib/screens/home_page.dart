@@ -2,11 +2,9 @@
 
 import 'package:ecinema_mobile/helpers/global_variables.dart';
 import 'package:ecinema_mobile/models/cinema.dart';
-import 'package:ecinema_mobile/models/show.dart';
 import 'package:ecinema_mobile/models/movie.dart';
 import 'package:ecinema_mobile/providers/cinema_provider.dart';
 import 'package:ecinema_mobile/providers/movie_provider.dart';
-import 'package:ecinema_mobile/providers/show_provider.dart';
 import 'package:ecinema_mobile/screens/movie_details_screen.dart';
 import 'package:ecinema_mobile/screens/movies_screen.dart';
 import 'package:ecinema_mobile/utils/util.dart';
@@ -23,8 +21,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<Movie> lastAddedShows = <Movie>[];
   List<Movie> mostWatchedShows = <Movie>[];
-  List<Show> recommendedShows = <Show>[];
-  late ShowProvider _showProvider;
+  List<Movie> recommendedShows = <Movie>[];
   late CinemaProvider _cinemaProvider;
   late MovieProvider _movieProvider;
   List<Cinema> cinemasResult = <Cinema>[];
@@ -35,23 +32,45 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _showProvider = context.read<ShowProvider>();
     _cinemaProvider = context.read<CinemaProvider>();
     _movieProvider = context.read<MovieProvider>();
     loadCinemas();
-    loadLastAddedShows();
-    loadMostWatchedShows();
+    loadShows();
+    // loadMostWatchedShows();
     // loadRecommendedShows();
+    // loadLastAddedShows();
+  }
+
+  Future<void> loadShows() async {
+    _isLoading = true;
+    try {
+      await loadMostWatchedShows();
+      await loadRecommendedShows();
+      await loadLastAddedShows();
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: const Text("Error"),
+                content: Text(e.toString()),
+                actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text("OK"))],
+              ));
+    }
   }
 
   Future<void> loadLastAddedShows() async {
-    _isLoading = true;
+    // _isLoading = true;
     try {
       var data = await _movieProvider.getLastAdded(selectedCinema);
       if (mounted) {
         setState(() {
           lastAddedShows = data;
-          _isLoading = false;
+          // _isLoading = false;
         });
       }
     } catch (e) {
@@ -66,13 +85,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> loadMostWatchedShows() async {
-    _isLoading = true;
+    // _isLoading = true;
     try {
       var data = await _movieProvider.getMostWatched(selectedCinema);
       if (mounted) {
         setState(() {
           mostWatchedShows = data;
-          _isLoading = false;
+          // _isLoading = false;
         });
       }
     } catch (e) {
@@ -87,13 +106,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> loadRecommendedShows() async {
-    _isLoading = true;
+    // _isLoading = true;
     try {
-      var data = await _showProvider.getRecommended(selectedCinema);
+      var data = await _movieProvider.getRecommended(selectedCinema);
       if (mounted) {
         setState(() {
           recommendedShows = data;
-          _isLoading = false;
+          // _isLoading = false;
         });
       }
     } catch (e) {
@@ -152,10 +171,8 @@ class _HomePageState extends State<HomePage> {
                     cinema = selectedCinema;
                     lastAddedShows = [];
                     mostWatchedShows = [];
-                    // recommendedShows = [];
-                    loadLastAddedShows();
-                    loadMostWatchedShows();
-                    // loadRecommendedShows();
+                    recommendedShows = [];
+                    loadShows();
                   });
                 },
                 isExpanded: false,
@@ -210,18 +227,18 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                 ),
-                // const SizedBox(
-                //   height: 20,
-                // ),
-                // const Text(
-                //   'Recommended Movies',
-                //   textAlign: TextAlign.start,
-                //   style: TextStyle(color: Colors.white, fontSize: 16),
-                // ),
-                // const SizedBox(
-                //   height: 20,
-                // ),
-                // buildShows(recommendedShows),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text(
+                  'Recommended Movies',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                buildMovies(recommendedShows),
                 const SizedBox(
                   height: 20,
                 ),

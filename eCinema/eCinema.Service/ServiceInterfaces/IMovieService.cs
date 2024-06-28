@@ -7,5 +7,6 @@ namespace eCinema.Service.ServiceInterfaces
     {
         Task<List<MovieDTO>?> GetLastAddedAsync(int cinemaId);
         Task<List<MovieDTO>?> GetMostWatchedAsync(int cinemaId);
+        List<MovieDTO> GetRecommended(int cinemaId, int userId);
     }
 }

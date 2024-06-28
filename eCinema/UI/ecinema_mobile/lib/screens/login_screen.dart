@@ -100,8 +100,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   });
                                 },
                                 icon: _obscurePassword
-                                    ? const Icon(Icons.visibility_outlined)
-                                    : const Icon(Icons.visibility_off_outlined)),
+                                    ? const Icon(Icons.visibility_off_outlined)
+                                    : const Icon(Icons.visibility_outlined)),
                           )),
                       SizedBox(height: 25),
                       SizedBox(

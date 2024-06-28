@@ -6,11 +6,18 @@ using eCinema.Repository.RepositoriesInterfaces;
 using eCinema.Repository.UnitOfWork;
 using eCinema.Service.ServiceInterfaces;
 using FluentValidation;
+using Microsoft.ML;
+using Microsoft.ML.Data;
+using Microsoft.ML.Trainers;
 
 namespace eCinema.Service.Services
 {
     public class MovieService : BaseService<Movie, MovieDTO, MovieUpsertDTO, MovieSearchObject, IMovieRepository>, IMovieService
     {
+        static MLContext mlContext = null;
+        static object isLocked = new object();
+        static ITransformer model = null;
+
         public MovieService(IMapper mapper, IUnitOfWork unitOfWork, IValidator<MovieUpsertDTO> validator) : base(mapper, unitOfWork, validator)
         {
         }
@@ -116,6 +123,89 @@ namespace eCinema.Service.Services
         {
             var entities = await CurrentRepository.GetMostWatchedAsync(cinemaId);
             return Mapper.Map<List<MovieDTO>>(entities);
+        }
+
+        public List<MovieDTO> GetRecommended(int cinemaId, int userId)
+        {
+            lock (isLocked)
+            {
+                if (mlContext == null)
+                {
+                    mlContext = new MLContext();
+
+                    var reservations = UnitOfWork.ReservationRepository.GetAllAsync();
+
+                    if (reservations.Result?.Count == 0)
+                    {
+                        return new List<MovieDTO>();
+                    }
+
+                    var data = new List<UserItemEntry>();
+
+                    foreach (var x in reservations.Result!)
+                    {
+                        data.Add(new UserItemEntry()
+                        {
+                            UserId = (uint)x.UserId,
+                            ItemId = (uint)x.Show.MovieId,
+                            Rating = 1
+                        });
+                    }
+
+                    var trainData = mlContext.Data.LoadFromEnumerable(data);
+
+                    MatrixFactorizationTrainer.Options options = new MatrixFactorizationTrainer.Options();
+                    options.MatrixColumnIndexColumnName = nameof(UserItemEntry.UserId);
+                    options.MatrixRowIndexColumnName = nameof(UserItemEntry.ItemId);
+                    options.LabelColumnName = "Rating";
+                    options.LossFunction = MatrixFactorizationTrainer.LossFunctionType.SquareLossOneClass;
+                    options.Alpha = 0.01;
+                    options.Lambda = 0.025;
+                    options.NumberOfIterations = 100;
+                    options.C = 0.00001;
+
+                    var est = mlContext.Recommendation().Trainers.MatrixFactorization(options);
+
+                    model = est.Fit(trainData);
+                }
+            }
+
+            var movies = CurrentRepository.GetForRecommendedAsync(cinemaId, userId);
+
+            var predictionResult = new List<Tuple<Movie, float>>();
+
+            foreach (var movie in movies.Result!)
+            {
+                var predictionEngine = mlContext.Model.CreatePredictionEngine<UserItemEntry, UserBasedPrediction>(model);
+                var prediction = predictionEngine.Predict(
+                    new UserItemEntry()
+                    {
+                        UserId = (uint)userId,
+                        ItemId = (uint)movie.ID
+                    });
+
+                predictionResult.Add(new Tuple<Movie, float>(movie, prediction.Score));
+            }
+
+            var finalResult = predictionResult.OrderByDescending(x => x.Item2).Select(y => y.Item1).Take(3).ToList();
+
+            return Mapper.Map<List<MovieDTO>>(finalResult);
+        }
+
+        public class UserItemEntry
+        {
+            [KeyType(count: 10)]
+            public uint UserId { get; set; }
+
+            [KeyType(count: 10)]
+            public uint ItemId { get; set; }
+
+            public float Rating { get; set; }
+        }
+
+        public class UserBasedPrediction
+        {
+            public float Score { get; set; }
         }
     }
 }

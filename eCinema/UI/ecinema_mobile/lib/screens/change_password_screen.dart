@@ -183,7 +183,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 onTogglePasswordVisibility();
               },
               icon:
-                  obscurePassword ? const Icon(Icons.visibility_outlined) : const Icon(Icons.visibility_off_outlined)),
+                  obscurePassword ? const Icon(Icons.visibility_off_outlined) : const Icon(Icons.visibility_outlined)),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30.0),
             borderSide: const BorderSide(color: Colors.white),
