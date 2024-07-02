@@ -69,6 +69,21 @@ class UserProvider extends BaseProvider<User> {
     }
   }
 
+  Future verify(dynamic object) async {
+    var url = "$baseUrl$endpoint/Verify";
+    var uri = Uri.parse(url);
+    var headers = {'Content-Type': 'application/json'};
+
+    var obj = jsonEncode(object);
+    var response = await http.put(uri, headers: headers, body: obj);
+
+    if (isValidResponse(response)) {
+      return 'Ok';
+    } else {
+      throw Exception('Error...');
+    }
+  }
+
   void logout() {
     Authorization.userId = null;
     Authorization.user = null;

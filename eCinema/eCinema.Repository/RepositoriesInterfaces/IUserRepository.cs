@@ -6,7 +6,7 @@ namespace eCinema.Repository.RepositoriesInterfaces
     public interface IUserRepository : IBaseRepository<User, int, UserSearchObject>
     {
         Task<User?> GetByUsernameAsync(string username);
+        Task<User?> GetByEmailAsync(string email);
         Task<List<string>> GetRolesByUsernameAsync(string username);
-
     }
 }

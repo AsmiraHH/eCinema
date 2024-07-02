@@ -4,7 +4,7 @@ using eCinema.Core.SearchObjects;
 using eCinema.Service.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace eCinema.Controllers
 {
@@ -79,6 +79,27 @@ namespace eCinema.Controllers
             catch (Exception e)
             {
                 logger.LogError(e, $"Error while login with username {username} and password {password}", username, password);
+                return BadRequest();
+            }
+        }
+
+        [HttpPut]
+        [AllowAnonymous]
+        public async Task<IActionResult> Verify([FromBody] VerificationDTO dto)
+        {
+            try
+            {
+                await service.Verify(dto);
+                return Ok();
+            }
+            catch (UserNotFoundException e)
+            {
+                logger.LogError(e, $"Error while verifying email {dto.Email}");
+                return Unauthorized(new { message = e.Message });
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, $"Error while verifying email {dto.Email}");
                 return BadRequest();
             }
         }

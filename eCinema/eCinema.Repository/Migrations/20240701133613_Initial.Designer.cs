@@ -12,7 +12,7 @@ using eCinema.Repository;
 namespace eCinema.Repository.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240623145431_Initial")]
+    [Migration("20240701133613_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -65,7 +65,7 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            BirthDate = new DateTime(2024, 6, 23, 16, 54, 31, 399, DateTimeKind.Local).AddTicks(660),
+                            BirthDate = new DateTime(2024, 7, 1, 15, 36, 13, 134, DateTimeKind.Local).AddTicks(7850),
                             Email = "jennifer.lopez@gmail.com",
                             FirstName = "Jennifer",
                             Gender = 1,
@@ -370,7 +370,7 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            BirthDate = new DateTime(2024, 6, 23, 16, 54, 31, 399, DateTimeKind.Local).AddTicks(719),
+                            BirthDate = new DateTime(2024, 7, 1, 15, 36, 13, 134, DateTimeKind.Local).AddTicks(7911),
                             CinemaId = 1,
                             Email = "almedina.golos@eCinema.com",
                             FirstName = "Almedina",
@@ -894,7 +894,7 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            DateTime = new DateTime(2024, 6, 23, 16, 54, 31, 399, DateTimeKind.Local).AddTicks(835),
+                            DateTime = new DateTime(2024, 7, 1, 15, 36, 13, 134, DateTimeKind.Local).AddTicks(8018),
                             Format = "ThreeD",
                             HallId = 1,
                             IsDeleted = false,
@@ -957,6 +957,9 @@ namespace eCinema.Repository.Migrations
                         .HasColumnType("varbinary(max)");
 
                     b.Property<int>("Role")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Token")
                         .HasColumnType("int");
 
                     b.Property<string>("Username")

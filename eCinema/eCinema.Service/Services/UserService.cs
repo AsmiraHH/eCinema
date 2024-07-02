@@ -3,9 +3,11 @@ using eCinema.Core.DTOs;
 using eCinema.Core.Entities;
 using eCinema.Core.Exceptions;
 using eCinema.Core.SearchObjects;
+using eCinema.RabbitMQ;
 using eCinema.Repository.RepositoriesInterfaces;
 using eCinema.Repository.UnitOfWork;
 using eCinema.Service.CryptoService;
+using eCinema.Service.MailService;
 using eCinema.Service.ServiceInterfaces;
 using FluentValidation;
 
@@ -14,9 +16,11 @@ namespace eCinema.Service.Services
     public class UserService : BaseService<User, UserDTO, UserUpsertDTO, UserSearchObject, IUserRepository>, IUserService
     {
         private readonly ICryptoService cryptoService;
-        public UserService(IMapper mapper, IUnitOfWork unitOfWork, IValidator<UserUpsertDTO> validator, ICryptoService _cryptoService) : base(mapper, unitOfWork, validator)
+        IMailService mailService;
+        public UserService(IMapper mapper, IUnitOfWork unitOfWork, IValidator<UserUpsertDTO> validator, ICryptoService _cryptoService, IMailService _mailService) : base(mapper, unitOfWork, validator)
         {
             cryptoService = _cryptoService;
+            mailService = _mailService;
         }
 
         public override async Task<UserDTO> AddAsync(UserUpsertDTO upsertDTO)
@@ -27,16 +31,24 @@ namespace eCinema.Service.Services
 
             entity.PasswordSalt = cryptoService.GenerateSalt();
             entity.PasswordHash = cryptoService.GenerateHash(upsertDTO.Password!, entity.PasswordSalt);
-            
+
             if (!string.IsNullOrEmpty(upsertDTO?.PhotoBase64))
                 entity.ProfilePhoto = Convert.FromBase64String(upsertDTO.PhotoBase64);
 
             entity.Role = 0;
-            //entity.IsActive = true;
-            //entity.IsVerified = false;
-
+            entity.Token = GenerateRandomNo();
+           
             await CurrentRepository.AddAsync(entity);
             await UnitOfWork.SaveChangesAsync();
+
+            var mail = new Email_TokenDTO()
+            {
+                Mail = entity.Email,
+                Token = entity.Token
+            };
+
+            mailService.StartRabbitMQ(mail);
+
             return Mapper.Map<UserDTO>(entity);
         }
 
@@ -57,10 +69,6 @@ namespace eCinema.Service.Services
             if (!string.IsNullOrEmpty(upsertDTO?.PhotoBase64))
                 entity.ProfilePhoto = Convert.FromBase64String(upsertDTO.PhotoBase64);
 
-            //entity.Role = 0;
-            //entity.IsActive = true;
-            //entity.IsVerified = false;
-
             CurrentRepository.Update(entity);
             await UnitOfWork.SaveChangesAsync();
 
@@ -72,7 +80,7 @@ namespace eCinema.Service.Services
 
             if (user == null)
                 throw new UserNotFoundException();
-         
+
             if (!string.IsNullOrEmpty(upsertDTO?.PhotoBase64))
                 user.ProfilePhoto = Convert.FromBase64String(upsertDTO.PhotoBase64);
 
@@ -87,7 +95,7 @@ namespace eCinema.Service.Services
 
             if (user == null)
                 throw new UserNotFoundException();
-            
+
             if (!cryptoService.VerifyPassword(user.PasswordHash, password, user.PasswordSalt))
                 throw new UserWrongCredentialsException();
 
@@ -118,6 +126,24 @@ namespace eCinema.Service.Services
 
             CurrentRepository.Update(user);
             await UnitOfWork.SaveChangesAsync();
+        }
+        public async Task Verify(VerificationDTO req)
+        {
+            var entity = await CurrentRepository.GetByEmailAsync(req.Email) ?? throw new UserNotFoundException();
+
+            if (entity.Token != req.Token)
+                throw new UserNotFoundException();
+
+            entity.IsVerified = true;
+            await UnitOfWork.SaveChangesAsync();
+        }
+
+        private int GenerateRandomNo()
+        {
+            int _min = 1000;
+            int _max = 10000;
+            Random _rdm = new Random();
+            return _rdm.Next(_min, _max);
         }
     }
 }

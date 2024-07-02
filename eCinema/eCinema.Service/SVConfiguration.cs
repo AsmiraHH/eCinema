@@ -1,5 +1,6 @@
 ﻿using eCinema.Core.DTOs;
 using eCinema.Service.CryptoService;
+using eCinema.Service.MailService;
 using eCinema.Service.ServiceInterfaces;
 using eCinema.Service.Services;
 using eCinema.Service.Validators;
@@ -30,6 +31,7 @@ namespace eCinema.Service
             services.AddScoped<IShowService, ShowService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICryptoService, CryptoService.CryptoService>();
+            services.AddScoped<IMailService, MailService.MailService>();
         }
 
         public static void ConfigureValidators(this IServiceCollection services)

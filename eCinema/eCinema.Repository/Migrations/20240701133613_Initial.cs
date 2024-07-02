@@ -95,6 +95,7 @@ namespace eCinema.Repository.Migrations
                     Role = table.Column<int>(type: "int", nullable: false),
                     IsVerified = table.Column<bool>(type: "bit", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    Token = table.Column<int>(type: "int", nullable: true),
                     ProfilePhoto = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -433,7 +434,7 @@ namespace eCinema.Repository.Migrations
             migrationBuilder.InsertData(
                 table: "Actors",
                 columns: new[] { "ID", "BirthDate", "Email", "FirstName", "Gender", "IsDeleted", "LastName", "ModifiedAt" },
-                values: new object[] { 1, new DateTime(2024, 6, 23, 16, 54, 31, 399, DateTimeKind.Local).AddTicks(660), "jennifer.lopez@gmail.com", "Jennifer", 1, false, "Lopez", null });
+                values: new object[] { 1, new DateTime(2024, 7, 1, 15, 36, 13, 134, DateTimeKind.Local).AddTicks(7850), "jennifer.lopez@gmail.com", "Jennifer", 1, false, "Lopez", null });
 
             migrationBuilder.InsertData(
                 table: "Countries",
@@ -479,8 +480,8 @@ namespace eCinema.Repository.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "ID", "BirthDate", "Email", "FirstName", "Gender", "IsActive", "IsDeleted", "IsVerified", "LastName", "ModifiedAt", "PasswordHash", "PasswordSalt", "PhoneNumber", "ProfilePhoto", "Role", "Username" },
-                values: new object[] { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@eCinema.com", "Asmira", 1, true, false, false, "Husić", null, "b4I5yA4Mp+0Pg1C3EsKU17sS13eDExGtBjjI07Vh/JM=", "1wQEjdSFeZttx6dlvEDjOg==", "38761123456", null, 1, "asmiraH" });
+                columns: new[] { "ID", "BirthDate", "Email", "FirstName", "Gender", "IsActive", "IsDeleted", "IsVerified", "LastName", "ModifiedAt", "PasswordHash", "PasswordSalt", "PhoneNumber", "ProfilePhoto", "Role", "Token", "Username" },
+                values: new object[] { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@eCinema.com", "Asmira", 1, true, false, false, "Husić", null, "b4I5yA4Mp+0Pg1C3EsKU17sS13eDExGtBjjI07Vh/JM=", "1wQEjdSFeZttx6dlvEDjOg==", "38761123456", null, 1, null, "asmiraH" });
 
             migrationBuilder.InsertData(
                 table: "Cities",
@@ -522,7 +523,7 @@ namespace eCinema.Repository.Migrations
             migrationBuilder.InsertData(
                 table: "Employees",
                 columns: new[] { "ID", "BirthDate", "CinemaId", "Email", "FirstName", "Gender", "IsActive", "IsDeleted", "LastName", "ModifiedAt", "PasswordHash", "PasswordSalt", "PhoneNumber", "ProfilePhoto", "Role", "Username" },
-                values: new object[] { 1, new DateTime(2024, 6, 23, 16, 54, 31, 399, DateTimeKind.Local).AddTicks(719), 1, "almedina.golos@eCinema.com", "Almedina", 1, true, false, "Gološ", null, "b4I5yA4Mp+0Pg1C3EsKU17sS13eDExGtBjjI07Vh/JM=", "1wQEjdSFeZttx6dlvEDjOg==", "38761327546", null, 0, "almedinaG" });
+                values: new object[] { 1, new DateTime(2024, 7, 1, 15, 36, 13, 134, DateTimeKind.Local).AddTicks(7911), 1, "almedina.golos@eCinema.com", "Almedina", 1, true, false, "Gološ", null, "b4I5yA4Mp+0Pg1C3EsKU17sS13eDExGtBjjI07Vh/JM=", "1wQEjdSFeZttx6dlvEDjOg==", "38761327546", null, 0, "almedinaG" });
 
             migrationBuilder.InsertData(
                 table: "Hall",
@@ -547,7 +548,7 @@ namespace eCinema.Repository.Migrations
             migrationBuilder.InsertData(
                 table: "Shows",
                 columns: new[] { "ID", "DateTime", "Format", "HallId", "IsDeleted", "ModifiedAt", "MovieId", "Price" },
-                values: new object[] { 1, new DateTime(2024, 6, 23, 16, 54, 31, 399, DateTimeKind.Local).AddTicks(835), "ThreeD", 1, false, null, 1, 25.0 });
+                values: new object[] { 1, new DateTime(2024, 7, 1, 15, 36, 13, 134, DateTimeKind.Local).AddTicks(8018), "ThreeD", 1, false, null, 1, 25.0 });
 
             migrationBuilder.InsertData(
                 table: "Reservations",

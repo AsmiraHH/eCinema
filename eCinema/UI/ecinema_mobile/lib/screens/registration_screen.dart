@@ -3,6 +3,7 @@
 import 'package:ecinema_mobile/helpers/constants.dart';
 import 'package:ecinema_mobile/providers/user_provider.dart';
 import 'package:ecinema_mobile/screens/login_screen.dart';
+import 'package:ecinema_mobile/screens/verification_screen.dart';
 import 'package:ecinema_mobile/utils/success_snackBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -35,11 +36,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     newUser['IsVerified'] = false;
 
     try {
-      await _userProvider.insert(newUser);
+      var result = await _userProvider.insert(newUser);
 
       if (context.mounted) {
         showSuccessSnackBar(context, 'Registration successful.');
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (builder) => const LoginScreen()));
+        // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (builder) => const LoginScreen()));
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (builder) => VerificationScreen(email: result.email.toString())));
       }
     } catch (e) {
       showDialog(

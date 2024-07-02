@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eCinema.Repository", "eCine
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eCinema.Service", "eCinema.Service\eCinema.Service.csproj", "{AE863914-6FD1-4043-B7A3-D9100A78F7F0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eCinema.RabbitMQ", "eCinema.RabbitMQ\eCinema.RabbitMQ.csproj", "{B549CFE2-D0DA-4DBD-BD8B-8BF9D38BDA82}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{AE863914-6FD1-4043-B7A3-D9100A78F7F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE863914-6FD1-4043-B7A3-D9100A78F7F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE863914-6FD1-4043-B7A3-D9100A78F7F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B549CFE2-D0DA-4DBD-BD8B-8BF9D38BDA82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B549CFE2-D0DA-4DBD-BD8B-8BF9D38BDA82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B549CFE2-D0DA-4DBD-BD8B-8BF9D38BDA82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B549CFE2-D0DA-4DBD-BD8B-8BF9D38BDA82}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

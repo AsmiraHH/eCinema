@@ -23,6 +23,7 @@ namespace eCinema.Core.Entities
         public Role Role { get; set; }
         public bool IsVerified { get; set; }
         public bool IsActive { get; set; }
+        public int? Token { get; set; }
         public byte[]? ProfilePhoto { get; set; }
         public ICollection<Reservation> Reservations { get; set; } = null!;
     }

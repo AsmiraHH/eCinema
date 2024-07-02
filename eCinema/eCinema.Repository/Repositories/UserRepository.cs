@@ -14,6 +14,10 @@ namespace eCinema.Repository.Repositories
         {
             return await dbSet.FirstOrDefaultAsync(x => x.Username == username);
         }
+        public virtual async Task<User?> GetByEmailAsync(string email)
+        {
+            return await dbSet.FirstOrDefaultAsync(x => x.Email == email);
+        }
         public virtual async Task<List<string>> GetRolesByUsernameAsync(string username)
         {
             return await dbSet.Where(x => x.Username == username).Select(x => x.Role.ToString()).ToListAsync();
