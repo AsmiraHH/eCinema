@@ -268,12 +268,8 @@ namespace eCinema.Repository
                     ID = 1,
                     FirstName = "Almedina",
                     LastName = "Gološ",
-                    Username = "almedinaG",
                     Email = "almedina.golos@eCinema.com",
-                    Role = Role.User,
                     Gender = Gender.Female,
-                    PasswordHash = "b4I5yA4Mp+0Pg1C3EsKU17sS13eDExGtBjjI07Vh/JM=", //Plain text: test
-                    PasswordSalt = "1wQEjdSFeZttx6dlvEDjOg==",
                     PhoneNumber = "38761327546",
                     IsActive = true,
                     BirthDate = DateTime.Now,

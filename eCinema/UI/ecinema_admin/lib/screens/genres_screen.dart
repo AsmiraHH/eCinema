@@ -322,13 +322,13 @@ class _GenresScreenState extends State<GenresScreen> {
 
   Widget buildAddGenreModal({bool isEdit = false, Genre? genreEdit}) {
     return SizedBox(
-        height: 150,
         width: 350,
         child: Padding(
           padding: const EdgeInsets.all(35.0),
           child: FormBuilder(
               key: _formKey,
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Column(
                     children: [

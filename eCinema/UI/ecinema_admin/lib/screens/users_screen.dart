@@ -508,13 +508,13 @@ class _UsersScreenState extends State<UsersScreen> {
 
   Widget buildAddUserModal({bool isEdit = false, User? userEdit}) {
     return SizedBox(
-        height: 500,
         width: 900,
         child: Padding(
           padding: const EdgeInsets.all(35.0),
           child: FormBuilder(
               key: _formKey,
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Wrap(
                     runAlignment: WrapAlignment.spaceEvenly,

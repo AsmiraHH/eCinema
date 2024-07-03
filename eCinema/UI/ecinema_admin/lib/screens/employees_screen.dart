@@ -99,7 +99,6 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
     Map<String, dynamic> newEmployee = Map.from(_formKey.currentState!.value);
     if (isEdit) {
       newEmployee['id'] = selectedEmployee?.id;
-      newEmployee['Role'] = selectedEmployee?.role;
     }
     newEmployee['photoBase64'] = _base64Image;
     newEmployee['BirthDate'] = DateFormat('yyyy-MM-dd').format(_formKey.currentState!.value['BirthDate']);
@@ -167,7 +166,6 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
               showCheckboxColumn: false,
               columns: const [
                 DataColumn(label: Text('Name')),
-                DataColumn(label: Text('Username')),
                 DataColumn(label: Text('Email')),
                 DataColumn(label: Text('Phone number')),
                 DataColumn(label: Text('Birthdate')),
@@ -184,7 +182,6 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                       }),
                       cells: [
                         DataCell(Text('${employee.firstName} ${employee.lastName}')),
-                        DataCell(Text(employee.username.toString())),
                         DataCell(Text(employee.email.toString())),
                         DataCell(Text(employee.phoneNumber.toString())),
                         DataCell(Text(DateFormat('dd.MM.yyyy').format(DateTime.parse(employee.birthDate.toString())))),
@@ -516,13 +513,13 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
 
   Widget buildAddEmployeeModal({bool isEdit = false, Employee? employeeEdit}) {
     return SizedBox(
-        height: 500,
         width: 900,
         child: Padding(
           padding: const EdgeInsets.all(35.0),
           child: FormBuilder(
               key: _formKey,
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Wrap(
                     runAlignment: WrapAlignment.spaceEvenly,
@@ -596,18 +593,6 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                             child: FormBuilderTextField(
                               cursorColor: Colors.grey,
                               autovalidateMode: AutovalidateMode.onUserInteraction,
-                              name: 'Username',
-                              initialValue: employeeEdit != null ? employeeEdit.username : '',
-                              decoration: const InputDecoration(labelText: 'Username'),
-                              validator: FormBuilderValidators.compose(
-                                  [FormBuilderValidators.required(errorText: 'Username is required')]),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 250,
-                            child: FormBuilderTextField(
-                              cursorColor: Colors.grey,
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
                               name: 'Email',
                               initialValue: employeeEdit != null ? employeeEdit.email.toString() : '',
                               decoration:
@@ -618,42 +603,24 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                               ]),
                             ),
                           ),
-                          !isEdit
-                              ? SizedBox(
-                                  width: 250,
-                                  child: FormBuilderTextField(
-                                    obscureText: true,
-                                    cursorColor: Colors.grey,
-                                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                                    name: 'Password',
-                                    initialValue: employeeEdit != null ? employeeEdit.password.toString() : '',
-                                    decoration: const InputDecoration(labelText: 'Password', errorMaxLines: 2),
-                                    validator: FormBuilderValidators.compose([
-                                      FormBuilderValidators.required(errorText: 'Password is required'),
-                                      FormBuilderValidators.minLength(7,
-                                          errorText: 'Password should be at least 7 characters long'),
-                                      FormBuilderValidators.match(
-                                        '[A-Z]+',
-                                        errorText: 'Password should contain at least one uppercase letter',
-                                      ),
-                                      FormBuilderValidators.match(
-                                        '[a-z]+',
-                                        errorText: 'Password should contain at least one lowercase letter',
-                                      ),
-                                      FormBuilderValidators.match(
-                                        '[0-9]+',
-                                        errorText: 'Password should contain at least one digit',
-                                      ),
-                                    ]),
-                                  ),
-                                )
-                              : const SizedBox.shrink(),
                           SizedBox(
                             width: 250,
-                            child: FormBuilderCheckbox(
-                              title: const Text('Active'),
-                              name: 'IsActive',
-                              initialValue: employeeEdit?.isActive,
+                            child: FormBuilderDropdown<int>(
+                              items: cinemasResult
+                                      ?.map((e) => DropdownMenuItem(
+                                            value: e.id,
+                                            child: Text(
+                                              e.name!,
+                                            ),
+                                          ))
+                                      .toList() ??
+                                  [],
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                              name: 'CinemaId',
+                              initialValue: employeeEdit?.cinema?.id,
+                              decoration: const InputDecoration(labelText: 'Cinema'),
+                              validator: FormBuilderValidators.compose(
+                                  [FormBuilderValidators.required(errorText: 'Cinema is required')]),
                             ),
                           ),
                         ],
@@ -718,22 +685,10 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                           ),
                           SizedBox(
                             width: 250,
-                            child: FormBuilderDropdown<int>(
-                              items: cinemasResult
-                                      ?.map((e) => DropdownMenuItem(
-                                            value: e.id,
-                                            child: Text(
-                                              e.name!,
-                                            ),
-                                          ))
-                                      .toList() ??
-                                  [],
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              name: 'CinemaId',
-                              initialValue: employeeEdit?.cinema?.id,
-                              decoration: const InputDecoration(labelText: 'Cinema'),
-                              validator: FormBuilderValidators.compose(
-                                  [FormBuilderValidators.required(errorText: 'Cinema is required')]),
+                            child: FormBuilderCheckbox(
+                              title: const Text('Active'),
+                              name: 'IsActive',
+                              initialValue: employeeEdit?.isActive,
                             ),
                           ),
                         ],

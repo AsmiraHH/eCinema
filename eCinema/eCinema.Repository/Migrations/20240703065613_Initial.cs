@@ -218,14 +218,10 @@ namespace eCinema.Repository.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Gender = table.Column<int>(type: "int", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PasswordSalt = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Role = table.Column<int>(type: "int", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     ProfilePhoto = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     CinemaId = table.Column<int>(type: "int", nullable: false),
@@ -434,7 +430,7 @@ namespace eCinema.Repository.Migrations
             migrationBuilder.InsertData(
                 table: "Actors",
                 columns: new[] { "ID", "BirthDate", "Email", "FirstName", "Gender", "IsDeleted", "LastName", "ModifiedAt" },
-                values: new object[] { 1, new DateTime(2024, 7, 1, 15, 36, 13, 134, DateTimeKind.Local).AddTicks(7850), "jennifer.lopez@gmail.com", "Jennifer", 1, false, "Lopez", null });
+                values: new object[] { 1, new DateTime(2024, 7, 3, 8, 56, 13, 392, DateTimeKind.Local).AddTicks(2376), "jennifer.lopez@gmail.com", "Jennifer", 1, false, "Lopez", null });
 
             migrationBuilder.InsertData(
                 table: "Countries",
@@ -522,8 +518,8 @@ namespace eCinema.Repository.Migrations
 
             migrationBuilder.InsertData(
                 table: "Employees",
-                columns: new[] { "ID", "BirthDate", "CinemaId", "Email", "FirstName", "Gender", "IsActive", "IsDeleted", "LastName", "ModifiedAt", "PasswordHash", "PasswordSalt", "PhoneNumber", "ProfilePhoto", "Role", "Username" },
-                values: new object[] { 1, new DateTime(2024, 7, 1, 15, 36, 13, 134, DateTimeKind.Local).AddTicks(7911), 1, "almedina.golos@eCinema.com", "Almedina", 1, true, false, "Gološ", null, "b4I5yA4Mp+0Pg1C3EsKU17sS13eDExGtBjjI07Vh/JM=", "1wQEjdSFeZttx6dlvEDjOg==", "38761327546", null, 0, "almedinaG" });
+                columns: new[] { "ID", "BirthDate", "CinemaId", "Email", "FirstName", "Gender", "IsActive", "IsDeleted", "LastName", "ModifiedAt", "PhoneNumber", "ProfilePhoto" },
+                values: new object[] { 1, new DateTime(2024, 7, 3, 8, 56, 13, 392, DateTimeKind.Local).AddTicks(2450), 1, "almedina.golos@eCinema.com", "Almedina", 1, true, false, "Gološ", null, "38761327546", null });
 
             migrationBuilder.InsertData(
                 table: "Hall",
@@ -548,7 +544,7 @@ namespace eCinema.Repository.Migrations
             migrationBuilder.InsertData(
                 table: "Shows",
                 columns: new[] { "ID", "DateTime", "Format", "HallId", "IsDeleted", "ModifiedAt", "MovieId", "Price" },
-                values: new object[] { 1, new DateTime(2024, 7, 1, 15, 36, 13, 134, DateTimeKind.Local).AddTicks(8018), "ThreeD", 1, false, null, 1, 25.0 });
+                values: new object[] { 1, new DateTime(2024, 7, 3, 8, 56, 13, 392, DateTimeKind.Local).AddTicks(2625), "ThreeD", 1, false, null, 1, 25.0 });
 
             migrationBuilder.InsertData(
                 table: "Reservations",

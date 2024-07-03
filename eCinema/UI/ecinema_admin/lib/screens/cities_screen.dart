@@ -378,13 +378,13 @@ class _CitiesScreenState extends State<CitiesScreen> {
 
   Widget buildAddCityModal({bool isEdit = false, City? cityEdit}) {
     return SizedBox(
-        height: 310,
         width: 500,
         child: Padding(
           padding: const EdgeInsets.all(35.0),
           child: FormBuilder(
               key: _formKey,
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Wrap(
                     runAlignment: WrapAlignment.spaceEvenly,
@@ -394,7 +394,7 @@ class _CitiesScreenState extends State<CitiesScreen> {
                       Column(
                         children: [
                           SizedBox(
-                            width: 300,
+                            width: 340,
                             child: FormBuilderTextField(
                               cursorColor: Colors.grey,
                               autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -406,7 +406,7 @@ class _CitiesScreenState extends State<CitiesScreen> {
                             ),
                           ),
                           SizedBox(
-                            width: 300,
+                            width: 340,
                             child: FormBuilderTextField(
                               cursorColor: Colors.grey,
                               autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -420,7 +420,7 @@ class _CitiesScreenState extends State<CitiesScreen> {
                             ),
                           ),
                           SizedBox(
-                            width: 300,
+                            width: 340,
                             child: FormBuilderDropdown<int>(
                               items: countriesResult
                                       ?.map((e) => DropdownMenuItem(

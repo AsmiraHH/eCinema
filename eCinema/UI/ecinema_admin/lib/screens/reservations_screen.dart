@@ -438,13 +438,13 @@ class _ReservationsScreenState extends State<ReservationsScreen> {
 
   Widget buildEditReservationModal({Reservation? reservationEdit}) {
     return SizedBox(
-        height: 350,
         width: 500,
         child: Padding(
           padding: const EdgeInsets.all(35.0),
           child: FormBuilder(
               key: _formKey,
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Wrap(
                     runAlignment: WrapAlignment.spaceEvenly,

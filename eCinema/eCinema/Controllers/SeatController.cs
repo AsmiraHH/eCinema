@@ -1,7 +1,7 @@
 ﻿using eCinema.Core.DTOs;
-using eCinema.Core.Exceptions;
 using eCinema.Core.SearchObjects;
 using eCinema.Service.ServiceInterfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eCinema.Controllers
@@ -11,6 +11,7 @@ namespace eCinema.Controllers
         public SeatController(ISeatService service, ILogger<SeatController> logger) : base(service, logger) { }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public override async Task<IActionResult> Post([FromBody] SeatUpsertDTO upsertDTO)
         {
             try
@@ -24,7 +25,9 @@ namespace eCinema.Controllers
                 return BadRequest(e);
             }
         }
+
         [HttpPut]
+        [Authorize(Roles = "Administrator")]
         public  async Task<IActionResult> Disable([FromBody] List<SeatDisableDTO> upsertDTO)
         {
             try
@@ -38,7 +41,9 @@ namespace eCinema.Controllers
                 return BadRequest(e);
             }
         }
+        
         [HttpGet("{hallId}")]
+        [Authorize(Roles = "Administrator,User")]
         public virtual async Task<IActionResult> GetByHallId(int hallId)
         {
             try

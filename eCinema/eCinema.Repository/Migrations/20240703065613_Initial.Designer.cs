@@ -12,7 +12,7 @@ using eCinema.Repository;
 namespace eCinema.Repository.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240701133613_Initial")]
+    [Migration("20240703065613_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -65,7 +65,7 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            BirthDate = new DateTime(2024, 7, 1, 15, 36, 13, 134, DateTimeKind.Local).AddTicks(7850),
+                            BirthDate = new DateTime(2024, 7, 3, 8, 56, 13, 392, DateTimeKind.Local).AddTicks(2376),
                             Email = "jennifer.lopez@gmail.com",
                             FirstName = "Jennifer",
                             Gender = 1,
@@ -338,27 +338,12 @@ namespace eCinema.Repository.Migrations
                     b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PasswordSalt")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("ProfilePhoto")
                         .HasColumnType("varbinary(max)");
-
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
@@ -370,7 +355,7 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            BirthDate = new DateTime(2024, 7, 1, 15, 36, 13, 134, DateTimeKind.Local).AddTicks(7911),
+                            BirthDate = new DateTime(2024, 7, 3, 8, 56, 13, 392, DateTimeKind.Local).AddTicks(2450),
                             CinemaId = 1,
                             Email = "almedina.golos@eCinema.com",
                             FirstName = "Almedina",
@@ -378,11 +363,7 @@ namespace eCinema.Repository.Migrations
                             IsActive = true,
                             IsDeleted = false,
                             LastName = "Gološ",
-                            PasswordHash = "b4I5yA4Mp+0Pg1C3EsKU17sS13eDExGtBjjI07Vh/JM=",
-                            PasswordSalt = "1wQEjdSFeZttx6dlvEDjOg==",
-                            PhoneNumber = "38761327546",
-                            Role = 0,
-                            Username = "almedinaG"
+                            PhoneNumber = "38761327546"
                         });
                 });
 
@@ -894,7 +875,7 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            DateTime = new DateTime(2024, 7, 1, 15, 36, 13, 134, DateTimeKind.Local).AddTicks(8018),
+                            DateTime = new DateTime(2024, 7, 3, 8, 56, 13, 392, DateTimeKind.Local).AddTicks(2625),
                             Format = "ThreeD",
                             HallId = 1,
                             IsDeleted = false,

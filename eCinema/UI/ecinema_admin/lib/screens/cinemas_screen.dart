@@ -340,13 +340,13 @@ class _CinemasScreenState extends State<CinemasScreen> {
 
   Widget buildAddCinemaModal({bool isEdit = false, Cinema? cinemaEdit}) {
     return SizedBox(
-        height: 320,
-        width: 800,
+        width: 700,
         child: Padding(
           padding: const EdgeInsets.all(35.0),
           child: FormBuilder(
               key: _formKey,
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Wrap(
                     runAlignment: WrapAlignment.spaceEvenly,

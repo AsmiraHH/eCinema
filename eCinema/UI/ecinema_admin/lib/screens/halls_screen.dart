@@ -524,8 +524,7 @@ class _HallsScreenState extends State<HallsScreen> {
 
   Widget buildAddHallModal({bool isEdit = false, Hall? hallEdit}) {
     return SizedBox(
-        width: 600,
-        // height: 400,
+        width: 500,
         child: Padding(
           padding: const EdgeInsets.all(35.0),
           child: FormBuilder(

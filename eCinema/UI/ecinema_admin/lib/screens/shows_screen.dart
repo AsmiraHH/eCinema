@@ -536,13 +536,13 @@ class _ShowsScreenState extends State<ShowsScreen> {
 
   Widget buildAddShowModal({bool isEdit = false, Show? showEdit}) {
     return SizedBox(
-        height: 470,
         width: 500,
         child: Padding(
           padding: const EdgeInsets.all(35.0),
           child: FormBuilder(
               key: _formKey,
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Wrap(
                     runAlignment: WrapAlignment.spaceEvenly,
@@ -574,6 +574,8 @@ class _ShowsScreenState extends State<ShowsScreen> {
                           SizedBox(
                             width: 340,
                             child: FormBuilderDateTimePicker(
+                              firstDate: DateTime.now().add(const Duration(days: 1)),
+                              initialDate: DateTime.now().add(const Duration(days: 1)),
                               format: DateFormat("dd/MM/yyyy HH:mm"),
                               inputType: InputType.both,
                               cursorColor: Colors.grey,

@@ -4,16 +4,27 @@ using eCinema.Core.SearchObjects;
 using eCinema.Service.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace eCinema.Controllers
 {
+    [Authorize(Roles = "User,Administrator")]
     public class UserController : BaseController<UserDTO, UserUpsertDTO, UserSearchObject, IUserService>
     {
         public UserController(IUserService service, ILogger<UserController> logger) : base(service, logger) { }
+        
+        [Authorize(Roles = "Administrator")]
+        public override async Task<IActionResult> GetAll()
+        {
+            return await base.GetAll();
+        }
+
+        [Authorize(Roles = "Administrator")]
+        public override async Task<IActionResult> GetPaged([FromQuery] UserSearchObject searchObject)
+        {
+            return await base.GetPaged(searchObject);
+        }
 
         [HttpPut]
-        [Authorize(Roles = "User,Administrator")]
         public async Task<IActionResult> ChangePassword([FromBody] UserNewPasswordDTO dto)
         {
             try
@@ -33,7 +44,6 @@ namespace eCinema.Controllers
             }
         }
         [HttpPut]
-        [Authorize(Roles = "User,Administrator")]
         public async Task<IActionResult> UpdateProfileImage([FromBody] UserUpsertImageDTO dto)
         {
             try
@@ -53,7 +63,6 @@ namespace eCinema.Controllers
             }
         }
         [HttpGet("{username}")]
-        [Authorize(Roles = "User,Administrator")]
         public virtual async Task<IActionResult> GetRoles(string username)
         {
             try
@@ -68,7 +77,6 @@ namespace eCinema.Controllers
             }
         }
         [HttpGet("{username}/{password}")]
-        [Authorize(Roles = "User,Administrator")]
         public virtual async Task<IActionResult> Login(string username, string password)
         {
             try

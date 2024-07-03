@@ -323,13 +323,13 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
 
   Widget buildAddLanguageModal({bool isEdit = false, Language? languageEdit}) {
     return SizedBox(
-        height: 150,
         width: 350,
         child: Padding(
           padding: const EdgeInsets.all(35.0),
           child: FormBuilder(
               key: _formKey,
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Column(
                     children: [

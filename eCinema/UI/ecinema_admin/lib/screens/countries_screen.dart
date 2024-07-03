@@ -323,13 +323,13 @@ class _CountriesScreenState extends State<CountriesScreen> {
 
   Widget buildAddCountryModal({bool isEdit = false, Country? countryEdit}) {
     return SizedBox(
-        height: 150,
         width: 350,
         child: Padding(
           padding: const EdgeInsets.all(35.0),
           child: FormBuilder(
               key: _formKey,
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Column(
                     children: [

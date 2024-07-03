@@ -359,102 +359,94 @@ class _ActorsScreenState extends State<ActorsScreen> {
 
   Widget buildAddActorModal({bool isEdit = false, Actor? actorEdit}) {
     return SizedBox(
-        height: 310,
-        width: 700,
+        width: 500,
         child: Padding(
           padding: const EdgeInsets.all(35.0),
           child: FormBuilder(
               key: _formKey,
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Wrap(
                     runAlignment: WrapAlignment.spaceEvenly,
                     spacing: 40,
                     runSpacing: 10,
                     children: [
-                      Column(
-                        children: [
-                          SizedBox(
-                            width: 250,
-                            child: FormBuilderTextField(
-                              cursorColor: Colors.grey,
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              name: 'FirstName',
-                              initialValue: actorEdit != null ? actorEdit.firstName : '',
-                              decoration: const InputDecoration(labelText: 'First name'),
-                              validator: FormBuilderValidators.compose(
-                                  [FormBuilderValidators.required(errorText: 'First name is required')]),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 250,
-                            child: FormBuilderTextField(
-                              cursorColor: Colors.grey,
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              name: 'LastName',
-                              initialValue: actorEdit != null ? actorEdit.lastName : '',
-                              decoration: const InputDecoration(labelText: 'Last name'),
-                              validator: FormBuilderValidators.compose(
-                                  [FormBuilderValidators.required(errorText: 'Last name is required')]),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 250,
-                            child: FormBuilderTextField(
-                              cursorColor: Colors.grey,
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              name: 'Email',
-                              initialValue: actorEdit != null ? actorEdit.email : '',
-                              decoration: const InputDecoration(labelText: 'Email', hintText: 'name@example.com'),
-                              validator: FormBuilderValidators.compose([
-                                FormBuilderValidators.required(errorText: 'Email is required'),
-                                FormBuilderValidators.email(errorText: 'Email is not in the correct format')
-                              ]),
-                            ),
-                          ),
-                        ],
+                      SizedBox(
+                        width: 340,
+                        child: FormBuilderTextField(
+                          cursorColor: Colors.grey,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          name: 'FirstName',
+                          initialValue: actorEdit != null ? actorEdit.firstName : '',
+                          decoration: const InputDecoration(labelText: 'First name'),
+                          validator: FormBuilderValidators.compose(
+                              [FormBuilderValidators.required(errorText: 'First name is required')]),
+                        ),
                       ),
-                      Column(
-                        children: [
-                          SizedBox(
-                            width: 250,
-                            child: FormBuilderDateTimePicker(
-                              firstDate: DateTime(1950, 1, 1),
-                              lastDate: DateTime(2022, 12, 31),
-                              initialDate: DateTime(2022, 12, 31),
-                              format: DateFormat("yyyy-MM-dd"),
-                              inputType: InputType.date,
-                              cursorColor: Colors.grey,
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              name: 'BirthDate',
-                              initialValue: actorEdit != null ? DateTime.parse(actorEdit.birthDate.toString()) : null,
-                              decoration: const InputDecoration(labelText: 'Birth date'),
-                              validator: FormBuilderValidators.compose(
-                                  [FormBuilderValidators.required(errorText: 'Birth date is required')]),
+                      SizedBox(
+                        width: 340,
+                        child: FormBuilderTextField(
+                          cursorColor: Colors.grey,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          name: 'LastName',
+                          initialValue: actorEdit != null ? actorEdit.lastName : '',
+                          decoration: const InputDecoration(labelText: 'Last name'),
+                          validator:
+                              FormBuilderValidators.compose([FormBuilderValidators.required(errorText: 'Last name is required')]),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 340,
+                        child: FormBuilderTextField(
+                          cursorColor: Colors.grey,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          name: 'Email',
+                          initialValue: actorEdit != null ? actorEdit.email : '',
+                          decoration: const InputDecoration(labelText: 'Email', hintText: 'name@example.com'),
+                          validator: FormBuilderValidators.compose([
+                            FormBuilderValidators.required(errorText: 'Email is required'),
+                            FormBuilderValidators.email(errorText: 'Email is not in the correct format')
+                          ]),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 340,
+                        child: FormBuilderDateTimePicker(
+                          firstDate: DateTime(1950, 1, 1),
+                          lastDate: DateTime(2022, 12, 31),
+                          initialDate: DateTime(2022, 12, 31),
+                          format: DateFormat("yyyy-MM-dd"),
+                          inputType: InputType.date,
+                          cursorColor: Colors.grey,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          name: 'BirthDate',
+                          initialValue: actorEdit != null ? DateTime.parse(actorEdit.birthDate.toString()) : null,
+                          decoration: const InputDecoration(labelText: 'Birth date'),
+                          validator: FormBuilderValidators.compose(
+                              [FormBuilderValidators.required(errorText: 'Birth date is required')]),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 340,
+                        child: FormBuilderDropdown<int>(
+                          items: const [
+                            DropdownMenuItem<int>(
+                              value: 0,
+                              child: Text('Male'),
                             ),
-                          ),
-                          SizedBox(
-                            width: 250,
-                            child: FormBuilderDropdown<int>(
-                              items: const [
-                                DropdownMenuItem<int>(
-                                  value: 0,
-                                  child: Text('Male'),
-                                ),
-                                DropdownMenuItem<int>(
-                                  value: 1,
-                                  child: Text('Female'),
-                                ),
-                              ],
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              name: 'Gender',
-                              initialValue: actorEdit?.gender,
-                              decoration: const InputDecoration(labelText: 'Gender'),
-                              validator: FormBuilderValidators.compose(
-                                  [FormBuilderValidators.required(errorText: 'Gender is required')]),
+                            DropdownMenuItem<int>(
+                              value: 1,
+                              child: Text('Female'),
                             ),
-                          ),
-                        ],
+                          ],
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          name: 'Gender',
+                          initialValue: actorEdit?.gender,
+                          decoration: const InputDecoration(labelText: 'Gender'),
+                          validator:
+                              FormBuilderValidators.compose([FormBuilderValidators.required(errorText: 'Gender is required')]),
+                        ),
                       ),
                     ],
                   )
