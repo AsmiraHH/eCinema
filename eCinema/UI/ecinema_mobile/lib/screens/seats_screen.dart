@@ -74,92 +74,90 @@ class _SeatsScreenState extends State<SeatsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (_isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    } else {
-      return Scaffold(
-          appBar: AppBar(title: const Text('Seats'), centerTitle: true),
-          body: Container(
-            margin: const EdgeInsets.all(15),
-            child: Column(
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width) * 1.2,
-                      child: GridView.count(
-                        shrinkWrap: true,
-                        crossAxisCount: widget.show.hall!.maxNumberOfSeatsPerRow!,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 20,
-                        children: seatsResult!.map((s) {
-                          return s.isDisabled!
-                              ? Container()
-                              : InkWell(
-                                  hoverColor: darkRedColor,
-                                  onTap: () {
-                                    if (!takenSeatsResult!.contains(s) && !selectedSeats.contains(s)) {
-                                      selectedSeats.add(s);
-                                    } else {
-                                      selectedSeats.remove(s);
-                                    }
-                                    setState(() {
-                                      s.isSelected = !(s.isSelected ?? false);
-                                    });
-                                  },
-                                  child: (s.isDisabled ?? false) == false
-                                      ? Container(
-                                          decoration: BoxDecoration(
-                                            color: takenSeatsResult != null && takenSeatsResult!.contains(s)
-                                                ? takenColor
-                                                : (s.isSelected ?? false)
-                                                    ? darkRedColor
-                                                    : Colors.black,
-                                            border: Border.all(color: Colors.grey),
-                                            borderRadius: BorderRadius.circular(4),
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              s.row.toString() + s.column.toString(),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                        )
-                                      : null,
-                                );
-                        }).toList(),
+    return Scaffold(
+        appBar: AppBar(title: const Text('Seats'), centerTitle: true),
+        body: _isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : Container(
+                margin: const EdgeInsets.all(15),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width) * 1.2,
+                          child: GridView.count(
+                            shrinkWrap: true,
+                            crossAxisCount: widget.show.hall!.maxNumberOfSeatsPerRow!,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 20,
+                            children: seatsResult!.map((s) {
+                              return s.isDisabled!
+                                  ? Container()
+                                  : InkWell(
+                                      hoverColor: darkRedColor,
+                                      onTap: () {
+                                        if (!takenSeatsResult!.contains(s) && !selectedSeats.contains(s)) {
+                                          selectedSeats.add(s);
+                                        } else {
+                                          selectedSeats.remove(s);
+                                        }
+                                        setState(() {
+                                          s.isSelected = !(s.isSelected ?? false);
+                                        });
+                                      },
+                                      child: (s.isDisabled ?? false) == false
+                                          ? Container(
+                                              decoration: BoxDecoration(
+                                                color: takenSeatsResult != null && takenSeatsResult!.contains(s)
+                                                    ? takenColor
+                                                    : (s.isSelected ?? false)
+                                                        ? darkRedColor
+                                                        : Colors.black,
+                                                border: Border.all(color: Colors.grey),
+                                                borderRadius: BorderRadius.circular(4),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  s.row.toString() + s.column.toString(),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ),
+                                            )
+                                          : null,
+                                    );
+                            }).toList(),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                buildColorInfo(),
-                ElevatedButton(
-                  onPressed: selectedSeats.isEmpty
-                      ? null
-                      : () {
-                          _reservationProvider.setSelectedShow(widget.show);
-                          _reservationProvider.setSelectedSeats(selectedSeats);
-                          Navigator.pushNamed(
-                            context,
-                            PaymentScreen.routeName,
-                            arguments: widget.show,
-                          );
-                        },
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(40),
-                    backgroundColor: darkRedColor,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
+                    buildColorInfo(),
+                    ElevatedButton(
+                      onPressed: selectedSeats.isEmpty
+                          ? null
+                          : () {
+                              _reservationProvider.setSelectedShow(widget.show);
+                              _reservationProvider.setSelectedSeats(selectedSeats);
+                              Navigator.pushNamed(
+                                context,
+                                PaymentScreen.routeName,
+                                arguments: widget.show,
+                              );
+                            },
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(40),
+                        backgroundColor: darkRedColor,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                      child: const Text("Continue"),
                     ),
-                  ),
-                  child: const Text("Continue"),
+                  ],
                 ),
-              ],
-            ),
-          ));
-    }
+              ));
   }
 }
 

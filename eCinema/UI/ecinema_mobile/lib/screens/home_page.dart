@@ -36,9 +36,6 @@ class _HomePageState extends State<HomePage> {
     _movieProvider = context.read<MovieProvider>();
     loadCinemas();
     loadShows();
-    // loadMostWatchedShows();
-    // loadRecommendedShows();
-    // loadLastAddedShows();
   }
 
   Future<void> loadShows() async {
@@ -64,13 +61,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> loadLastAddedShows() async {
-    // _isLoading = true;
     try {
       var data = await _movieProvider.getLastAdded(selectedCinema);
       if (mounted) {
         setState(() {
           lastAddedShows = data;
-          // _isLoading = false;
         });
       }
     } catch (e) {
@@ -85,13 +80,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> loadMostWatchedShows() async {
-    // _isLoading = true;
     try {
       var data = await _movieProvider.getMostWatched(selectedCinema);
       if (mounted) {
         setState(() {
           mostWatchedShows = data;
-          // _isLoading = false;
         });
       }
     } catch (e) {
@@ -106,13 +99,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> loadRecommendedShows() async {
-    // _isLoading = true;
     try {
       var data = await _movieProvider.getRecommended(selectedCinema);
       if (mounted) {
         setState(() {
           recommendedShows = data;
-          // _isLoading = false;
         });
       }
     } catch (e) {

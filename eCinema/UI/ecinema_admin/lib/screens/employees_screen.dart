@@ -689,6 +689,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                               title: const Text('Active'),
                               name: 'IsActive',
                               initialValue: employeeEdit?.isActive,
+                              valueTransformer: (value) => value ?? false,
                             ),
                           ),
                         ],

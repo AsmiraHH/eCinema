@@ -122,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
           context: context,
           builder: (BuildContext context) => AlertDialog(
                 title: Text("Error"),
-                content: Text(e.toString()),
+                content: Text(e.toString().substring(11)),
                 actions: [TextButton(onPressed: () => Navigator.pop(context), child: Text("OK"))],
               ));
     }

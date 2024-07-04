@@ -711,6 +711,7 @@ class _UsersScreenState extends State<UsersScreen> {
                                     title: const Text('Active'),
                                     name: 'IsActive',
                                     initialValue: userEdit?.isActive,
+                                    valueTransformer: (value) => value ?? false,
                                   ),
                                 ),
                                 SizedBox(
@@ -719,6 +720,7 @@ class _UsersScreenState extends State<UsersScreen> {
                                     title: const Text('Verified'),
                                     name: 'IsVerified',
                                     initialValue: userEdit?.isVerified,
+                                    valueTransformer: (value) => value ?? false,
                                   ),
                                 ),
                               ],

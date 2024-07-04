@@ -118,9 +118,9 @@ class _ReservationsScreenState extends State<ReservationsScreen> {
     Map<String, dynamic> newReservation = Map.from(_formKey.currentState!.value);
     newReservation['Id'] = selectedReservation?.id;
     newReservation['ShowId'] = selectedReservation?.show!.id;
-    // newReservation['SeatId'] = selectedReservation?.seat!.id;
     newReservation['SeatIDs'] = [];
     newReservation['UserId'] = selectedReservation?.user!.id;
+    newReservation['TransactionNumber'] = selectedReservation?.transactionNumber;
 
     try {
       await _reservationProvider.update(newReservation);
@@ -184,6 +184,7 @@ class _ReservationsScreenState extends State<ReservationsScreen> {
                 DataColumn(label: Text('Movie')),
                 DataColumn(label: Text('Seat')),
                 DataColumn(label: Text('User')),
+                DataColumn(label: Text('Transaction number')),
                 DataColumn(label: Text('Active')),
               ],
               rows: reservationsResult?.items.map((Reservation reservation) {
@@ -199,6 +200,7 @@ class _ReservationsScreenState extends State<ReservationsScreen> {
                           reservation.seats!.map((seat) => seat.seat!.column.toString() + seat.seat!.row.toString()).join(', '),
                         )),
                         DataCell(Text('${reservation.user!.firstName} ${reservation.user!.lastName}')),
+                        DataCell(Text(reservation.transactionNumber!)),
                         DataCell(Container(
                             margin: const EdgeInsets.only(left: 9),
                             child: reservation.isActive == true
@@ -498,10 +500,21 @@ class _ReservationsScreenState extends State<ReservationsScreen> {
                           ),
                           SizedBox(
                             width: 340,
+                            child: FormBuilderTextField(
+                              enabled: false,
+                              cursorColor: Colors.grey,
+                              name: 'TransactionNumber',
+                              initialValue: reservationEdit.transactionNumber.toString(),
+                              decoration: const InputDecoration(labelText: 'Transaction number'),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 340,
                             child: FormBuilderCheckbox(
                               title: const Text('Active'),
                               name: 'IsActive',
                               initialValue: reservationEdit.isActive,
+                              valueTransformer: (value) => value ?? false,
                             ),
                           ),
                         ],

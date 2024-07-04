@@ -62,69 +62,67 @@ class _ShowsScreenState extends State<ShowsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (_isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    } else {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.movie.title!.toUpperCase()),
-          centerTitle: true,
-        ),
-        body: Center(
-          child: Column(
-            children: [
-              const SizedBox(height: 15),
-              Text('Select a date', style: TextStyle(color: Colors.grey[400], fontSize: 20)),
-              const SizedBox(height: 15),
-              Container(
-                height: 130,
-                decoration: const BoxDecoration(
-                    color: Color.fromARGB(255, 47, 46, 46), borderRadius: BorderRadius.all(Radius.circular(20))),
-                margin: const EdgeInsets.only(left: 20),
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                child: buildDates(),
-              ),
-              const Spacer(),
-              Text('Select a time', style: TextStyle(color: Colors.grey[400], fontSize: 20)),
-              const SizedBox(height: 15),
-              Container(
-                height: 130,
-                decoration: const BoxDecoration(
-                    color: Color.fromARGB(255, 47, 46, 46), borderRadius: BorderRadius.all(Radius.circular(20))),
-                margin: const EdgeInsets.only(left: 20),
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                child: buildTimes(),
-              ),
-              const Spacer(),
-              Container(
-                margin: const EdgeInsets.all(15),
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: selectedTime == null
-                      ? null
-                      : () {
-                          Navigator.pushNamed(
-                            context,
-                            SeatsScreen.routeName,
-                            arguments: selectedTime,
-                          );
-                        },
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(40),
-                    backgroundColor: darkRedColor,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.movie.title!.toUpperCase()),
+        centerTitle: true,
+      ),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Center(
+              child: Column(
+                children: [
+                  const SizedBox(height: 15),
+                  Text('Select a date', style: TextStyle(color: Colors.grey[400], fontSize: 20)),
+                  const SizedBox(height: 15),
+                  Container(
+                    height: 130,
+                    decoration: const BoxDecoration(
+                        color: Color.fromARGB(255, 47, 46, 46), borderRadius: BorderRadius.all(Radius.circular(20))),
+                    margin: const EdgeInsets.only(left: 20),
+                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                    child: buildDates(),
+                  ),
+                  const Spacer(),
+                  Text('Select a time', style: TextStyle(color: Colors.grey[400], fontSize: 20)),
+                  const SizedBox(height: 15),
+                  Container(
+                    height: 130,
+                    decoration: const BoxDecoration(
+                        color: Color.fromARGB(255, 47, 46, 46), borderRadius: BorderRadius.all(Radius.circular(20))),
+                    margin: const EdgeInsets.only(left: 20),
+                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                    child: buildTimes(),
+                  ),
+                  const Spacer(),
+                  Container(
+                    margin: const EdgeInsets.all(15),
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: selectedTime == null
+                          ? null
+                          : () {
+                              Navigator.pushNamed(
+                                context,
+                                SeatsScreen.routeName,
+                                arguments: selectedTime,
+                              );
+                            },
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(40),
+                        backgroundColor: darkRedColor,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                      child: const Text("Continue"),
                     ),
                   ),
-                  child: const Text("Continue"),
-                ),
+                ],
               ),
-            ],
-          ),
-        ),
-      );
-    }
+            ),
+    );
   }
 
   buildDates() {

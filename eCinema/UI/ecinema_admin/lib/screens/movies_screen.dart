@@ -315,7 +315,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
                   loadMovies({
                     'PageNumber': _currentPage,
                     'PageSize': _pageSize,
-                    'Movie': _searchController.text,
+                    'Title': _searchController.text,
                     'Language': selectedLanguage,
                     'Production': selectedProduction,
                     'Genre': selectedGenre,
@@ -356,7 +356,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
                   loadMovies({
                     'PageNumber': _currentPage,
                     'PageSize': _pageSize,
-                    'Movie': _searchController.text,
+                    'Title': _searchController.text,
                     'Language': selectedLanguage,
                     'Production': selectedProduction,
                     'Genre': selectedGenre,
@@ -397,7 +397,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
                   loadMovies({
                     'PageNumber': _currentPage,
                     'PageSize': _pageSize,
-                    'Movie': _searchController.text,
+                    'Title': _searchController.text,
                     'Language': selectedLanguage,
                     'Production': selectedProduction,
                     'Genre': selectedGenre,
@@ -756,6 +756,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
                                     errorText: field.errorText,
                                   ),
                                   child: MultiSelectDropDown<int>(
+                                    dropdownBackgroundColor: Colors.black,
                                     optionsBackgroundColor: Colors.black,
                                     selectedOptionBackgroundColor: Colors.black,
                                     fieldBackgroundColor: Colors.black,
@@ -810,13 +811,14 @@ class _MoviesScreenState extends State<MoviesScreen> {
                                     errorText: field.errorText,
                                   ),
                                   child: MultiSelectDropDown<int>(
+                                    dropdownBackgroundColor: Colors.black,
                                     optionsBackgroundColor: Colors.black,
                                     selectedOptionBackgroundColor: Colors.black,
                                     fieldBackgroundColor: Colors.black,
                                     singleSelectItemStyle: TextStyle(color: Colors.black, backgroundColor: Colors.black),
                                     controller: _actorController,
                                     inputDecoration: BoxDecoration(
-                                      color: Colors.transparent,
+                                      color: const Color.fromARGB(0, 104, 27, 27),
                                       border: Border.all(color: Colors.transparent),
                                     ),
                                     hint: "",

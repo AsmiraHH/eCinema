@@ -25,15 +25,13 @@ namespace eCinema.Service.Validators
                 .Matches(@"[a-z]+")
                 .Matches(@"[0-9]+")
                 .WithErrorCode("InvalidValue")
-                .When(u => u.ID == null || u.Password != null); //ZASTOOOO
+                .When(u => u.ID == null || u.Password != null); 
 
             RuleFor(a => a.BirthDate).NotNull().WithErrorCode("NotNull");
             RuleFor(a => a.Gender).IsInEnum().WithErrorCode("NotNull");
             RuleFor(a => a.Role).NotNull().WithErrorCode("NotNull");
             RuleFor(a => a.IsVerified).NotNull().WithErrorCode("NotNull");
             RuleFor(a => a.IsActive).NotNull().WithErrorCode("NotNull");
-
-            //RuleFor(a => a.ProfilePhoto).NotNull().WithErrorCode("NotNull");//uraditi validaciju slike
         }
     }
 }

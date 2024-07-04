@@ -159,7 +159,9 @@ abstract class BaseProvider<T> with ChangeNotifier {
   bool isValidResponse(Response response) {
     if (response.statusCode <= 299) {
       return true;
-    } else if (response.statusCode == 401) {
+    } else if (response.statusCode == 401 ||
+        response.body.contains('UserWrongCredentialsException') ||
+        response.body.contains('UserNotFoundException')) {
       throw Exception("Wrong credentials.");
     } else if (response.statusCode == 403) {
       throw Exception("Unauthorized access.");

@@ -14,8 +14,9 @@ class Reservation {
   int? userId;
   User? user;
   List<ReservationSeat>? seats;
+  String? transactionNumber;
 
-  Reservation(this.id, this.isActive, this.showId, this.show, this.seats, this.userId, this.user);
+  Reservation(this.id, this.isActive, this.showId, this.show, this.seats, this.userId, this.user, this.transactionNumber);
 
   factory Reservation.fromJson(Map<String, dynamic> json) => _$ReservationFromJson(json);
 

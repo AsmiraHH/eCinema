@@ -11,7 +11,13 @@ namespace eCinema.Controllers
     public class UserController : BaseController<UserDTO, UserUpsertDTO, UserSearchObject, IUserService>
     {
         public UserController(IUserService service, ILogger<UserController> logger) : base(service, logger) { }
-        
+
+        [AllowAnonymous]
+        public override async Task<IActionResult> Post([FromBody] UserUpsertDTO upsertDTO)
+        {
+            return await base.Post(upsertDTO);
+        }
+
         [Authorize(Roles = "Administrator")]
         public override async Task<IActionResult> GetAll()
         {

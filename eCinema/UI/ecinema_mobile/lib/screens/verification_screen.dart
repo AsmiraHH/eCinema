@@ -38,7 +38,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
     try {
       var answer = await userProvider.verify(verificationReq);
       if (answer == 'Ok') {
-        showSuccessSnackBar(context, 'Verification successful.');
+        showSuccessSnackBar(context, 'Verification successful. Please login.');
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (builder) => const LoginScreen()));
       }
     } catch (e) {
@@ -93,10 +93,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 ),
                 SizedBox(
                   child: ElevatedButton(
-                    onPressed:
-                        // _tokenController.text.isEmpty
-                        //     ? null
-                        () async {
+                    onPressed: () async {
                       _verify();
                     },
                     style: ElevatedButton.styleFrom(

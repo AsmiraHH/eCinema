@@ -113,74 +113,91 @@ class _MoviesScreenState extends State<MoviesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (_isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    } else {
-      return Scaffold(
-        appBar: AppBar(
-          actions: [
-            Container(
-              margin: const EdgeInsets.only(right: 10),
-              child: DropdownButton<int>(
-                items: [
-                  ...cinemasResult.map((e) => DropdownMenuItem(
-                        value: e.id,
-                        child: Text(
-                          e.name!,
-                        ),
-                      ))
-                ],
-                value: selectedCinema,
-                onChanged: (int? newValue) {
-                  setState(() {
-                    selectedCinema = newValue ?? 1;
-                    cinema = selectedCinema;
-                    moviesResult = PagedResult<Movie>();
-                    loadMovies({
-                      'PageNumber': _currentPage,
-                      'PageSize': _pageSize,
-                      'Title': _searchController.text,
-                      'Cinema': selectedCinema,
-                      'Genre': selectedGenre,
-                    });
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          Container(
+            margin: const EdgeInsets.only(right: 10),
+            child: DropdownButton<int>(
+              items: [
+                ...cinemasResult.map((e) => DropdownMenuItem(
+                      value: e.id,
+                      child: Text(
+                        e.name!,
+                      ),
+                    ))
+              ],
+              value: selectedCinema,
+              onChanged: (int? newValue) {
+                setState(() {
+                  selectedCinema = newValue ?? 1;
+                  cinema = selectedCinema;
+                  moviesResult = PagedResult<Movie>();
+                  loadMovies({
+                    'PageNumber': _currentPage,
+                    'PageSize': _pageSize,
+                    'Title': _searchController.text,
+                    'Cinema': selectedCinema,
+                    'Genre': selectedGenre,
                   });
-                },
-                isExpanded: false,
-                underline: Container(),
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  shadows: [
-                    Shadow(
-                      offset: const Offset(2.0, 2.0),
-                      blurRadius: 3.0,
-                      color: Colors.black.withOpacity(0.8),
-                    ),
-                  ],
-                ),
+                });
+              },
+              isExpanded: false,
+              underline: Container(),
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                shadows: [
+                  Shadow(
+                    offset: const Offset(2.0, 2.0),
+                    blurRadius: 3.0,
+                    color: Colors.black.withOpacity(0.8),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-        body: Container(
-          margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(bottom: 20),
-                        height: 40,
-                        child: TextField(
-                          controller: _searchController,
-                          decoration: InputDecoration(
-                            suffixIcon: GestureDetector(
-                              onTap: () {
+          ),
+        ],
+      ),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Container(
+              margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 20),
+                            height: 40,
+                            child: TextField(
+                              controller: _searchController,
+                              decoration: InputDecoration(
+                                suffixIcon: GestureDetector(
+                                  onTap: () {
+                                    moviesResult = PagedResult<Movie>();
+                                    loadMovies({
+                                      'PageNumber': _currentPage,
+                                      'PageSize': _pageSize,
+                                      'Title': _searchController.text,
+                                      'Cinema': selectedCinema,
+                                      'Genre': selectedGenre,
+                                    });
+                                  },
+                                  child: const Icon(
+                                    Icons.search,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                hintText: 'Search ...',
+                                hintStyle: const TextStyle(color: Colors.grey, fontSize: 15),
+                              ),
+                              onSubmitted: (String value) {
                                 moviesResult = PagedResult<Movie>();
                                 loadMovies({
                                   'PageNumber': _currentPage,
@@ -190,85 +207,23 @@ class _MoviesScreenState extends State<MoviesScreen> {
                                   'Genre': selectedGenre,
                                 });
                               },
-                              child: const Icon(
-                                Icons.search,
-                                color: Colors.grey,
-                              ),
                             ),
-                            hintText: 'Search ...',
-                            hintStyle: const TextStyle(color: Colors.grey, fontSize: 15),
                           ),
-                          onSubmitted: (String value) {
-                            moviesResult = PagedResult<Movie>();
-                            loadMovies({
-                              'PageNumber': _currentPage,
-                              'PageSize': _pageSize,
-                              'Title': _searchController.text,
-                              'Cinema': selectedCinema,
-                              'Genre': selectedGenre,
-                            });
-                          },
-                        ),
+                          buildGenres(),
+                          const SizedBox(height: 10),
+                          buildMovies(moviesResult),
+                        ],
                       ),
-                      // const Text(
-                      //   'Cinema',
-                      //   style: TextStyle(
-                      //     color: Colors.white,
-                      //     fontSize: 16,
-                      //     fontWeight: FontWeight.bold,
-                      //   ),
-                      // ),
-                      // const SizedBox(height: 10),
-                      // Container(
-                      //   margin: const EdgeInsets.only(left: 10),
-                      //   child: DropdownButton<int>(
-                      //     items: [
-                      //       const DropdownMenuItem<int>(
-                      //         value: 0,
-                      //         child: Text('All'),
-                      //       ),
-                      //       ...cinemasResult.map((e) => DropdownMenuItem(
-                      //             value: e.id,
-                      //             child: Text(
-                      //               e.name!,
-                      //             ),
-                      //           ))
-                      //     ],
-                      //     value: selectedCinema,
-                      //     onChanged: (int? newValue) {
-                      //       setState(() {
-                      //         selectedCinema = newValue;
-                      //         showsResult = PagedResult<Show>();
-                      //         loadShows({
-                      //           'PageNumber': _currentPage,
-                      //           'PageSize': _pageSize,
-                      //           'Movie': _searchController.text,
-                      //           'Cinema': selectedCinema,
-                      //           'Genre': selectedGenre,
-                      //         });
-                      //       });
-                      //     },
-                      //     isExpanded: true,
-                      //     underline: Container(),
-                      //     style: const TextStyle(color: Colors.grey),
-                      //   ),
-                      // ),
-                      buildGenres(),
-                      const SizedBox(height: 10),
-                      buildMovies(moviesResult),
-                    ],
+                    ),
                   ),
-                ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: buildPagination(),
+                  ),
+                ],
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: buildPagination(),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
+            ),
+    );
   }
 
   Widget buildPagination() {

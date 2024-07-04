@@ -17,7 +17,8 @@ builder.Services.AddAutoMapper(typeof(Program), typeof(MappingProfile));
 builder.Services.ConfigureValidators();
 builder.Services.ConfigureServices();
 builder.Services.ConfigureRepositories();
-builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("connectionString")));
+builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("connectionString"))
+                                                                 .EnableSensitiveDataLogging());
 
 builder.Services.AddSwaggerGen(c =>
 {

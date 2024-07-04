@@ -87,24 +87,21 @@ class _ReservationsScreenState extends State<ReservationsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (_isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    } else {
-      return Scaffold(
-        appBar: AppBar(
-            title: const Center(
-                child: Text(
-          'My Reservations',
-          // style: TextStyle(fontSize: 22),
-        ))),
-        body: ListView.builder(
-          itemCount: reservationsResult.length,
-          itemBuilder: (context, index) {
-            return _buildReservation(context, reservationsResult[index]);
-          },
-        ),
-      );
-    }
+    return Scaffold(
+      appBar: AppBar(
+          title: const Center(
+              child: Text(
+        'My Reservations',
+      ))),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : ListView.builder(
+              itemCount: reservationsResult.length,
+              itemBuilder: (context, index) {
+                return _buildReservation(context, reservationsResult[index]);
+              },
+            ),
+    );
   }
 
   Widget _buildReservation(BuildContext context, Reservation reservation) {
