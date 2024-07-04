@@ -12,7 +12,7 @@ using eCinema.Repository;
 namespace eCinema.Repository.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240704071207_Initial")]
+    [Migration("20240704104222_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -1023,25 +1023,25 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ReservationId = 1,
-                            SeatId = 1,
+                            SeatId = 3,
                             IsDeleted = false
                         },
                         new
                         {
                             ReservationId = 2,
-                            SeatId = 2,
+                            SeatId = 4,
                             IsDeleted = false
                         },
                         new
                         {
                             ReservationId = 3,
-                            SeatId = 101,
+                            SeatId = 102,
                             IsDeleted = false
                         },
                         new
                         {
                             ReservationId = 4,
-                            SeatId = 102,
+                            SeatId = 103,
                             IsDeleted = false
                         });
                 });

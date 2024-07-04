@@ -1020,25 +1020,25 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ReservationId = 1,
-                            SeatId = 1,
+                            SeatId = 3,
                             IsDeleted = false
                         },
                         new
                         {
                             ReservationId = 2,
-                            SeatId = 2,
+                            SeatId = 4,
                             IsDeleted = false
                         },
                         new
                         {
                             ReservationId = 3,
-                            SeatId = 101,
+                            SeatId = 102,
                             IsDeleted = false
                         },
                         new
                         {
                             ReservationId = 4,
-                            SeatId = 102,
+                            SeatId = 103,
                             IsDeleted = false
                         });
                 });

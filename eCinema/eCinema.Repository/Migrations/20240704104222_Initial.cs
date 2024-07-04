@@ -819,10 +819,10 @@ namespace eCinema.Repository.Migrations
                 columns: new[] { "ReservationId", "SeatId", "IsDeleted", "ModifiedAt" },
                 values: new object[,]
                 {
-                    { 1, 1, false, null },
-                    { 2, 2, false, null },
-                    { 3, 101, false, null },
-                    { 4, 102, false, null }
+                    { 1, 3, false, null },
+                    { 2, 4, false, null },
+                    { 3, 102, false, null },
+                    { 4, 103, false, null }
                 });
 
             migrationBuilder.CreateIndex(

@@ -373,11 +373,10 @@ Widget buildMovie(BuildContext context, Movie movie) {
         arguments: movie,
       );
     },
-    child: Expanded(
-        child: ClipRRect(
+    child: ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child:
           movie.photo != "" ? fromBase64String(movie.photo!) : const Icon(Icons.photo, size: 40, color: Colors.white),
-    )),
+    ),
   );
 }

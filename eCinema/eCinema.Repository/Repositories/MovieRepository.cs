@@ -34,7 +34,7 @@ namespace eCinema.Repository.Repositories
         }
         public virtual async Task<List<Movie>> GetLastAddedAsync(int cinemaId)
         {
-            var entities = await dbSet.Where(x => x.Shows.Any(y => y.Hall.CinemaId == cinemaId)).Include(x => x.Genres).ThenInclude(x => x.Genre).Include(x => x.Actors).ThenInclude(x => x.Actor).OrderByDescending(x => x.ID).Take(6).ToListAsync();
+            var entities = await dbSet.Where(x => x.Shows.Any(y => y.Hall.CinemaId == cinemaId)).Include(x => x.Production).Include(x => x.Language).Include(x => x.Genres).ThenInclude(x => x.Genre).Include(x => x.Actors).ThenInclude(x => x.Actor).OrderByDescending(x => x.ID).Take(6).ToListAsync();
             return entities;
         }
         public virtual async Task<List<Movie>> GetMostWatchedAsync(int cinemaId)
@@ -49,6 +49,7 @@ namespace eCinema.Repository.Repositories
                     .ThenInclude(x => x.Genre)
                 .Include(x => x.Actors)
                     .ThenInclude(x => x.Actor)
+                .Include(x => x.Production).Include(x => x.Language)
                 .ToListAsync();
 
             var mostWatchedMovies = moviesWithShows
@@ -68,7 +69,7 @@ namespace eCinema.Repository.Repositories
         }
         public async Task<List<Movie>?> GetForRecommendedAsync(int cinemaId, int userId)
         {
-            return await dbSet.Where(x => x.Shows.Any(show => show.Hall.CinemaId == cinemaId)).Where(x => !x.Shows.Any(y => y.Reservations.Any(z => z.UserId == userId))).Include(x => x.Genres).ThenInclude(x => x.Genre).Include(x => x.Actors).ThenInclude(x => x.Actor).ToListAsync();
+            return await dbSet.Where(x => x.Shows.Any(show => show.Hall.CinemaId == cinemaId)).Where(x => !x.Shows.Any(y => y.Reservations.Any(z => z.UserId == userId))).Include(x => x.Production).Include(x => x.Language).Include(x => x.Genres).ThenInclude(x => x.Genre).Include(x => x.Actors).ThenInclude(x => x.Actor).ToListAsync();
         }
     }
 }
