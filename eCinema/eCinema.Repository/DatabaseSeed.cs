@@ -52,21 +52,6 @@ namespace eCinema.Repository
               {
                   ID = 3,
                   Name = "Serbia",
-              },
-              new()
-              {
-                  ID = 4,
-                  Name = "Australia",
-              },
-              new()
-              {
-                  ID = 5,
-                  Name = "Germany",
-              },
-              new()
-              {
-                  ID = 6,
-                  Name = "Austria",
               });
         }
         private void SeedCities(ModelBuilder modelBuilder)
@@ -89,58 +74,16 @@ namespace eCinema.Repository
                 new()
                 {
                     ID = 3,
-                    Name = "Tuzla",
-                    ZipCode = "75000",
-                    CountryId = 1,
-                },
-                new()
-                {
-                    ID = 4,
-                    Name = "Zenica",
-                    ZipCode = "72000",
-                    CountryId = 1,
-                },
-                new()
-                {
-                    ID = 5,
-                    Name = "Konjic",
-                    ZipCode = "88400",
-                    CountryId = 1,
-                },
-                new()
-                {
-                    ID = 6,
                     Name = "Zagreb",
                     ZipCode = "10000",
                     CountryId = 2,
                 },
                 new()
                 {
-                    ID = 7,
+                    ID = 4,
                     Name = "Beograd",
                     ZipCode = "11000",
                     CountryId = 3,
-                },
-                new()
-                {
-                    ID = 8,
-                    Name = "Graz",
-                    ZipCode = "8020",
-                    CountryId = 6,
-                },
-                new()
-                {
-                    ID = 9,
-                    Name = "Melbourne",
-                    ZipCode = "3000",
-                    CountryId = 4,
-                },
-                new()
-                {
-                    ID = 10,
-                    Name = "Berlin",
-                    ZipCode = "10115",
-                    CountryId = 5,
                 });
         }
         private void SeedLanguages(ModelBuilder modelBuilder)
@@ -238,16 +181,17 @@ namespace eCinema.Repository
                     NumberOfRows = 10,
                     MaxNumberOfSeatsPerRow = 10,
                     CinemaId = 1
-                },
-                new Hall
-                {
-                    ID = 2,
-                    Name = "A2",
-                    NumberOfSeats = 80,
-                    NumberOfRows = 9,
-                    MaxNumberOfSeatsPerRow = 9,
-                    CinemaId = 2
-                });
+                }
+                //new Hall
+                //{
+                //    ID = 2,
+                //    Name = "A2",
+                //    NumberOfSeats = 80,
+                //    NumberOfRows = 9,
+                //    MaxNumberOfSeatsPerRow = 9,
+                //    CinemaId = 2
+                //}
+                );
         }
         private void SeedMovies(ModelBuilder modelBuilder)
         {
@@ -332,11 +276,8 @@ namespace eCinema.Repository
                 new MovieActor { MovieId = 1, ActorId = 1 },
                 new MovieActor { MovieId = 1, ActorId = 2 },
                 new MovieActor { MovieId = 2, ActorId = 1 },
-                new MovieActor { MovieId = 2, ActorId = 2 },
                 new MovieActor { MovieId = 3, ActorId = 1 },
-                new MovieActor { MovieId = 3, ActorId = 2 },
                 new MovieActor { MovieId = 4, ActorId = 1 },
-                new MovieActor { MovieId = 4, ActorId = 2 },
                 new MovieActor { MovieId = 5, ActorId = 1 },
                 new MovieActor { MovieId = 6, ActorId = 1 });
         }
@@ -453,98 +394,98 @@ namespace eCinema.Repository
                 new Seat { ID = 97, HallId = 1, Row = "J", Column = 7, isDisabled = false },
                 new Seat { ID = 98, HallId = 1, Row = "J", Column = 8, isDisabled = false },
                 new Seat { ID = 99, HallId = 1, Row = "J", Column = 9, isDisabled = false },
-                new Seat { ID = 100, HallId = 1, Row = "J", Column = 10, isDisabled = false },
+                new Seat { ID = 100, HallId = 1, Row = "J", Column = 10, isDisabled = false }
 
-                new Seat { ID = 101, HallId = 2, Row = "A", Column = 1, isDisabled = true },
-                new Seat { ID = 102, HallId = 2, Row = "A", Column = 2, isDisabled = false },
-                new Seat { ID = 103, HallId = 2, Row = "A", Column = 3, isDisabled = false },
-                new Seat { ID = 104, HallId = 2, Row = "A", Column = 4, isDisabled = false },
-                new Seat { ID = 105, HallId = 2, Row = "A", Column = 5, isDisabled = false },
-                new Seat { ID = 106, HallId = 2, Row = "A", Column = 6, isDisabled = false },
-                new Seat { ID = 107, HallId = 2, Row = "A", Column = 7, isDisabled = false },
-                new Seat { ID = 108, HallId = 2, Row = "A", Column = 8, isDisabled = false },
-                new Seat { ID = 109, HallId = 2, Row = "A", Column = 9, isDisabled = false },
-                new Seat { ID = 110, HallId = 2, Row = "B", Column = 1, isDisabled = false },
-                new Seat { ID = 111, HallId = 2, Row = "B", Column = 2, isDisabled = false },
-                new Seat { ID = 112, HallId = 2, Row = "B", Column = 3, isDisabled = false },
-                new Seat { ID = 113, HallId = 2, Row = "B", Column = 4, isDisabled = false },
-                new Seat { ID = 114, HallId = 2, Row = "B", Column = 5, isDisabled = false },
-                new Seat { ID = 115, HallId = 2, Row = "B", Column = 6, isDisabled = false },
-                new Seat { ID = 116, HallId = 2, Row = "B", Column = 7, isDisabled = false },
-                new Seat { ID = 117, HallId = 2, Row = "B", Column = 8, isDisabled = false },
-                new Seat { ID = 118, HallId = 2, Row = "B", Column = 9, isDisabled = false },
-                new Seat { ID = 119, HallId = 2, Row = "C", Column = 1, isDisabled = false },
-                new Seat { ID = 120, HallId = 2, Row = "C", Column = 2, isDisabled = false },
-                new Seat { ID = 121, HallId = 2, Row = "C", Column = 3, isDisabled = false },
-                new Seat { ID = 122, HallId = 2, Row = "C", Column = 4, isDisabled = false },
-                new Seat { ID = 123, HallId = 2, Row = "C", Column = 5, isDisabled = false },
-                new Seat { ID = 124, HallId = 2, Row = "C", Column = 6, isDisabled = false },
-                new Seat { ID = 125, HallId = 2, Row = "C", Column = 7, isDisabled = false },
-                new Seat { ID = 126, HallId = 2, Row = "C", Column = 8, isDisabled = false },
-                new Seat { ID = 127, HallId = 2, Row = "C", Column = 9, isDisabled = false },
-                new Seat { ID = 128, HallId = 2, Row = "D", Column = 1, isDisabled = false },
-                new Seat { ID = 129, HallId = 2, Row = "D", Column = 2, isDisabled = false },
-                new Seat { ID = 130, HallId = 2, Row = "D", Column = 3, isDisabled = false },
-                new Seat { ID = 131, HallId = 2, Row = "D", Column = 4, isDisabled = false },
-                new Seat { ID = 132, HallId = 2, Row = "D", Column = 5, isDisabled = false },
-                new Seat { ID = 133, HallId = 2, Row = "D", Column = 6, isDisabled = false },
-                new Seat { ID = 134, HallId = 2, Row = "D", Column = 7, isDisabled = false },
-                new Seat { ID = 135, HallId = 2, Row = "D", Column = 8, isDisabled = false },
-                new Seat { ID = 136, HallId = 2, Row = "D", Column = 9, isDisabled = false },
-                new Seat { ID = 137, HallId = 2, Row = "E", Column = 1, isDisabled = false },
-                new Seat { ID = 138, HallId = 2, Row = "E", Column = 2, isDisabled = false },
-                new Seat { ID = 139, HallId = 2, Row = "E", Column = 3, isDisabled = false },
-                new Seat { ID = 140, HallId = 2, Row = "E", Column = 4, isDisabled = false },
-                new Seat { ID = 141, HallId = 2, Row = "E", Column = 5, isDisabled = false },
-                new Seat { ID = 142, HallId = 2, Row = "E", Column = 6, isDisabled = false },
-                new Seat { ID = 143, HallId = 2, Row = "E", Column = 7, isDisabled = false },
-                new Seat { ID = 144, HallId = 2, Row = "E", Column = 8, isDisabled = false },
-                new Seat { ID = 145, HallId = 2, Row = "E", Column = 9, isDisabled = false },
-                new Seat { ID = 146, HallId = 2, Row = "F", Column = 1, isDisabled = false },
-                new Seat { ID = 147, HallId = 2, Row = "F", Column = 2, isDisabled = false },
-                new Seat { ID = 148, HallId = 2, Row = "F", Column = 3, isDisabled = false },
-                new Seat { ID = 149, HallId = 2, Row = "F", Column = 4, isDisabled = false },
-                new Seat { ID = 150, HallId = 2, Row = "F", Column = 5, isDisabled = false },
-                new Seat { ID = 151, HallId = 2, Row = "F", Column = 6, isDisabled = false },
-                new Seat { ID = 152, HallId = 2, Row = "F", Column = 7, isDisabled = false },
-                new Seat { ID = 153, HallId = 2, Row = "F", Column = 8, isDisabled = false },
-                new Seat { ID = 154, HallId = 2, Row = "F", Column = 9, isDisabled = false },
-                new Seat { ID = 155, HallId = 2, Row = "G", Column = 1, isDisabled = false },
-                new Seat { ID = 156, HallId = 2, Row = "G", Column = 2, isDisabled = false },
-                new Seat { ID = 157, HallId = 2, Row = "G", Column = 3, isDisabled = false },
-                new Seat { ID = 158, HallId = 2, Row = "G", Column = 4, isDisabled = false },
-                new Seat { ID = 159, HallId = 2, Row = "G", Column = 5, isDisabled = false },
-                new Seat { ID = 160, HallId = 2, Row = "G", Column = 6, isDisabled = false },
-                new Seat { ID = 161, HallId = 2, Row = "G", Column = 7, isDisabled = false },
-                new Seat { ID = 162, HallId = 2, Row = "G", Column = 8, isDisabled = false },
-                new Seat { ID = 163, HallId = 2, Row = "G", Column = 9, isDisabled = false },
-                new Seat { ID = 164, HallId = 2, Row = "H", Column = 1, isDisabled = false },
-                new Seat { ID = 165, HallId = 2, Row = "H", Column = 2, isDisabled = false },
-                new Seat { ID = 166, HallId = 2, Row = "H", Column = 3, isDisabled = false },
-                new Seat { ID = 167, HallId = 2, Row = "H", Column = 4, isDisabled = false },
-                new Seat { ID = 168, HallId = 2, Row = "H", Column = 5, isDisabled = false },
-                new Seat { ID = 169, HallId = 2, Row = "H", Column = 6, isDisabled = false },
-                new Seat { ID = 170, HallId = 2, Row = "H", Column = 7, isDisabled = false },
-                new Seat { ID = 171, HallId = 2, Row = "H", Column = 8, isDisabled = false },
-                new Seat { ID = 172, HallId = 2, Row = "H", Column = 9, isDisabled = false },
-                new Seat { ID = 173, HallId = 2, Row = "I", Column = 1, isDisabled = false },
-                new Seat { ID = 174, HallId = 2, Row = "I", Column = 2, isDisabled = false },
-                new Seat { ID = 175, HallId = 2, Row = "I", Column = 3, isDisabled = false },
-                new Seat { ID = 176, HallId = 2, Row = "I", Column = 4, isDisabled = false },
-                new Seat { ID = 177, HallId = 2, Row = "I", Column = 5, isDisabled = false },
-                new Seat { ID = 178, HallId = 2, Row = "I", Column = 6, isDisabled = false },
-                new Seat { ID = 179, HallId = 2, Row = "I", Column = 7, isDisabled = false },
-                new Seat { ID = 180, HallId = 2, Row = "I", Column = 8, isDisabled = false },
-                new Seat { ID = 181, HallId = 2, Row = "I", Column = 9, isDisabled = false },
-                new Seat { ID = 182, HallId = 2, Row = "J", Column = 1, isDisabled = false },
-                new Seat { ID = 183, HallId = 2, Row = "J", Column = 2, isDisabled = false },
-                new Seat { ID = 184, HallId = 2, Row = "J", Column = 3, isDisabled = false },
-                new Seat { ID = 185, HallId = 2, Row = "J", Column = 4, isDisabled = false },
-                new Seat { ID = 186, HallId = 2, Row = "J", Column = 5, isDisabled = false },
-                new Seat { ID = 187, HallId = 2, Row = "J", Column = 6, isDisabled = false },
-                new Seat { ID = 188, HallId = 2, Row = "J", Column = 7, isDisabled = false },
-                new Seat { ID = 189, HallId = 2, Row = "J", Column = 8, isDisabled = false },
-                new Seat { ID = 190, HallId = 2, Row = "J", Column = 9, isDisabled = false }
+                //new Seat { ID = 101, HallId = 2, Row = "A", Column = 1, isDisabled = true },
+                //new Seat { ID = 102, HallId = 2, Row = "A", Column = 2, isDisabled = false },
+                //new Seat { ID = 103, HallId = 2, Row = "A", Column = 3, isDisabled = false },
+                //new Seat { ID = 104, HallId = 2, Row = "A", Column = 4, isDisabled = false },
+                //new Seat { ID = 105, HallId = 2, Row = "A", Column = 5, isDisabled = false },
+                //new Seat { ID = 106, HallId = 2, Row = "A", Column = 6, isDisabled = false },
+                //new Seat { ID = 107, HallId = 2, Row = "A", Column = 7, isDisabled = false },
+                //new Seat { ID = 108, HallId = 2, Row = "A", Column = 8, isDisabled = false },
+                //new Seat { ID = 109, HallId = 2, Row = "A", Column = 9, isDisabled = false },
+                //new Seat { ID = 110, HallId = 2, Row = "B", Column = 1, isDisabled = false },
+                //new Seat { ID = 111, HallId = 2, Row = "B", Column = 2, isDisabled = false },
+                //new Seat { ID = 112, HallId = 2, Row = "B", Column = 3, isDisabled = false },
+                //new Seat { ID = 113, HallId = 2, Row = "B", Column = 4, isDisabled = false },
+                //new Seat { ID = 114, HallId = 2, Row = "B", Column = 5, isDisabled = false },
+                //new Seat { ID = 115, HallId = 2, Row = "B", Column = 6, isDisabled = false },
+                //new Seat { ID = 116, HallId = 2, Row = "B", Column = 7, isDisabled = false },
+                //new Seat { ID = 117, HallId = 2, Row = "B", Column = 8, isDisabled = false },
+                //new Seat { ID = 118, HallId = 2, Row = "B", Column = 9, isDisabled = false },
+                //new Seat { ID = 119, HallId = 2, Row = "C", Column = 1, isDisabled = false },
+                //new Seat { ID = 120, HallId = 2, Row = "C", Column = 2, isDisabled = false },
+                //new Seat { ID = 121, HallId = 2, Row = "C", Column = 3, isDisabled = false },
+                //new Seat { ID = 122, HallId = 2, Row = "C", Column = 4, isDisabled = false },
+                //new Seat { ID = 123, HallId = 2, Row = "C", Column = 5, isDisabled = false },
+                //new Seat { ID = 124, HallId = 2, Row = "C", Column = 6, isDisabled = false },
+                //new Seat { ID = 125, HallId = 2, Row = "C", Column = 7, isDisabled = false },
+                //new Seat { ID = 126, HallId = 2, Row = "C", Column = 8, isDisabled = false },
+                //new Seat { ID = 127, HallId = 2, Row = "C", Column = 9, isDisabled = false },
+                //new Seat { ID = 128, HallId = 2, Row = "D", Column = 1, isDisabled = false },
+                //new Seat { ID = 129, HallId = 2, Row = "D", Column = 2, isDisabled = false },
+                //new Seat { ID = 130, HallId = 2, Row = "D", Column = 3, isDisabled = false },
+                //new Seat { ID = 131, HallId = 2, Row = "D", Column = 4, isDisabled = false },
+                //new Seat { ID = 132, HallId = 2, Row = "D", Column = 5, isDisabled = false },
+                //new Seat { ID = 133, HallId = 2, Row = "D", Column = 6, isDisabled = false },
+                //new Seat { ID = 134, HallId = 2, Row = "D", Column = 7, isDisabled = false },
+                //new Seat { ID = 135, HallId = 2, Row = "D", Column = 8, isDisabled = false },
+                //new Seat { ID = 136, HallId = 2, Row = "D", Column = 9, isDisabled = false },
+                //new Seat { ID = 137, HallId = 2, Row = "E", Column = 1, isDisabled = false },
+                //new Seat { ID = 138, HallId = 2, Row = "E", Column = 2, isDisabled = false },
+                //new Seat { ID = 139, HallId = 2, Row = "E", Column = 3, isDisabled = false },
+                //new Seat { ID = 140, HallId = 2, Row = "E", Column = 4, isDisabled = false },
+                //new Seat { ID = 141, HallId = 2, Row = "E", Column = 5, isDisabled = false },
+                //new Seat { ID = 142, HallId = 2, Row = "E", Column = 6, isDisabled = false },
+                //new Seat { ID = 143, HallId = 2, Row = "E", Column = 7, isDisabled = false },
+                //new Seat { ID = 144, HallId = 2, Row = "E", Column = 8, isDisabled = false },
+                //new Seat { ID = 145, HallId = 2, Row = "E", Column = 9, isDisabled = false },
+                //new Seat { ID = 146, HallId = 2, Row = "F", Column = 1, isDisabled = false },
+                //new Seat { ID = 147, HallId = 2, Row = "F", Column = 2, isDisabled = false },
+                //new Seat { ID = 148, HallId = 2, Row = "F", Column = 3, isDisabled = false },
+                //new Seat { ID = 149, HallId = 2, Row = "F", Column = 4, isDisabled = false },
+                //new Seat { ID = 150, HallId = 2, Row = "F", Column = 5, isDisabled = false },
+                //new Seat { ID = 151, HallId = 2, Row = "F", Column = 6, isDisabled = false },
+                //new Seat { ID = 152, HallId = 2, Row = "F", Column = 7, isDisabled = false },
+                //new Seat { ID = 153, HallId = 2, Row = "F", Column = 8, isDisabled = false },
+                //new Seat { ID = 154, HallId = 2, Row = "F", Column = 9, isDisabled = false },
+                //new Seat { ID = 155, HallId = 2, Row = "G", Column = 1, isDisabled = false },
+                //new Seat { ID = 156, HallId = 2, Row = "G", Column = 2, isDisabled = false },
+                //new Seat { ID = 157, HallId = 2, Row = "G", Column = 3, isDisabled = false },
+                //new Seat { ID = 158, HallId = 2, Row = "G", Column = 4, isDisabled = false },
+                //new Seat { ID = 159, HallId = 2, Row = "G", Column = 5, isDisabled = false },
+                //new Seat { ID = 160, HallId = 2, Row = "G", Column = 6, isDisabled = false },
+                //new Seat { ID = 161, HallId = 2, Row = "G", Column = 7, isDisabled = false },
+                //new Seat { ID = 162, HallId = 2, Row = "G", Column = 8, isDisabled = false },
+                //new Seat { ID = 163, HallId = 2, Row = "G", Column = 9, isDisabled = false },
+                //new Seat { ID = 164, HallId = 2, Row = "H", Column = 1, isDisabled = false },
+                //new Seat { ID = 165, HallId = 2, Row = "H", Column = 2, isDisabled = false },
+                //new Seat { ID = 166, HallId = 2, Row = "H", Column = 3, isDisabled = false },
+                //new Seat { ID = 167, HallId = 2, Row = "H", Column = 4, isDisabled = false },
+                //new Seat { ID = 168, HallId = 2, Row = "H", Column = 5, isDisabled = false },
+                //new Seat { ID = 169, HallId = 2, Row = "H", Column = 6, isDisabled = false },
+                //new Seat { ID = 170, HallId = 2, Row = "H", Column = 7, isDisabled = false },
+                //new Seat { ID = 171, HallId = 2, Row = "H", Column = 8, isDisabled = false },
+                //new Seat { ID = 172, HallId = 2, Row = "H", Column = 9, isDisabled = false },
+                //new Seat { ID = 173, HallId = 2, Row = "I", Column = 1, isDisabled = false },
+                //new Seat { ID = 174, HallId = 2, Row = "I", Column = 2, isDisabled = false },
+                //new Seat { ID = 175, HallId = 2, Row = "I", Column = 3, isDisabled = false },
+                //new Seat { ID = 176, HallId = 2, Row = "I", Column = 4, isDisabled = false },
+                //new Seat { ID = 177, HallId = 2, Row = "I", Column = 5, isDisabled = false },
+                //new Seat { ID = 178, HallId = 2, Row = "I", Column = 6, isDisabled = false },
+                //new Seat { ID = 179, HallId = 2, Row = "I", Column = 7, isDisabled = false },
+                //new Seat { ID = 180, HallId = 2, Row = "I", Column = 8, isDisabled = false },
+                //new Seat { ID = 181, HallId = 2, Row = "I", Column = 9, isDisabled = false },
+                //new Seat { ID = 182, HallId = 2, Row = "J", Column = 1, isDisabled = false },
+                //new Seat { ID = 183, HallId = 2, Row = "J", Column = 2, isDisabled = false },
+                //new Seat { ID = 184, HallId = 2, Row = "J", Column = 3, isDisabled = false },
+                //new Seat { ID = 185, HallId = 2, Row = "J", Column = 4, isDisabled = false },
+                //new Seat { ID = 186, HallId = 2, Row = "J", Column = 5, isDisabled = false },
+                //new Seat { ID = 187, HallId = 2, Row = "J", Column = 6, isDisabled = false },
+                //new Seat { ID = 188, HallId = 2, Row = "J", Column = 7, isDisabled = false },
+                //new Seat { ID = 189, HallId = 2, Row = "J", Column = 8, isDisabled = false },
+                //new Seat { ID = 190, HallId = 2, Row = "J", Column = 9, isDisabled = false }
                 );
         }
         private void SeedShows(ModelBuilder modelBuilder)
@@ -586,15 +527,7 @@ namespace eCinema.Repository
                     HallId = 1,
                     MovieId = 3,
                 },
-                new Show
-                {
-                    ID = 5,
-                    DateTime = DateTime.Now.AddDays(1).Date.AddHours(10),
-                    Format = "ThreeD",
-                    Price = 25,
-                    HallId = 1,
-                    MovieId = 3,
-                },
+                
                 new Show
                 {
                     ID = 6,
@@ -620,79 +553,6 @@ namespace eCinema.Repository
                     Format = "ThreeD",
                     Price = 25,
                     HallId = 1,
-                    MovieId = 6,
-                },
-
-                new Show
-                {
-                    ID = 9,
-                    DateTime = DateTime.Now.AddDays(1).Date.AddHours(12),
-                    Format = "ThreeD",
-                    Price = 25,
-                    HallId = 2,
-                    MovieId = 1,
-                },
-                new Show
-                {
-                    ID = 10,
-                    DateTime = DateTime.Now.AddDays(2).Date.AddHours(12),
-                    Format = "ThreeD",
-                    Price = 25,
-                    HallId = 2,
-                    MovieId = 1,
-                },
-                new Show
-                {
-                    ID = 11,
-                    DateTime = DateTime.Now.AddDays(1).Date.AddHours(14),
-                    Format = "ThreeD",
-                    Price = 25,
-                    HallId = 2,
-                    MovieId = 2,
-                },
-                new Show
-                {
-                    ID = 12,
-                    DateTime = DateTime.Now.AddDays(1).Date.AddHours(16),
-                    Format = "ThreeD",
-                    Price = 25,
-                    HallId = 2,
-                    MovieId = 3,
-                },
-                new Show
-                {
-                    ID = 13,
-                    DateTime = DateTime.Now.AddDays(1).Date.AddHours(10),
-                    Format = "ThreeD",
-                    Price = 25,
-                    HallId = 2,
-                    MovieId = 3,
-                },
-                new Show
-                {
-                    ID = 14,
-                    DateTime = DateTime.Now.AddDays(1).Date.AddHours(18),
-                    Format = "ThreeD",
-                    Price = 25,
-                    HallId = 2,
-                    MovieId = 4,
-                },
-                new Show
-                {
-                    ID = 15,
-                    DateTime = DateTime.Now.AddDays(1).Date.AddHours(20),
-                    Format = "ThreeD",
-                    Price = 25,
-                    HallId = 2,
-                    MovieId = 5,
-                },
-                new Show
-                {
-                    ID = 16,
-                    DateTime = DateTime.Now.AddDays(1).Date.AddHours(22),
-                    Format = "ThreeD",
-                    Price = 25,
-                    HallId = 2,
                     MovieId = 6,
                 });
         }
@@ -728,7 +588,7 @@ namespace eCinema.Repository
                     ID = 4,
                     isActive = true,
                     TransactionNumber = "test",
-                    ShowId = 16,
+                    ShowId = 8,
                     UserId = 1,
                 });
         }
@@ -737,8 +597,8 @@ namespace eCinema.Repository
             modelBuilder.Entity<ReservationSeat>().HasData(
                 new ReservationSeat { SeatId = 3, ReservationId = 1 },
                 new ReservationSeat { SeatId = 4, ReservationId = 2 },
-                new ReservationSeat { SeatId = 102, ReservationId = 3 },
-                new ReservationSeat { SeatId = 103, ReservationId = 4 });
+                new ReservationSeat { SeatId = 5, ReservationId = 3 },
+                new ReservationSeat { SeatId = 6, ReservationId = 4 });
         }
         private void SeedEmployees(ModelBuilder modelBuilder)
         {
@@ -777,13 +637,13 @@ namespace eCinema.Repository
                {
                    ID = 1,
                    Name = "Warner Bros",
-                   CountryId = 6,
+                   CountryId = 1,
                },
                new()
                {
                    ID = 2,
                    Name = "Universal Pictures",
-                   CountryId = 6,
+                   CountryId = 2,
                },
                 new()
                 {
@@ -795,7 +655,7 @@ namespace eCinema.Repository
                {
                    ID = 4,
                    Name = "Volcano Films",
-                   CountryId = 6,
+                   CountryId = 3,
                });
         }
         private void SeedCinema(ModelBuilder modelBuilder)
@@ -859,11 +719,6 @@ namespace eCinema.Repository
                {
                    ID = 7,
                    Name = "Drama",
-               },
-               new()
-               {
-                   ID = 8,
-                   Name = "Mistery",
                });
         }
     }

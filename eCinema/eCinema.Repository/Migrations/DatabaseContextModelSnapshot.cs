@@ -199,30 +199,6 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 3,
-                            CountryId = 1,
-                            IsDeleted = false,
-                            Name = "Tuzla",
-                            ZipCode = "75000"
-                        },
-                        new
-                        {
-                            ID = 4,
-                            CountryId = 1,
-                            IsDeleted = false,
-                            Name = "Zenica",
-                            ZipCode = "72000"
-                        },
-                        new
-                        {
-                            ID = 5,
-                            CountryId = 1,
-                            IsDeleted = false,
-                            Name = "Konjic",
-                            ZipCode = "88400"
-                        },
-                        new
-                        {
-                            ID = 6,
                             CountryId = 2,
                             IsDeleted = false,
                             Name = "Zagreb",
@@ -230,35 +206,11 @@ namespace eCinema.Repository.Migrations
                         },
                         new
                         {
-                            ID = 7,
+                            ID = 4,
                             CountryId = 3,
                             IsDeleted = false,
                             Name = "Beograd",
                             ZipCode = "11000"
-                        },
-                        new
-                        {
-                            ID = 8,
-                            CountryId = 6,
-                            IsDeleted = false,
-                            Name = "Graz",
-                            ZipCode = "8020"
-                        },
-                        new
-                        {
-                            ID = 9,
-                            CountryId = 4,
-                            IsDeleted = false,
-                            Name = "Melbourne",
-                            ZipCode = "3000"
-                        },
-                        new
-                        {
-                            ID = 10,
-                            CountryId = 5,
-                            IsDeleted = false,
-                            Name = "Berlin",
-                            ZipCode = "10115"
                         });
                 });
 
@@ -302,24 +254,6 @@ namespace eCinema.Repository.Migrations
                             ID = 3,
                             IsDeleted = false,
                             Name = "Serbia"
-                        },
-                        new
-                        {
-                            ID = 4,
-                            IsDeleted = false,
-                            Name = "Australia"
-                        },
-                        new
-                        {
-                            ID = 5,
-                            IsDeleted = false,
-                            Name = "Germany"
-                        },
-                        new
-                        {
-                            ID = 6,
-                            IsDeleted = false,
-                            Name = "Austria"
                         });
                 });
 
@@ -469,12 +403,6 @@ namespace eCinema.Repository.Migrations
                             ID = 7,
                             IsDeleted = false,
                             Name = "Drama"
-                        },
-                        new
-                        {
-                            ID = 8,
-                            IsDeleted = false,
-                            Name = "Mistery"
                         });
                 });
 
@@ -524,16 +452,6 @@ namespace eCinema.Repository.Migrations
                             Name = "A1",
                             NumberOfRows = 10,
                             NumberOfSeats = 98
-                        },
-                        new
-                        {
-                            ID = 2,
-                            CinemaId = 2,
-                            IsDeleted = false,
-                            MaxNumberOfSeatsPerRow = 9,
-                            Name = "A2",
-                            NumberOfRows = 9,
-                            NumberOfSeats = 80
                         });
                 });
 
@@ -757,32 +675,14 @@ namespace eCinema.Repository.Migrations
                         },
                         new
                         {
-                            MovieId = 2,
-                            ActorId = 2,
-                            IsDeleted = false
-                        },
-                        new
-                        {
                             MovieId = 3,
                             ActorId = 1,
                             IsDeleted = false
                         },
                         new
                         {
-                            MovieId = 3,
-                            ActorId = 2,
-                            IsDeleted = false
-                        },
-                        new
-                        {
                             MovieId = 4,
                             ActorId = 1,
-                            IsDeleted = false
-                        },
-                        new
-                        {
-                            MovieId = 4,
-                            ActorId = 2,
                             IsDeleted = false
                         },
                         new
@@ -895,14 +795,14 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 1,
-                            CountryId = 6,
+                            CountryId = 1,
                             IsDeleted = false,
                             Name = "Warner Bros"
                         },
                         new
                         {
                             ID = 2,
-                            CountryId = 6,
+                            CountryId = 2,
                             IsDeleted = false,
                             Name = "Universal Pictures"
                         },
@@ -916,7 +816,7 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 4,
-                            CountryId = 6,
+                            CountryId = 3,
                             IsDeleted = false,
                             Name = "Volcano Films"
                         });
@@ -989,7 +889,7 @@ namespace eCinema.Repository.Migrations
                         {
                             ID = 4,
                             IsDeleted = false,
-                            ShowId = 16,
+                            ShowId = 8,
                             TransactionNumber = "test",
                             UserId = 1,
                             isActive = true
@@ -1032,13 +932,13 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ReservationId = 3,
-                            SeatId = 102,
+                            SeatId = 5,
                             IsDeleted = false
                         },
                         new
                         {
                             ReservationId = 4,
-                            SeatId = 103,
+                            SeatId = 6,
                             IsDeleted = false
                         });
                 });
@@ -1976,816 +1876,6 @@ namespace eCinema.Repository.Migrations
                             IsDeleted = false,
                             Row = "J",
                             isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 101,
-                            Column = 1,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "A",
-                            isDisabled = true
-                        },
-                        new
-                        {
-                            ID = 102,
-                            Column = 2,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "A",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 103,
-                            Column = 3,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "A",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 104,
-                            Column = 4,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "A",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 105,
-                            Column = 5,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "A",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 106,
-                            Column = 6,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "A",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 107,
-                            Column = 7,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "A",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 108,
-                            Column = 8,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "A",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 109,
-                            Column = 9,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "A",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 110,
-                            Column = 1,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "B",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 111,
-                            Column = 2,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "B",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 112,
-                            Column = 3,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "B",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 113,
-                            Column = 4,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "B",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 114,
-                            Column = 5,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "B",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 115,
-                            Column = 6,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "B",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 116,
-                            Column = 7,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "B",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 117,
-                            Column = 8,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "B",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 118,
-                            Column = 9,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "B",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 119,
-                            Column = 1,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "C",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 120,
-                            Column = 2,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "C",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 121,
-                            Column = 3,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "C",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 122,
-                            Column = 4,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "C",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 123,
-                            Column = 5,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "C",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 124,
-                            Column = 6,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "C",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 125,
-                            Column = 7,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "C",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 126,
-                            Column = 8,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "C",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 127,
-                            Column = 9,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "C",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 128,
-                            Column = 1,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "D",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 129,
-                            Column = 2,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "D",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 130,
-                            Column = 3,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "D",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 131,
-                            Column = 4,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "D",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 132,
-                            Column = 5,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "D",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 133,
-                            Column = 6,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "D",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 134,
-                            Column = 7,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "D",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 135,
-                            Column = 8,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "D",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 136,
-                            Column = 9,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "D",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 137,
-                            Column = 1,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "E",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 138,
-                            Column = 2,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "E",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 139,
-                            Column = 3,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "E",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 140,
-                            Column = 4,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "E",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 141,
-                            Column = 5,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "E",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 142,
-                            Column = 6,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "E",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 143,
-                            Column = 7,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "E",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 144,
-                            Column = 8,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "E",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 145,
-                            Column = 9,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "E",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 146,
-                            Column = 1,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "F",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 147,
-                            Column = 2,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "F",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 148,
-                            Column = 3,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "F",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 149,
-                            Column = 4,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "F",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 150,
-                            Column = 5,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "F",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 151,
-                            Column = 6,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "F",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 152,
-                            Column = 7,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "F",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 153,
-                            Column = 8,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "F",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 154,
-                            Column = 9,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "F",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 155,
-                            Column = 1,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "G",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 156,
-                            Column = 2,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "G",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 157,
-                            Column = 3,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "G",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 158,
-                            Column = 4,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "G",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 159,
-                            Column = 5,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "G",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 160,
-                            Column = 6,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "G",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 161,
-                            Column = 7,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "G",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 162,
-                            Column = 8,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "G",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 163,
-                            Column = 9,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "G",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 164,
-                            Column = 1,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "H",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 165,
-                            Column = 2,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "H",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 166,
-                            Column = 3,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "H",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 167,
-                            Column = 4,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "H",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 168,
-                            Column = 5,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "H",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 169,
-                            Column = 6,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "H",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 170,
-                            Column = 7,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "H",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 171,
-                            Column = 8,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "H",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 172,
-                            Column = 9,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "H",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 173,
-                            Column = 1,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "I",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 174,
-                            Column = 2,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "I",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 175,
-                            Column = 3,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "I",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 176,
-                            Column = 4,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "I",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 177,
-                            Column = 5,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "I",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 178,
-                            Column = 6,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "I",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 179,
-                            Column = 7,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "I",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 180,
-                            Column = 8,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "I",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 181,
-                            Column = 9,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "I",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 182,
-                            Column = 1,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "J",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 183,
-                            Column = 2,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "J",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 184,
-                            Column = 3,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "J",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 185,
-                            Column = 4,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "J",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 186,
-                            Column = 5,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "J",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 187,
-                            Column = 6,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "J",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 188,
-                            Column = 7,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "J",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 189,
-                            Column = 8,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "J",
-                            isDisabled = false
-                        },
-                        new
-                        {
-                            ID = 190,
-                            Column = 9,
-                            HallId = 2,
-                            IsDeleted = false,
-                            Row = "J",
-                            isDisabled = false
                         });
                 });
 
@@ -2870,16 +1960,6 @@ namespace eCinema.Repository.Migrations
                         },
                         new
                         {
-                            ID = 5,
-                            DateTime = new DateTime(2024, 7, 5, 10, 0, 0, 0, DateTimeKind.Local),
-                            Format = "ThreeD",
-                            HallId = 1,
-                            IsDeleted = false,
-                            MovieId = 3,
-                            Price = 25.0
-                        },
-                        new
-                        {
                             ID = 6,
                             DateTime = new DateTime(2024, 7, 5, 18, 0, 0, 0, DateTimeKind.Local),
                             Format = "ThreeD",
@@ -2904,86 +1984,6 @@ namespace eCinema.Repository.Migrations
                             DateTime = new DateTime(2024, 7, 5, 22, 0, 0, 0, DateTimeKind.Local),
                             Format = "ThreeD",
                             HallId = 1,
-                            IsDeleted = false,
-                            MovieId = 6,
-                            Price = 25.0
-                        },
-                        new
-                        {
-                            ID = 9,
-                            DateTime = new DateTime(2024, 7, 5, 12, 0, 0, 0, DateTimeKind.Local),
-                            Format = "ThreeD",
-                            HallId = 2,
-                            IsDeleted = false,
-                            MovieId = 1,
-                            Price = 25.0
-                        },
-                        new
-                        {
-                            ID = 10,
-                            DateTime = new DateTime(2024, 7, 6, 12, 0, 0, 0, DateTimeKind.Local),
-                            Format = "ThreeD",
-                            HallId = 2,
-                            IsDeleted = false,
-                            MovieId = 1,
-                            Price = 25.0
-                        },
-                        new
-                        {
-                            ID = 11,
-                            DateTime = new DateTime(2024, 7, 5, 14, 0, 0, 0, DateTimeKind.Local),
-                            Format = "ThreeD",
-                            HallId = 2,
-                            IsDeleted = false,
-                            MovieId = 2,
-                            Price = 25.0
-                        },
-                        new
-                        {
-                            ID = 12,
-                            DateTime = new DateTime(2024, 7, 5, 16, 0, 0, 0, DateTimeKind.Local),
-                            Format = "ThreeD",
-                            HallId = 2,
-                            IsDeleted = false,
-                            MovieId = 3,
-                            Price = 25.0
-                        },
-                        new
-                        {
-                            ID = 13,
-                            DateTime = new DateTime(2024, 7, 5, 10, 0, 0, 0, DateTimeKind.Local),
-                            Format = "ThreeD",
-                            HallId = 2,
-                            IsDeleted = false,
-                            MovieId = 3,
-                            Price = 25.0
-                        },
-                        new
-                        {
-                            ID = 14,
-                            DateTime = new DateTime(2024, 7, 5, 18, 0, 0, 0, DateTimeKind.Local),
-                            Format = "ThreeD",
-                            HallId = 2,
-                            IsDeleted = false,
-                            MovieId = 4,
-                            Price = 25.0
-                        },
-                        new
-                        {
-                            ID = 15,
-                            DateTime = new DateTime(2024, 7, 5, 20, 0, 0, 0, DateTimeKind.Local),
-                            Format = "ThreeD",
-                            HallId = 2,
-                            IsDeleted = false,
-                            MovieId = 5,
-                            Price = 25.0
-                        },
-                        new
-                        {
-                            ID = 16,
-                            DateTime = new DateTime(2024, 7, 5, 22, 0, 0, 0, DateTimeKind.Local),
-                            Format = "ThreeD",
-                            HallId = 2,
                             IsDeleted = false,
                             MovieId = 6,
                             Price = 25.0
@@ -3101,7 +2101,7 @@ namespace eCinema.Repository.Migrations
                     b.HasOne("eCinema.Core.Entities.City", "City")
                         .WithMany("Cinemas")
                         .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("City");
@@ -3112,7 +2112,7 @@ namespace eCinema.Repository.Migrations
                     b.HasOne("eCinema.Core.Entities.Country", "Country")
                         .WithMany("Cities")
                         .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Country");
@@ -3123,7 +2123,7 @@ namespace eCinema.Repository.Migrations
                     b.HasOne("eCinema.Core.Entities.Cinema", "Cinema")
                         .WithMany("Employees")
                         .HasForeignKey("CinemaId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Cinema");
@@ -3134,7 +2134,7 @@ namespace eCinema.Repository.Migrations
                     b.HasOne("eCinema.Core.Entities.Cinema", "Cinema")
                         .WithMany("Halls")
                         .HasForeignKey("CinemaId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Cinema");
@@ -3145,13 +2145,13 @@ namespace eCinema.Repository.Migrations
                     b.HasOne("eCinema.Core.Entities.Language", "Language")
                         .WithMany("Movies")
                         .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("eCinema.Core.Entities.Production", "Production")
                         .WithMany("Movies")
                         .HasForeignKey("ProductionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Language");
@@ -3164,13 +2164,13 @@ namespace eCinema.Repository.Migrations
                     b.HasOne("eCinema.Core.Entities.Actor", "Actor")
                         .WithMany("Movies")
                         .HasForeignKey("ActorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("eCinema.Core.Entities.Movie", "Movie")
                         .WithMany("Actors")
                         .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Actor");
@@ -3183,13 +2183,13 @@ namespace eCinema.Repository.Migrations
                     b.HasOne("eCinema.Core.Entities.Genre", "Genre")
                         .WithMany("Movies")
                         .HasForeignKey("GenreId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("eCinema.Core.Entities.Movie", "Movie")
                         .WithMany("Genres")
                         .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Genre");
@@ -3202,7 +2202,7 @@ namespace eCinema.Repository.Migrations
                     b.HasOne("eCinema.Core.Entities.Country", "Country")
                         .WithMany("Productions")
                         .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Country");
@@ -3213,13 +2213,13 @@ namespace eCinema.Repository.Migrations
                     b.HasOne("eCinema.Core.Entities.Show", "Show")
                         .WithMany("Reservations")
                         .HasForeignKey("ShowId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("eCinema.Core.Entities.User", "User")
                         .WithMany("Reservations")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Show");
@@ -3232,13 +2232,13 @@ namespace eCinema.Repository.Migrations
                     b.HasOne("eCinema.Core.Entities.Reservation", "Reservation")
                         .WithMany("Seats")
                         .HasForeignKey("ReservationId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("eCinema.Core.Entities.Seat", "Seat")
                         .WithMany("Reservations")
                         .HasForeignKey("SeatId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Reservation");
@@ -3251,7 +2251,7 @@ namespace eCinema.Repository.Migrations
                     b.HasOne("eCinema.Core.Entities.Hall", "Hall")
                         .WithMany("Seats")
                         .HasForeignKey("HallId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Hall");
@@ -3262,13 +2262,13 @@ namespace eCinema.Repository.Migrations
                     b.HasOne("eCinema.Core.Entities.Hall", "Hall")
                         .WithMany("Shows")
                         .HasForeignKey("HallId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("eCinema.Core.Entities.Movie", "Movie")
                         .WithMany("Shows")
                         .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Hall");

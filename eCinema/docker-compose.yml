@@ -1,0 +1,75 @@
+version: '3'
+services:
+#mssql docker
+  ecinema-sql:
+    image: mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+    restart: unless-stopped
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Asmira123!
+      - MSSQL_PID=Developer
+    ports:
+      - 1401:1433
+    expose:
+      - 1433
+    networks:
+      - ecinemanet
+    
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    restart: unless-stopped
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    networks:
+      - ecinemanet
+
+  ecinema-api:
+    restart: unless-stopped
+    build:
+      context: .
+    environment:
+      - ConnectionStrings:connectionString=Server=ecinema-sql,1433;Database=eCinemaAsmira;User=sa;Password=Asmira123!;ConnectRetryCount=0; TrustServerCertificate=True
+      - ASPNETCORE_ENVIRONMENT=Development
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_USER=guest
+      - RABBITMQ_PASS=guest
+      - SERVER_ADDRESS=smtp.gmail.com
+      - MAIL_SENDER=ecinemav@gmail.com
+      - MAIL_PASS=btzdmrofiiawlgrc
+      - MAIL_PORT=587
+    ports:
+      - 7019:7019
+    networks:
+      - ecinemanet
+    links:
+      - ecinema-sql
+    depends_on:
+      - ecinema-sql
+      - rabbitmq
+  
+  ecinema-console:
+    restart: unless-stopped
+    build:
+      context: ./eCinema.RabbitMQ
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_USER=guest
+      - RABBITMQ_PASS=guest
+      - SERVER_ADDRESS=smtp.gmail.com
+      - MAIL_SENDER=ecinemav@gmail.com
+      - MAIL_PASS=btzdmrofiiawlgrc
+      - MAIL_PORT=587
+    networks:
+      - ecinemanet
+    depends_on:
+      - rabbitmq
+  
+      
+networks:
+  ecinemanet:
+    driver: bridge 

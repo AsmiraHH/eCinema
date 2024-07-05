@@ -443,10 +443,7 @@ namespace eCinema.Repository.Migrations
                 {
                     { 1, false, null, "Bosnia and Herzegovina" },
                     { 2, false, null, "Croatia" },
-                    { 3, false, null, "Serbia" },
-                    { 4, false, null, "Australia" },
-                    { 5, false, null, "Germany" },
-                    { 6, false, null, "Austria" }
+                    { 3, false, null, "Serbia" }
                 });
 
             migrationBuilder.InsertData(
@@ -460,8 +457,7 @@ namespace eCinema.Repository.Migrations
                     { 4, false, null, "Romance" },
                     { 5, false, null, "Western" },
                     { 6, false, null, "Thriller" },
-                    { 7, false, null, "Drama" },
-                    { 8, false, null, "Mistery" }
+                    { 7, false, null, "Drama" }
                 });
 
             migrationBuilder.InsertData(
@@ -491,14 +487,8 @@ namespace eCinema.Repository.Migrations
                 {
                     { 1, 1, false, null, "Mostar", "88000" },
                     { 2, 1, false, null, "Sarajevo", "77000" },
-                    { 3, 1, false, null, "Tuzla", "75000" },
-                    { 4, 1, false, null, "Zenica", "72000" },
-                    { 5, 1, false, null, "Konjic", "88400" },
-                    { 6, 2, false, null, "Zagreb", "10000" },
-                    { 7, 3, false, null, "Beograd", "11000" },
-                    { 8, 6, false, null, "Graz", "8020" },
-                    { 9, 4, false, null, "Melbourne", "3000" },
-                    { 10, 5, false, null, "Berlin", "10115" }
+                    { 3, 2, false, null, "Zagreb", "10000" },
+                    { 4, 3, false, null, "Beograd", "11000" }
                 });
 
             migrationBuilder.InsertData(
@@ -506,10 +496,10 @@ namespace eCinema.Repository.Migrations
                 columns: new[] { "ID", "CountryId", "IsDeleted", "ModifiedAt", "Name" },
                 values: new object[,]
                 {
-                    { 1, 6, false, null, "Warner Bros" },
-                    { 2, 6, false, null, "Universal Pictures" },
+                    { 1, 1, false, null, "Warner Bros" },
+                    { 2, 2, false, null, "Universal Pictures" },
                     { 3, 3, false, null, "Režim" },
-                    { 4, 6, false, null, "Volcano Films" }
+                    { 4, 3, false, null, "Volcano Films" }
                 });
 
             migrationBuilder.InsertData(
@@ -546,11 +536,7 @@ namespace eCinema.Repository.Migrations
             migrationBuilder.InsertData(
                 table: "Hall",
                 columns: new[] { "ID", "CinemaId", "IsDeleted", "MaxNumberOfSeatsPerRow", "ModifiedAt", "Name", "NumberOfRows", "NumberOfSeats" },
-                values: new object[,]
-                {
-                    { 1, 1, false, 10, null, "A1", 10, 98 },
-                    { 2, 2, false, 9, null, "A2", 9, 80 }
-                });
+                values: new object[] { 1, 1, false, 10, null, "A1", 10, 98 });
 
             migrationBuilder.InsertData(
                 table: "MovieActors",
@@ -560,11 +546,8 @@ namespace eCinema.Repository.Migrations
                     { 1, 1, false, null },
                     { 2, 1, false, null },
                     { 1, 2, false, null },
-                    { 2, 2, false, null },
                     { 1, 3, false, null },
-                    { 2, 3, false, null },
                     { 1, 4, false, null },
-                    { 2, 4, false, null },
                     { 1, 5, false, null },
                     { 1, 6, false, null }
                 });
@@ -687,97 +670,7 @@ namespace eCinema.Repository.Migrations
                     { 97, 7, 1, false, null, "J", false },
                     { 98, 8, 1, false, null, "J", false },
                     { 99, 9, 1, false, null, "J", false },
-                    { 100, 10, 1, false, null, "J", false },
-                    { 101, 1, 2, false, null, "A", true },
-                    { 102, 2, 2, false, null, "A", false },
-                    { 103, 3, 2, false, null, "A", false },
-                    { 104, 4, 2, false, null, "A", false },
-                    { 105, 5, 2, false, null, "A", false },
-                    { 106, 6, 2, false, null, "A", false },
-                    { 107, 7, 2, false, null, "A", false },
-                    { 108, 8, 2, false, null, "A", false },
-                    { 109, 9, 2, false, null, "A", false },
-                    { 110, 1, 2, false, null, "B", false },
-                    { 111, 2, 2, false, null, "B", false },
-                    { 112, 3, 2, false, null, "B", false },
-                    { 113, 4, 2, false, null, "B", false },
-                    { 114, 5, 2, false, null, "B", false },
-                    { 115, 6, 2, false, null, "B", false },
-                    { 116, 7, 2, false, null, "B", false },
-                    { 117, 8, 2, false, null, "B", false },
-                    { 118, 9, 2, false, null, "B", false },
-                    { 119, 1, 2, false, null, "C", false },
-                    { 120, 2, 2, false, null, "C", false },
-                    { 121, 3, 2, false, null, "C", false },
-                    { 122, 4, 2, false, null, "C", false },
-                    { 123, 5, 2, false, null, "C", false },
-                    { 124, 6, 2, false, null, "C", false },
-                    { 125, 7, 2, false, null, "C", false },
-                    { 126, 8, 2, false, null, "C", false },
-                    { 127, 9, 2, false, null, "C", false },
-                    { 128, 1, 2, false, null, "D", false },
-                    { 129, 2, 2, false, null, "D", false },
-                    { 130, 3, 2, false, null, "D", false },
-                    { 131, 4, 2, false, null, "D", false },
-                    { 132, 5, 2, false, null, "D", false },
-                    { 133, 6, 2, false, null, "D", false },
-                    { 134, 7, 2, false, null, "D", false },
-                    { 135, 8, 2, false, null, "D", false },
-                    { 136, 9, 2, false, null, "D", false },
-                    { 137, 1, 2, false, null, "E", false },
-                    { 138, 2, 2, false, null, "E", false },
-                    { 139, 3, 2, false, null, "E", false },
-                    { 140, 4, 2, false, null, "E", false },
-                    { 141, 5, 2, false, null, "E", false },
-                    { 142, 6, 2, false, null, "E", false },
-                    { 143, 7, 2, false, null, "E", false },
-                    { 144, 8, 2, false, null, "E", false },
-                    { 145, 9, 2, false, null, "E", false },
-                    { 146, 1, 2, false, null, "F", false },
-                    { 147, 2, 2, false, null, "F", false },
-                    { 148, 3, 2, false, null, "F", false },
-                    { 149, 4, 2, false, null, "F", false },
-                    { 150, 5, 2, false, null, "F", false },
-                    { 151, 6, 2, false, null, "F", false },
-                    { 152, 7, 2, false, null, "F", false },
-                    { 153, 8, 2, false, null, "F", false },
-                    { 154, 9, 2, false, null, "F", false },
-                    { 155, 1, 2, false, null, "G", false },
-                    { 156, 2, 2, false, null, "G", false },
-                    { 157, 3, 2, false, null, "G", false },
-                    { 158, 4, 2, false, null, "G", false },
-                    { 159, 5, 2, false, null, "G", false },
-                    { 160, 6, 2, false, null, "G", false },
-                    { 161, 7, 2, false, null, "G", false },
-                    { 162, 8, 2, false, null, "G", false },
-                    { 163, 9, 2, false, null, "G", false },
-                    { 164, 1, 2, false, null, "H", false },
-                    { 165, 2, 2, false, null, "H", false },
-                    { 166, 3, 2, false, null, "H", false },
-                    { 167, 4, 2, false, null, "H", false },
-                    { 168, 5, 2, false, null, "H", false },
-                    { 169, 6, 2, false, null, "H", false },
-                    { 170, 7, 2, false, null, "H", false },
-                    { 171, 8, 2, false, null, "H", false },
-                    { 172, 9, 2, false, null, "H", false },
-                    { 173, 1, 2, false, null, "I", false },
-                    { 174, 2, 2, false, null, "I", false },
-                    { 175, 3, 2, false, null, "I", false },
-                    { 176, 4, 2, false, null, "I", false },
-                    { 177, 5, 2, false, null, "I", false },
-                    { 178, 6, 2, false, null, "I", false },
-                    { 179, 7, 2, false, null, "I", false },
-                    { 180, 8, 2, false, null, "I", false },
-                    { 181, 9, 2, false, null, "I", false },
-                    { 182, 1, 2, false, null, "J", false },
-                    { 183, 2, 2, false, null, "J", false },
-                    { 184, 3, 2, false, null, "J", false },
-                    { 185, 4, 2, false, null, "J", false },
-                    { 186, 5, 2, false, null, "J", false },
-                    { 187, 6, 2, false, null, "J", false },
-                    { 188, 7, 2, false, null, "J", false },
-                    { 189, 8, 2, false, null, "J", false },
-                    { 190, 9, 2, false, null, "J", false }
+                    { 100, 10, 1, false, null, "J", false }
                 });
 
             migrationBuilder.InsertData(
@@ -789,18 +682,9 @@ namespace eCinema.Repository.Migrations
                     { 2, new DateTime(2024, 7, 6, 12, 0, 0, 0, DateTimeKind.Local), "ThreeD", 1, false, null, 1, 25.0 },
                     { 3, new DateTime(2024, 7, 5, 14, 0, 0, 0, DateTimeKind.Local), "ThreeD", 1, false, null, 2, 25.0 },
                     { 4, new DateTime(2024, 7, 5, 16, 0, 0, 0, DateTimeKind.Local), "ThreeD", 1, false, null, 3, 25.0 },
-                    { 5, new DateTime(2024, 7, 5, 10, 0, 0, 0, DateTimeKind.Local), "ThreeD", 1, false, null, 3, 25.0 },
                     { 6, new DateTime(2024, 7, 5, 18, 0, 0, 0, DateTimeKind.Local), "ThreeD", 1, false, null, 4, 25.0 },
                     { 7, new DateTime(2024, 7, 5, 20, 0, 0, 0, DateTimeKind.Local), "ThreeD", 1, false, null, 5, 25.0 },
-                    { 8, new DateTime(2024, 7, 5, 22, 0, 0, 0, DateTimeKind.Local), "ThreeD", 1, false, null, 6, 25.0 },
-                    { 9, new DateTime(2024, 7, 5, 12, 0, 0, 0, DateTimeKind.Local), "ThreeD", 2, false, null, 1, 25.0 },
-                    { 10, new DateTime(2024, 7, 6, 12, 0, 0, 0, DateTimeKind.Local), "ThreeD", 2, false, null, 1, 25.0 },
-                    { 11, new DateTime(2024, 7, 5, 14, 0, 0, 0, DateTimeKind.Local), "ThreeD", 2, false, null, 2, 25.0 },
-                    { 12, new DateTime(2024, 7, 5, 16, 0, 0, 0, DateTimeKind.Local), "ThreeD", 2, false, null, 3, 25.0 },
-                    { 13, new DateTime(2024, 7, 5, 10, 0, 0, 0, DateTimeKind.Local), "ThreeD", 2, false, null, 3, 25.0 },
-                    { 14, new DateTime(2024, 7, 5, 18, 0, 0, 0, DateTimeKind.Local), "ThreeD", 2, false, null, 4, 25.0 },
-                    { 15, new DateTime(2024, 7, 5, 20, 0, 0, 0, DateTimeKind.Local), "ThreeD", 2, false, null, 5, 25.0 },
-                    { 16, new DateTime(2024, 7, 5, 22, 0, 0, 0, DateTimeKind.Local), "ThreeD", 2, false, null, 6, 25.0 }
+                    { 8, new DateTime(2024, 7, 5, 22, 0, 0, 0, DateTimeKind.Local), "ThreeD", 1, false, null, 6, 25.0 }
                 });
 
             migrationBuilder.InsertData(
@@ -811,7 +695,7 @@ namespace eCinema.Repository.Migrations
                     { 1, false, null, 4, "test", 2, true },
                     { 2, false, null, 1, "test", 2, true },
                     { 3, false, null, 7, "test", 1, true },
-                    { 4, false, null, 16, "test", 1, true }
+                    { 4, false, null, 8, "test", 1, true }
                 });
 
             migrationBuilder.InsertData(
@@ -821,8 +705,8 @@ namespace eCinema.Repository.Migrations
                 {
                     { 1, 3, false, null },
                     { 2, 4, false, null },
-                    { 3, 102, false, null },
-                    { 4, 103, false, null }
+                    { 3, 5, false, null },
+                    { 4, 6, false, null }
                 });
 
             migrationBuilder.CreateIndex(

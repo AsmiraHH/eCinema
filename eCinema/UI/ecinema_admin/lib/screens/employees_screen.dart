@@ -56,7 +56,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
         'Name': searchText,
         'isActive': isActive,
         'Gender': selectedGender,
-        'selectedCinema': selectedCinema
+        'Cinema': selectedCinema
       });
     });
   }
