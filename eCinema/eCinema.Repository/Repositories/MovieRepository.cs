@@ -69,7 +69,7 @@ namespace eCinema.Repository.Repositories
         }
         public async Task<List<Movie>?> GetForRecommendedAsync(int cinemaId, int userId)
         {
-            return await dbSet.Where(x => x.Shows.Any(show => show.Hall.CinemaId == cinemaId)).Where(x => !x.Shows.Any(y => y.Reservations.Any(z => z.UserId == userId))).Include(x => x.Production).Include(x => x.Language).Include(x => x.Genres).ThenInclude(x => x.Genre).Include(x => x.Actors).ThenInclude(x => x.Actor).ToListAsync();
+            return await dbSet.Include(x => x.Shows).Where(x => !x.Shows.Any(show => show.Reservations.Any(r => r.UserId == userId))).Include(x => x.Production).Include(x => x.Language).Include(x => x.Genres).ThenInclude(x => x.Genre).Include(x => x.Actors).ThenInclude(x => x.Actor).ToListAsync();
         }
     }
 }
