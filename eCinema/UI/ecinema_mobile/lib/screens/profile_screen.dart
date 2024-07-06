@@ -218,6 +218,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               labelText: 'First name',
                               validators: [
                                 FormBuilderValidators.required(errorText: 'First name is required'),
+                                FormBuilderValidators.match(r'^[a-zA-Z]+$', errorText: 'Only letters are allowed'),
                               ],
                               icon: Icons.person_outline,
                               initialValue: user!.firstName!,
@@ -227,6 +228,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               labelText: 'Last name',
                               validators: [
                                 FormBuilderValidators.required(errorText: 'Last name is required'),
+                                FormBuilderValidators.match(r'^[a-zA-Z]+$', errorText: 'Only letters are allowed'),
                               ],
                               icon: Icons.person_outline,
                               initialValue: user!.lastName!,

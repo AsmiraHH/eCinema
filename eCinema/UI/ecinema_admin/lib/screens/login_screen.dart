@@ -17,6 +17,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   late UserProvider _userProvider;
+  bool _obscurePassword = true;
+
   @override
   void initState() {
     super.initState();
@@ -62,12 +64,22 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextField(
                           controller: _passwordController,
                           cursorColor: Colors.white,
-                          obscureText: true,
+                          obscureText: _obscurePassword,
                           decoration: InputDecoration(
                             labelText: "Password",
                             prefixIcon: Icon(Icons.password),
                             labelStyle: TextStyle(color: Colors.white),
                             prefixIconColor: Colors.white,
+                            suffixIcon: IconButton(
+                                color: Colors.white,
+                                onPressed: () {
+                                  setState(() {
+                                    _obscurePassword = !_obscurePassword;
+                                  });
+                                },
+                                icon: _obscurePassword
+                                    ? const Icon(Icons.visibility_off_outlined)
+                                    : const Icon(Icons.visibility_outlined)),
                           )),
                       SizedBox(height: 35),
                       SizedBox(
@@ -83,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             backgroundColor: Color.fromARGB(255, 16, 24, 53),
                             foregroundColor: Colors.white,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5), // Set the desired border radius here
+                              borderRadius: BorderRadius.circular(5),
                             ),
                           ),
                           child: Text("LOGIN"),

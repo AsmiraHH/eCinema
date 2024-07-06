@@ -341,8 +341,10 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
                           name: 'Name',
                           initialValue: languageEdit != null ? languageEdit.name : '',
                           decoration: const InputDecoration(labelText: 'Name'),
-                          validator:
-                              FormBuilderValidators.compose([FormBuilderValidators.required(errorText: 'Name is required')]),
+                          validator: FormBuilderValidators.compose([
+                            FormBuilderValidators.required(errorText: 'Name is required'),
+                            FormBuilderValidators.match(r'^[a-zA-Z]+$', errorText: 'Only letters are allowed'),
+                          ]),
                         ),
                       )
                     ],

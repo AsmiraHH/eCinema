@@ -222,7 +222,7 @@ class _UsersScreenState extends State<UsersScreen> {
               items: const [
                 DropdownMenuItem<int>(
                   value: null,
-                  child: Text('All'),
+                  child: Text('All Genders'),
                 ),
                 DropdownMenuItem<int>(
                   value: 0,
@@ -262,7 +262,7 @@ class _UsersScreenState extends State<UsersScreen> {
               items: const [
                 DropdownMenuItem<int>(
                   value: null,
-                  child: Text('All'),
+                  child: Text('Active/Unactive'),
                 ),
                 DropdownMenuItem<int>(
                   value: 1,
@@ -306,7 +306,7 @@ class _UsersScreenState extends State<UsersScreen> {
               items: const [
                 DropdownMenuItem<int>(
                   value: null,
-                  child: Text('All'),
+                  child: Text('Verified/Unverified'),
                 ),
                 DropdownMenuItem<int>(
                   value: 1,
@@ -567,8 +567,10 @@ class _UsersScreenState extends State<UsersScreen> {
                               name: 'FirstName',
                               initialValue: userEdit != null ? userEdit.firstName : '',
                               decoration: const InputDecoration(labelText: 'First name'),
-                              validator: FormBuilderValidators.compose(
-                                  [FormBuilderValidators.required(errorText: 'First name is required')]),
+                              validator: FormBuilderValidators.compose([
+                                FormBuilderValidators.required(errorText: 'First name is required'),
+                                FormBuilderValidators.match(r'^[a-zA-Z]+$', errorText: 'Only letters are allowed'),
+                              ]),
                             ),
                           ),
                           SizedBox(
@@ -579,8 +581,10 @@ class _UsersScreenState extends State<UsersScreen> {
                               name: 'LastName',
                               initialValue: userEdit != null ? userEdit.lastName : '',
                               decoration: const InputDecoration(labelText: 'Last name'),
-                              validator: FormBuilderValidators.compose(
-                                  [FormBuilderValidators.required(errorText: 'Last name is required')]),
+                              validator: FormBuilderValidators.compose([
+                                FormBuilderValidators.required(errorText: 'Last name is required'),
+                                FormBuilderValidators.match(r'^[a-zA-Z]+$', errorText: 'Only letters are allowed'),
+                              ]),
                             ),
                           ),
                           SizedBox(

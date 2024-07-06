@@ -363,8 +363,10 @@ class _CinemasScreenState extends State<CinemasScreen> {
                               name: 'Name',
                               initialValue: cinemaEdit != null ? cinemaEdit.name : '',
                               decoration: const InputDecoration(labelText: 'Name'),
-                              validator:
-                                  FormBuilderValidators.compose([FormBuilderValidators.required(errorText: 'Name is required')]),
+                              validator: FormBuilderValidators.compose([
+                                FormBuilderValidators.required(errorText: 'Name is required'),
+                                FormBuilderValidators.match(r'^[a-zA-Z]+$', errorText: 'Only letters are allowed'),
+                              ]),
                             ),
                           ),
                           SizedBox(
@@ -424,7 +426,7 @@ class _CinemasScreenState extends State<CinemasScreen> {
                               decoration: const InputDecoration(labelText: 'Number of halls'),
                               validator: FormBuilderValidators.compose([
                                 FormBuilderValidators.required(errorText: 'Number of halls is required'),
-                                FormBuilderValidators.numeric(errorText: 'Number of halls has to be a number')
+                                FormBuilderValidators.integer(errorText: 'Number of halls has to be a number')
                               ]),
                             ),
                           ),

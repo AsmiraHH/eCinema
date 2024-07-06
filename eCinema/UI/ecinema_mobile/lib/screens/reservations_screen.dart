@@ -176,10 +176,12 @@ class _ReservationsScreenState extends State<ReservationsScreen> {
                     ),
                     const Spacer(),
                     ElevatedButton(
-                      onPressed: () {
-                        selectedReservation = reservation;
-                        _buildCancelDialog();
-                      },
+                      onPressed: reservation.transactionNumber == 'test'
+                          ? null
+                          : () {
+                              selectedReservation = reservation;
+                              _buildCancelDialog();
+                            },
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size.fromHeight(25),
                         backgroundColor: darkRedColor,

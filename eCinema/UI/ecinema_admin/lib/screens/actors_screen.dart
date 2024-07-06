@@ -198,7 +198,7 @@ class _ActorsScreenState extends State<ActorsScreen> {
           items: const [
             DropdownMenuItem<int>(
               value: null,
-              child: Text('All'),
+              child: Text('All Genders'),
             ),
             DropdownMenuItem<int>(
               value: 0,
@@ -380,8 +380,10 @@ class _ActorsScreenState extends State<ActorsScreen> {
                           name: 'FirstName',
                           initialValue: actorEdit != null ? actorEdit.firstName : '',
                           decoration: const InputDecoration(labelText: 'First name'),
-                          validator: FormBuilderValidators.compose(
-                              [FormBuilderValidators.required(errorText: 'First name is required')]),
+                          validator: FormBuilderValidators.compose([
+                            FormBuilderValidators.required(errorText: 'First name is required'),
+                            FormBuilderValidators.match(r'^[a-zA-Z]+$', errorText: 'Only letters are allowed'),
+                          ]),
                         ),
                       ),
                       SizedBox(
@@ -392,8 +394,10 @@ class _ActorsScreenState extends State<ActorsScreen> {
                           name: 'LastName',
                           initialValue: actorEdit != null ? actorEdit.lastName : '',
                           decoration: const InputDecoration(labelText: 'Last name'),
-                          validator:
-                              FormBuilderValidators.compose([FormBuilderValidators.required(errorText: 'Last name is required')]),
+                          validator: FormBuilderValidators.compose([
+                            FormBuilderValidators.required(errorText: 'Last name is required'),
+                            FormBuilderValidators.match(r'^[a-zA-Z]+$', errorText: 'Only letters are allowed'),
+                          ]),
                         ),
                       ),
                       SizedBox(

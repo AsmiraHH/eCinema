@@ -86,8 +86,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 name: 'FirstName',
                                 decoration: const InputDecoration(
                                     labelText: 'First name', labelStyle: TextStyle(color: Colors.white)),
-                                validator: FormBuilderValidators.compose(
-                                    [FormBuilderValidators.required(errorText: 'First name is required')]),
+                                validator: FormBuilderValidators.compose([
+                                  FormBuilderValidators.required(errorText: 'First name is required'),
+                                  FormBuilderValidators.match(r'^[a-zA-Z]+$', errorText: 'Only letters are allowed'),
+                                ]),
                               ),
                             ),
                             SizedBox(
@@ -97,8 +99,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 name: 'LastName',
                                 decoration: const InputDecoration(
                                     labelText: 'Last name', labelStyle: TextStyle(color: Colors.white)),
-                                validator: FormBuilderValidators.compose(
-                                    [FormBuilderValidators.required(errorText: 'Last name is required')]),
+                                validator: FormBuilderValidators.compose([
+                                  FormBuilderValidators.required(errorText: 'Last name is required'),
+                                  FormBuilderValidators.match(r'^[a-zA-Z]+$', errorText: 'Only letters are allowed'),
+                                ]),
                               ),
                             ),
                             SizedBox(

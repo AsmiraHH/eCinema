@@ -2736,8 +2736,8 @@ namespace eCinema.Repository.Migrations
                         new
                         {
                             ID = 2,
-                            DateTime = new DateTime(2024, 7, 8, 12, 0, 0, 0, DateTimeKind.Local),
-                            Format = "ThreeD",
+                            DateTime = new DateTime(2024, 7, 8, 13, 0, 0, 0, DateTimeKind.Local),
+                            Format = "TwoD",
                             HallId = 1,
                             IsDeleted = false,
                             MovieId = 1,
@@ -2747,7 +2747,7 @@ namespace eCinema.Repository.Migrations
                         {
                             ID = 3,
                             DateTime = new DateTime(2024, 7, 7, 14, 0, 0, 0, DateTimeKind.Local),
-                            Format = "ThreeD",
+                            Format = "Extreme2D",
                             HallId = 1,
                             IsDeleted = false,
                             MovieId = 2,
@@ -2757,7 +2757,7 @@ namespace eCinema.Repository.Migrations
                         {
                             ID = 4,
                             DateTime = new DateTime(2024, 7, 7, 16, 0, 0, 0, DateTimeKind.Local),
-                            Format = "ThreeD",
+                            Format = "Extreme3D",
                             HallId = 1,
                             IsDeleted = false,
                             MovieId = 3,
@@ -2767,7 +2767,7 @@ namespace eCinema.Repository.Migrations
                         {
                             ID = 6,
                             DateTime = new DateTime(2024, 7, 7, 18, 0, 0, 0, DateTimeKind.Local),
-                            Format = "ThreeD",
+                            Format = "FourD",
                             HallId = 1,
                             IsDeleted = false,
                             MovieId = 4,
@@ -2777,7 +2777,7 @@ namespace eCinema.Repository.Migrations
                         {
                             ID = 7,
                             DateTime = new DateTime(2024, 7, 7, 20, 0, 0, 0, DateTimeKind.Local),
-                            Format = "ThreeD",
+                            Format = "TwoD",
                             HallId = 1,
                             IsDeleted = false,
                             MovieId = 5,
@@ -2787,7 +2787,7 @@ namespace eCinema.Repository.Migrations
                         {
                             ID = 8,
                             DateTime = new DateTime(2024, 7, 7, 22, 0, 0, 0, DateTimeKind.Local),
-                            Format = "ThreeD",
+                            Format = "Extreme2D",
                             HallId = 1,
                             IsDeleted = false,
                             MovieId = 6,
@@ -2797,7 +2797,7 @@ namespace eCinema.Repository.Migrations
                         {
                             ID = 9,
                             DateTime = new DateTime(2024, 7, 7, 10, 0, 0, 0, DateTimeKind.Local),
-                            Format = "ThreeD",
+                            Format = "Extreme3D",
                             HallId = 1,
                             IsDeleted = false,
                             MovieId = 6,
@@ -2807,7 +2807,7 @@ namespace eCinema.Repository.Migrations
                         {
                             ID = 10,
                             DateTime = new DateTime(2024, 7, 8, 12, 0, 0, 0, DateTimeKind.Local),
-                            Format = "ThreeD",
+                            Format = "FourD",
                             HallId = 2,
                             IsDeleted = false,
                             MovieId = 1,
@@ -2817,7 +2817,7 @@ namespace eCinema.Repository.Migrations
                         {
                             ID = 11,
                             DateTime = new DateTime(2024, 7, 7, 14, 0, 0, 0, DateTimeKind.Local),
-                            Format = "ThreeD",
+                            Format = "TwoD",
                             HallId = 2,
                             IsDeleted = false,
                             MovieId = 2,
@@ -2827,7 +2827,7 @@ namespace eCinema.Repository.Migrations
                         {
                             ID = 12,
                             DateTime = new DateTime(2024, 7, 7, 16, 0, 0, 0, DateTimeKind.Local),
-                            Format = "ThreeD",
+                            Format = "Extreme2D",
                             HallId = 2,
                             IsDeleted = false,
                             MovieId = 3,
@@ -2837,7 +2837,7 @@ namespace eCinema.Repository.Migrations
                         {
                             ID = 13,
                             DateTime = new DateTime(2024, 7, 7, 18, 0, 0, 0, DateTimeKind.Local),
-                            Format = "ThreeD",
+                            Format = "Extreme3D",
                             HallId = 2,
                             IsDeleted = false,
                             MovieId = 4,
@@ -2847,7 +2847,7 @@ namespace eCinema.Repository.Migrations
                         {
                             ID = 14,
                             DateTime = new DateTime(2024, 7, 7, 20, 0, 0, 0, DateTimeKind.Local),
-                            Format = "ThreeD",
+                            Format = "FourD",
                             HallId = 2,
                             IsDeleted = false,
                             MovieId = 5,

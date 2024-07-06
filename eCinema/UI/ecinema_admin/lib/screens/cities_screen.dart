@@ -182,7 +182,7 @@ class _CitiesScreenState extends State<CitiesScreen> {
           items: [
             const DropdownMenuItem<int>(
               value: null,
-              child: Text('All'),
+              child: Text('All Countries'),
             ),
             ...countriesResult
                     ?.map((e) => DropdownMenuItem(
@@ -401,8 +401,10 @@ class _CitiesScreenState extends State<CitiesScreen> {
                               name: 'Name',
                               initialValue: cityEdit != null ? cityEdit.name : '',
                               decoration: const InputDecoration(labelText: 'Name'),
-                              validator:
-                                  FormBuilderValidators.compose([FormBuilderValidators.required(errorText: 'Name is required')]),
+                              validator: FormBuilderValidators.compose([
+                                FormBuilderValidators.required(errorText: 'Name is required'),
+                                FormBuilderValidators.match(r'^[a-zA-Z]+$', errorText: 'Only letters are allowed'),
+                              ]),
                             ),
                           ),
                           SizedBox(
@@ -415,7 +417,7 @@ class _CitiesScreenState extends State<CitiesScreen> {
                               decoration: const InputDecoration(labelText: 'ZipCode'),
                               validator: FormBuilderValidators.compose([
                                 FormBuilderValidators.required(errorText: 'ZipCode is required'),
-                                FormBuilderValidators.numeric(errorText: 'ZipCode has to be a number')
+                                FormBuilderValidators.integer(errorText: 'ZipCode has to be a number')
                               ]),
                             ),
                           ),

@@ -239,7 +239,7 @@ class _ReservationsScreenState extends State<ReservationsScreen> {
               items: [
                 const DropdownMenuItem<int>(
                   value: null,
-                  child: Text('All'),
+                  child: Text('All Cinemas'),
                 ),
                 ...cinemasResult
                         ?.map((e) => DropdownMenuItem(
@@ -279,7 +279,7 @@ class _ReservationsScreenState extends State<ReservationsScreen> {
               items: [
                 const DropdownMenuItem<int>(
                   value: null,
-                  child: Text('All'),
+                  child: Text('All Users'),
                 ),
                 ...usersResult
                         ?.map((e) => DropdownMenuItem(

@@ -230,7 +230,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
               items: const [
                 DropdownMenuItem<int>(
                   value: null,
-                  child: Text('All'),
+                  child: Text('All Genders'),
                 ),
                 DropdownMenuItem<int>(
                   value: 0,
@@ -270,7 +270,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
               items: [
                 const DropdownMenuItem<int>(
                   value: null,
-                  child: Text('All'),
+                  child: Text('All Cinemas'),
                 ),
                 ...cinemasResult
                         ?.map((e) => DropdownMenuItem(
@@ -311,7 +311,7 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
               items: const [
                 DropdownMenuItem<int>(
                   value: null,
-                  child: Text('All'),
+                  child: Text('Active/Unactive'),
                 ),
                 DropdownMenuItem<int>(
                   value: 1,
@@ -572,8 +572,10 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                               name: 'FirstName',
                               initialValue: employeeEdit != null ? employeeEdit.firstName : '',
                               decoration: const InputDecoration(labelText: 'First name'),
-                              validator: FormBuilderValidators.compose(
-                                  [FormBuilderValidators.required(errorText: 'First name is required')]),
+                              validator: FormBuilderValidators.compose([
+                                FormBuilderValidators.required(errorText: 'First name is required'),
+                                FormBuilderValidators.match(r'^[a-zA-Z]+$', errorText: 'Only letters are allowed'),
+                              ]),
                             ),
                           ),
                           SizedBox(
@@ -584,8 +586,10 @@ class _EmployeeScreenState extends State<EmployeeScreen> {
                               name: 'LastName',
                               initialValue: employeeEdit != null ? employeeEdit.lastName : '',
                               decoration: const InputDecoration(labelText: 'Last name'),
-                              validator: FormBuilderValidators.compose(
-                                  [FormBuilderValidators.required(errorText: 'Last name is required')]),
+                              validator: FormBuilderValidators.compose([
+                                FormBuilderValidators.required(errorText: 'Last name is required'),
+                                FormBuilderValidators.match(r'^[a-zA-Z]+$', errorText: 'Only letters are allowed'),
+                              ]),
                             ),
                           ),
                           SizedBox(

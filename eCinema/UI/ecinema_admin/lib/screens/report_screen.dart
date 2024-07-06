@@ -233,7 +233,7 @@ class _ReportScreenState extends State<ReportScreen> {
               items: [
                 const DropdownMenuItem<int>(
                   value: null,
-                  child: Text('All'),
+                  child: Text('All Months'),
                 ),
                 ...months.map((e) => DropdownMenuItem(
                       value: e.number,
@@ -269,7 +269,7 @@ class _ReportScreenState extends State<ReportScreen> {
               items: [
                 const DropdownMenuItem<int>(
                   value: null,
-                  child: Text('All'),
+                  child: Text('All Cinemas'),
                 ),
                 ...cinemasResult
                         ?.map((e) => DropdownMenuItem(
@@ -308,7 +308,7 @@ class _ReportScreenState extends State<ReportScreen> {
               items: [
                 const DropdownMenuItem<int>(
                   value: null,
-                  child: Text('All'),
+                  child: Text('All Genres'),
                 ),
                 ...genresResult
                         ?.map((e) => DropdownMenuItem(
@@ -347,7 +347,7 @@ class _ReportScreenState extends State<ReportScreen> {
               items: [
                 const DropdownMenuItem<int>(
                   value: null,
-                  child: Text('All'),
+                  child: Text('All Users'),
                 ),
                 ...usersResult
                         ?.map((e) => DropdownMenuItem(

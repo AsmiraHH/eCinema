@@ -255,7 +255,7 @@ class _ShowsScreenState extends State<ShowsScreen> {
               items: [
                 const DropdownMenuItem<int>(
                   value: null,
-                  child: Text('All'),
+                  child: Text('All Cinemas'),
                 ),
                 ...cinemasResult
                         ?.map((e) => DropdownMenuItem(
@@ -296,7 +296,7 @@ class _ShowsScreenState extends State<ShowsScreen> {
               items: [
                 const DropdownMenuItem<int>(
                   value: null,
-                  child: Text('All'),
+                  child: Text('All Halls'),
                 ),
                 ...hallsResult
                         ?.map((e) => DropdownMenuItem(
@@ -337,7 +337,7 @@ class _ShowsScreenState extends State<ShowsScreen> {
               items: [
                 const DropdownMenuItem<String>(
                   value: null,
-                  child: Text('All'),
+                  child: Text('All Formats'),
                 ),
                 ...formats
                         ?.map((e) => DropdownMenuItem(
@@ -597,7 +597,7 @@ class _ShowsScreenState extends State<ShowsScreen> {
                               decoration: const InputDecoration(labelText: 'Price'),
                               validator: FormBuilderValidators.compose([
                                 FormBuilderValidators.required(errorText: 'Price is required'),
-                                FormBuilderValidators.numeric(errorText: 'Price has to be a number')
+                                FormBuilderValidators.integer(errorText: 'Price has to be a number')
                               ]),
                             ),
                           ),

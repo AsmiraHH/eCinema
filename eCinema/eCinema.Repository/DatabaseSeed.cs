@@ -503,8 +503,8 @@ namespace eCinema.Repository
                 new Show
                 {
                     ID = 2,
-                    DateTime = DateTime.Now.AddDays(2).Date.AddHours(12),
-                    Format = "ThreeD",
+                    DateTime = DateTime.Now.AddDays(2).Date.AddHours(13),
+                    Format = "TwoD",
                     Price = 25,
                     HallId = 1,
                     MovieId = 1,
@@ -513,7 +513,7 @@ namespace eCinema.Repository
                 {
                     ID = 3,
                     DateTime = DateTime.Now.AddDays(1).Date.AddHours(14),
-                    Format = "ThreeD",
+                    Format = "Extreme2D",
                     Price = 25,
                     HallId = 1,
                     MovieId = 2,
@@ -522,7 +522,7 @@ namespace eCinema.Repository
                 {
                     ID = 4,
                     DateTime = DateTime.Now.AddDays(1).Date.AddHours(16),
-                    Format = "ThreeD",
+                    Format = "Extreme3D",
                     Price = 25,
                     HallId = 1,
                     MovieId = 3,
@@ -531,7 +531,7 @@ namespace eCinema.Repository
                 {
                     ID = 6,
                     DateTime = DateTime.Now.AddDays(1).Date.AddHours(18),
-                    Format = "ThreeD",
+                    Format = "FourD",
                     Price = 25,
                     HallId = 1,
                     MovieId = 4,
@@ -540,7 +540,7 @@ namespace eCinema.Repository
                 {
                     ID = 7,
                     DateTime = DateTime.Now.AddDays(1).Date.AddHours(20),
-                    Format = "ThreeD",
+                    Format = "TwoD",
                     Price = 25,
                     HallId = 1,
                     MovieId = 5,
@@ -549,7 +549,7 @@ namespace eCinema.Repository
                 {
                     ID = 8,
                     DateTime = DateTime.Now.AddDays(1).Date.AddHours(22),
-                    Format = "ThreeD",
+                    Format = "Extreme2D",
                     Price = 25,
                     HallId = 1,
                     MovieId = 6,
@@ -558,7 +558,7 @@ namespace eCinema.Repository
                 {
                     ID = 9,
                     DateTime = DateTime.Now.AddDays(1).Date.AddHours(10),
-                    Format = "ThreeD",
+                    Format = "Extreme3D",
                     Price = 25,
                     HallId = 1,
                     MovieId = 6,
@@ -568,7 +568,7 @@ namespace eCinema.Repository
                 {
                     ID = 10,
                     DateTime = DateTime.Now.AddDays(2).Date.AddHours(12),
-                    Format = "ThreeD",
+                    Format = "FourD",
                     Price = 25,
                     HallId = 2,
                     MovieId = 1,
@@ -577,7 +577,7 @@ namespace eCinema.Repository
                 {
                     ID = 11,
                     DateTime = DateTime.Now.AddDays(1).Date.AddHours(14),
-                    Format = "ThreeD",
+                    Format = "TwoD",
                     Price = 25,
                     HallId = 2,
                     MovieId = 2,
@@ -586,7 +586,7 @@ namespace eCinema.Repository
                 {
                     ID = 12,
                     DateTime = DateTime.Now.AddDays(1).Date.AddHours(16),
-                    Format = "ThreeD",
+                    Format = "Extreme2D",
                     Price = 25,
                     HallId = 2,
                     MovieId = 3,
@@ -595,7 +595,7 @@ namespace eCinema.Repository
                 {
                     ID = 13,
                     DateTime = DateTime.Now.AddDays(1).Date.AddHours(18),
-                    Format = "ThreeD",
+                    Format = "Extreme3D",
                     Price = 25,
                     HallId = 2,
                     MovieId = 4,
@@ -604,7 +604,7 @@ namespace eCinema.Repository
                 {
                     ID = 14,
                     DateTime = DateTime.Now.AddDays(1).Date.AddHours(20),
-                    Format = "ThreeD",
+                    Format = "FourD",
                     Price = 25,
                     HallId = 2,
                     MovieId = 5,

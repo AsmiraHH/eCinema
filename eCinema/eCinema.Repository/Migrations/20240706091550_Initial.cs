@@ -773,18 +773,18 @@ namespace eCinema.Repository.Migrations
                 values: new object[,]
                 {
                     { 1, new DateTime(2024, 7, 7, 12, 0, 0, 0, DateTimeKind.Local), "ThreeD", 1, false, null, 1, 25.0 },
-                    { 2, new DateTime(2024, 7, 8, 12, 0, 0, 0, DateTimeKind.Local), "ThreeD", 1, false, null, 1, 25.0 },
-                    { 3, new DateTime(2024, 7, 7, 14, 0, 0, 0, DateTimeKind.Local), "ThreeD", 1, false, null, 2, 25.0 },
-                    { 4, new DateTime(2024, 7, 7, 16, 0, 0, 0, DateTimeKind.Local), "ThreeD", 1, false, null, 3, 25.0 },
-                    { 6, new DateTime(2024, 7, 7, 18, 0, 0, 0, DateTimeKind.Local), "ThreeD", 1, false, null, 4, 25.0 },
-                    { 7, new DateTime(2024, 7, 7, 20, 0, 0, 0, DateTimeKind.Local), "ThreeD", 1, false, null, 5, 25.0 },
-                    { 8, new DateTime(2024, 7, 7, 22, 0, 0, 0, DateTimeKind.Local), "ThreeD", 1, false, null, 6, 25.0 },
-                    { 9, new DateTime(2024, 7, 7, 10, 0, 0, 0, DateTimeKind.Local), "ThreeD", 1, false, null, 6, 25.0 },
-                    { 10, new DateTime(2024, 7, 8, 12, 0, 0, 0, DateTimeKind.Local), "ThreeD", 2, false, null, 1, 25.0 },
-                    { 11, new DateTime(2024, 7, 7, 14, 0, 0, 0, DateTimeKind.Local), "ThreeD", 2, false, null, 2, 25.0 },
-                    { 12, new DateTime(2024, 7, 7, 16, 0, 0, 0, DateTimeKind.Local), "ThreeD", 2, false, null, 3, 25.0 },
-                    { 13, new DateTime(2024, 7, 7, 18, 0, 0, 0, DateTimeKind.Local), "ThreeD", 2, false, null, 4, 25.0 },
-                    { 14, new DateTime(2024, 7, 7, 20, 0, 0, 0, DateTimeKind.Local), "ThreeD", 2, false, null, 5, 25.0 },
+                    { 2, new DateTime(2024, 7, 8, 13, 0, 0, 0, DateTimeKind.Local), "TwoD", 1, false, null, 1, 25.0 },
+                    { 3, new DateTime(2024, 7, 7, 14, 0, 0, 0, DateTimeKind.Local), "Extreme2D", 1, false, null, 2, 25.0 },
+                    { 4, new DateTime(2024, 7, 7, 16, 0, 0, 0, DateTimeKind.Local), "Extreme3D", 1, false, null, 3, 25.0 },
+                    { 6, new DateTime(2024, 7, 7, 18, 0, 0, 0, DateTimeKind.Local), "FourD", 1, false, null, 4, 25.0 },
+                    { 7, new DateTime(2024, 7, 7, 20, 0, 0, 0, DateTimeKind.Local), "TwoD", 1, false, null, 5, 25.0 },
+                    { 8, new DateTime(2024, 7, 7, 22, 0, 0, 0, DateTimeKind.Local), "Extreme2D", 1, false, null, 6, 25.0 },
+                    { 9, new DateTime(2024, 7, 7, 10, 0, 0, 0, DateTimeKind.Local), "Extreme3D", 1, false, null, 6, 25.0 },
+                    { 10, new DateTime(2024, 7, 8, 12, 0, 0, 0, DateTimeKind.Local), "FourD", 2, false, null, 1, 25.0 },
+                    { 11, new DateTime(2024, 7, 7, 14, 0, 0, 0, DateTimeKind.Local), "TwoD", 2, false, null, 2, 25.0 },
+                    { 12, new DateTime(2024, 7, 7, 16, 0, 0, 0, DateTimeKind.Local), "Extreme2D", 2, false, null, 3, 25.0 },
+                    { 13, new DateTime(2024, 7, 7, 18, 0, 0, 0, DateTimeKind.Local), "Extreme3D", 2, false, null, 4, 25.0 },
+                    { 14, new DateTime(2024, 7, 7, 20, 0, 0, 0, DateTimeKind.Local), "FourD", 2, false, null, 5, 25.0 },
                     { 15, new DateTime(2024, 7, 7, 22, 0, 0, 0, DateTimeKind.Local), "ThreeD", 2, false, null, 6, 25.0 }
                 });
 

@@ -16,6 +16,7 @@ import 'package:ecinema_admin/providers/movie_provider.dart';
 import 'package:ecinema_admin/providers/production_provider.dart';
 import 'package:ecinema_admin/utils/util.dart';
 import 'package:ecinema_admin/widgets/master_screen.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_image_picker/form_builder_image_picker.dart';
@@ -296,7 +297,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
               items: [
                 const DropdownMenuItem<int>(
                   value: null,
-                  child: Text('All'),
+                  child: Text('All Languages'),
                 ),
                 ...languagesResult
                         ?.map((e) => DropdownMenuItem(
@@ -337,7 +338,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
               items: [
                 const DropdownMenuItem<int>(
                   value: null,
-                  child: Text('All'),
+                  child: Text('All Productions'),
                 ),
                 ...productionsResult
                         ?.map((e) => DropdownMenuItem(
@@ -378,7 +379,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
               items: [
                 const DropdownMenuItem<int>(
                   value: null,
-                  child: Text('All'),
+                  child: Text('All Genres'),
                 ),
                 ...genresResult
                         ?.map((e) => DropdownMenuItem(
@@ -642,8 +643,9 @@ class _MoviesScreenState extends State<MoviesScreen> {
                               name: 'Title',
                               initialValue: movieEdit != null ? movieEdit.title : '',
                               decoration: InputDecoration(labelText: 'Title'),
-                              validator:
-                                  FormBuilderValidators.compose([FormBuilderValidators.required(errorText: 'Title is required')]),
+                              validator: FormBuilderValidators.compose([
+                                FormBuilderValidators.required(errorText: 'Title is required'),
+                              ]),
                             ),
                           ),
                           SizedBox(
@@ -654,8 +656,10 @@ class _MoviesScreenState extends State<MoviesScreen> {
                               name: 'Author',
                               initialValue: movieEdit != null ? movieEdit.author : '',
                               decoration: InputDecoration(labelText: 'Author'),
-                              validator: FormBuilderValidators.compose(
-                                  [FormBuilderValidators.required(errorText: 'Author is required')]),
+                              validator: FormBuilderValidators.compose([
+                                FormBuilderValidators.required(errorText: 'Author is required'),
+                                FormBuilderValidators.match(r'^[a-zA-Z]+$', errorText: 'Only letters are allowed'),
+                              ]),
                             ),
                           ),
                           SizedBox(
@@ -668,7 +672,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
                               decoration: InputDecoration(labelText: 'Release year'),
                               validator: FormBuilderValidators.compose([
                                 FormBuilderValidators.required(errorText: 'Release year is required'),
-                                FormBuilderValidators.numeric(errorText: 'Release year has to be a number'),
+                                FormBuilderValidators.integer(errorText: 'Release year has to be a number'),
                                 FormBuilderValidators.minLength(4, errorText: 'Release year has to have at least four digits')
                               ]),
                             ),
@@ -683,7 +687,7 @@ class _MoviesScreenState extends State<MoviesScreen> {
                               decoration: InputDecoration(labelText: 'Duration'),
                               validator: FormBuilderValidators.compose([
                                 FormBuilderValidators.required(errorText: 'Duration is required'),
-                                FormBuilderValidators.numeric(errorText: 'Duration has to be a number (minutes)'),
+                                FormBuilderValidators.integer(errorText: 'Duration has to be a number (minutes)'),
                               ]),
                             ),
                           ),
@@ -769,7 +773,9 @@ class _MoviesScreenState extends State<MoviesScreen> {
                                     hint: "",
                                     padding: EdgeInsets.all(0),
                                     onOptionSelected: (List<ValueItem<int>> selectedOptions) {
-                                      _genreController.setSelectedOptions(selectedOptions);
+                                      if (!listEquals(_genreController.selectedOptions, selectedOptions)) {
+                                        _genreController.setSelectedOptions(selectedOptions);
+                                      }
                                     },
                                     options: genresResult!.map((e) {
                                       return ValueItem<int>(
@@ -824,7 +830,9 @@ class _MoviesScreenState extends State<MoviesScreen> {
                                     hint: "",
                                     padding: EdgeInsets.all(0),
                                     onOptionSelected: (List<ValueItem<int>> selectedO) {
-                                      _actorController.setSelectedOptions(selectedO);
+                                      if (!listEquals(_actorController.selectedOptions, selectedO)) {
+                                        _actorController.setSelectedOptions(selectedO);
+                                      }
                                     },
                                     options: actorsResult!.map((e) {
                                       return ValueItem<int>(

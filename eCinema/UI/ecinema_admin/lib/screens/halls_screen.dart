@@ -243,7 +243,7 @@ class _HallsScreenState extends State<HallsScreen> {
           items: [
             const DropdownMenuItem<int>(
               value: null,
-              child: Text('All'),
+              child: Text('All Cinemas'),
             ),
             ...cinemasResult
                     ?.map((e) => DropdownMenuItem(
@@ -561,7 +561,7 @@ class _HallsScreenState extends State<HallsScreen> {
                               decoration: const InputDecoration(labelText: 'Number of seats'),
                               validator: FormBuilderValidators.compose([
                                 FormBuilderValidators.required(errorText: 'Number of seats is required'),
-                                FormBuilderValidators.numeric(errorText: 'Number of seats has to be a number')
+                                FormBuilderValidators.integer(errorText: 'Number of seats has to be a number')
                               ]),
                             ),
                           ),
@@ -575,7 +575,7 @@ class _HallsScreenState extends State<HallsScreen> {
                               decoration: const InputDecoration(labelText: 'Number of rows'),
                               validator: FormBuilderValidators.compose([
                                 FormBuilderValidators.required(errorText: 'Number of rows is required'),
-                                FormBuilderValidators.numeric(errorText: 'Number of rows has to be a number')
+                                FormBuilderValidators.integer(errorText: 'Number of rows has to be a number')
                               ]),
                             ),
                           ),
@@ -589,7 +589,7 @@ class _HallsScreenState extends State<HallsScreen> {
                               decoration: const InputDecoration(labelText: 'Maximum number of seats per row'),
                               validator: FormBuilderValidators.compose([
                                 FormBuilderValidators.required(errorText: 'Maximum number of seats per row is required'),
-                                FormBuilderValidators.numeric(errorText: 'Number of rows has to be a number')
+                                FormBuilderValidators.integer(errorText: 'Number of rows has to be a number')
                               ]),
                             ),
                           ),
